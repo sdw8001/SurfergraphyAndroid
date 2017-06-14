@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Surfergraphy</string>
+    <string name="login_name">Login</string>
+    <string name="input_please_account">Please enter your account.</string>
+    <string name="input_please_password">Please enter your password.</string>
 </resources>

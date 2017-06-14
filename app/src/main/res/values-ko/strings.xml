@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">서퍼그라피</string>
+    <string name="login_name">로그인</string>
+    <string name="input_please_account">Email을 입력해주세요.</string>
+    <string name="input_please_password">비밀번호를 입력해주세요.</string></resources>
