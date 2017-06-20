@@ -1,4 +1,4 @@
-package com.surfergraphy.surfergraphy.login;
+package com.surfergraphy.surfergraphy.utils;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

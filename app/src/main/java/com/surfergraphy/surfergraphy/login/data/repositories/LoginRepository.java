@@ -1,10 +1,13 @@
-package com.surfergraphy.surfergraphy.login;
+package com.surfergraphy.surfergraphy.login.data.repositories;
 
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
+import com.surfergraphy.surfergraphy.login.data.api.AccountUserService;
+import com.surfergraphy.surfergraphy.utils.DateDeserializer;
+import com.surfergraphy.surfergraphy.utils.RetrofitAdapter;
 
 import org.threeten.bp.LocalDateTime;
 
@@ -14,9 +17,8 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.surfergraphy.surfergraphy.login.data.utils.RealmUtils.accessTokenModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 
 public class LoginRepository {
     private Realm realm;
@@ -25,10 +27,7 @@ public class LoginRepository {
         this.realm = realm;
 
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://surfergraphyapi.azurewebsites.net/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         AccountUserService accountUserService = retrofit.create(AccountUserService.class);
         final Call<AccessToken> call = accountUserService.login("password", identity, password);
         new NetworkCall().execute(call);

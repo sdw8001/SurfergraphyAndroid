@@ -1,4 +1,4 @@
-package com.surfergraphy.surfergraphy.login;
+package com.surfergraphy.surfergraphy.login.data.api;
 
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 

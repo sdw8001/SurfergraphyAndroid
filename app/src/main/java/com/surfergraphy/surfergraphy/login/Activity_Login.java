@@ -1,6 +1,7 @@
 package com.surfergraphy.surfergraphy.login;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -10,13 +11,14 @@ import android.widget.TextView;
 
 import com.surfergraphy.surfergraphy.BaseLifecycleActivity;
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.photos.Activity_Photos;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Activity_Login extends BaseLifecycleActivity {
 
-    private LoginViewModel loginViewModel;
+    private ViewModel_Login viewModelLogin;
 
     @BindView(R.id.editTextAccount)
     EditText editTextAccount;
@@ -38,15 +40,19 @@ public class Activity_Login extends BaseLifecycleActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        viewModelLogin = ViewModelProviders.of(this).get(ViewModel_Login.class);
 
-        loginViewModel.getAccessToken().observe(this, accessToken -> {
+        viewModelLogin.getAccessToken().observe(this, accessToken -> {
             if (accessToken != null) {
                 textViewAccessToken.setText(accessToken.accessToken);
                 textViewUserName.setText(accessToken.userName);
+
+                Intent intent = new Intent(Activity_Login.this, Activity_Photos.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        buttonLogin.setOnClickListener(v -> loginViewModel.loginAccount(editTextAccount.getText().toString(), editTextPassword.getText().toString()));
+        buttonLogin.setOnClickListener(v -> viewModelLogin.loginAccount(editTextAccount.getText().toString(), editTextPassword.getText().toString()));
     }
 }

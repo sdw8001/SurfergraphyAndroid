@@ -2,5 +2,14 @@
 <resources>
     <string name="app_name">서퍼그라피</string>
     <string name="login_name">로그인</string>
+
     <string name="input_please_account">Email을 입력해주세요.</string>
-    <string name="input_please_password">비밀번호를 입력해주세요.</string></resources>
+    <string name="input_please_password">비밀번호를 입력해주세요.</string>
+
+    <string name="title_activity_photos">사진</string>
+
+    <string name="navigation_drawer_open">네비게이션 열기</string>
+    <string name="navigation_drawer_close">네비게이션 닫기</string>
+
+    <string name="action_settings">세팅</string>
+</resources>

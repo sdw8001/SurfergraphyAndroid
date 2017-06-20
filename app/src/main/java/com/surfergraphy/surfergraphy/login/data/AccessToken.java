@@ -6,10 +6,6 @@ import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
-/**
- * Created by ddfactory on 2017-06-13.
- */
-
 @RealmClass
 public class AccessToken implements RealmModel {
 

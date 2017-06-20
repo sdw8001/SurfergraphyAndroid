@@ -1,10 +1,10 @@
 package com.surfergraphy.surfergraphy.login.data;
 
-import com.surfergraphy.surfergraphy.login.LiveRealmData;
+import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.Realm;
 
-import static com.surfergraphy.surfergraphy.login.data.utils.RealmUtils.asLiveData;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
 
 public class AccessTokenDao {
 

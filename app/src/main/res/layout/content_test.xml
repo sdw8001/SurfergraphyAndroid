@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.surfergraphy.surfergraphy.activities.TestActivity"
+    tools:showIn="@layout/activity_test">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview_notice"
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        app:cardBackgroundColor="#002a50"
+        app:cardCornerRadius="5dip"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/notice_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가나다라마바사아자차타파하"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/notice_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가나다라마바사아자차타파하"
+                    android:textColor="@android:color/white"
+                    android:paddingBottom="2dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/notice_top" />
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
+    </android.support.v7.widget.CardView>
+
+
+    <Button
+        android:id="@+id/button_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스크롤 업"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_notice" />
+
+    <Button
+        android:id="@+id/button_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스크롤 다운"
+        app:layout_constraintLeft_toRightOf="@+id/button_up"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_notice" />
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스크롤 리셋"
+        app:layout_constraintLeft_toRightOf="@+id/button_down"
+        app:layout_constraintTop_toBottomOf="@+id/cardview_notice" />
+</android.support.constraint.ConstraintLayout>
