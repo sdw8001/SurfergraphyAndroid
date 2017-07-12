@@ -1,29 +1,21 @@
-package com.surfergraphy.surfergraphy.activities;
+package com.surfergraphy.surfergraphy.test;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.surfergraphy.surfergraphy.R;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.attr.animation;
-import static android.R.attr.fastScrollPreviewBackgroundLeft;
 
 public class TestActivity extends AppCompatActivity {
 

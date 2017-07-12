@@ -1,15 +1,12 @@
-package com.surfergraphy.surfergraphy;
+package com.surfergraphy.surfergraphy.base;
 
 import android.app.Application;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.surfergraphy.surfergraphy.utils.TypefaceUtil;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-
-/**
- * Created by ddfactory on 2017-06-13.
- */
 
 public class AppApplication extends Application {
     @Override
@@ -19,5 +16,8 @@ public class AppApplication extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(config);
+
+        // Font 적용
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "SourceSansPro-Bold.ttf");
     }
 }

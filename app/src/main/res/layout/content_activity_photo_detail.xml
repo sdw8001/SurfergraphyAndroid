@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.surfergraphy.surfergraphy.photos.Activity_Photos"
+    tools:showIn="@layout/activity_photo_detail">
+
+
+    <TextView
+        android:id="@+id/text_view_watermark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.4"
+        android:elevation="5dp"
+        android:text="Surfergraphy"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_view_photo"
+        app:layout_constraintLeft_toLeftOf="@+id/image_view_photo"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_view_photo" />
+
+    <ImageView
+        android:id="@+id/image_view_photo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_photo_quality"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:text="High Quality"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view_photo" />
+
+    <ImageView
+        android:id="@+id/image_view_wave"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/wave_icon"
+        app:layout_constraintRight_toLeftOf="@+id/text_view_price"
+        app:layout_constraintTop_toTopOf="@+id/text_view_price" />
+
+    <TextView
+        android:id="@+id/text_view_price"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:text="45"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_photo_quality" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="저장"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/button_buy"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/button_buy"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="구매"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/button_save"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</android.support.constraint.ConstraintLayout>

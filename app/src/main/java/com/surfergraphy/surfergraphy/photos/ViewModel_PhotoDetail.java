@@ -16,13 +16,13 @@ import io.realm.RealmResults;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
 
-public class ViewModel_Photo extends AndroidViewModel {
+public class ViewModel_PhotoDetail extends AndroidViewModel {
     private Realm realm;
     private PhotoRepository photoRepository;
     private LiveData<AccessToken> accessTokenLiveData;
-    private LiveData<RealmResults<Photo>> photoListLiveData;
+    private LiveData<Photo> photoListLiveData;
 
-    public ViewModel_Photo(Application application) {
+    public ViewModel_PhotoDetail(Application application) {
         super(application);
         realm = Realm.getDefaultInstance();
         photoRepository = new PhotoRepository();
@@ -38,8 +38,9 @@ public class ViewModel_Photo extends AndroidViewModel {
         photoRepository.getPhotos(realm);
     }
 
-    public LiveData<RealmResults<Photo>> getPhotos() {
-        photoListLiveData = photoModel(realm).findPhotos();
+    public LiveData<Photo> getPhoto(int photoId) {
+        LiveRealmData<Photo> photoLiveRealmData = photoModel(realm).findPhotos(photoId);
+        photoListLiveData = Transformations.map(photoLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
         return photoListLiveData;
     }
 

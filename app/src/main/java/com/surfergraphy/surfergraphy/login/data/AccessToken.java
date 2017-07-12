@@ -18,13 +18,17 @@ public class AccessToken implements RealmModel {
     public String tokenType;
     @SerializedName("expires_in")
     public int expireTimeSeconds;
+    public boolean expired;
 
-    public AccessToken() {}
+    public AccessToken() {
+        this.expired = false;
+    }
 
     public AccessToken(String userName, String accessToken, String tokenType, int expireTimeSeconds) {
         this.userName = userName;
         this.accessToken = accessToken;
         this.tokenType = tokenType;
         this.expireTimeSeconds = expireTimeSeconds;
+        this.expired = false;
     }
 }

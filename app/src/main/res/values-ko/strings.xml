@@ -12,4 +12,13 @@
     <string name="navigation_drawer_close">네비게이션 닫기</string>
 
     <string name="action_settings">세팅</string>
+    <string name="my_info">내정보</string>
+    <string name="my_gallery">보관함</string>
+    <string name="my_cart">카트</string>
+    <string name="location">지역</string>
+    <string name="location_photos">지역사진</string>
+    <string name="location_yangyang">양양</string>
+    <string name="location_busan">부산</string>
+    <string name="location_jeju">제주</string>
+
 </resources>

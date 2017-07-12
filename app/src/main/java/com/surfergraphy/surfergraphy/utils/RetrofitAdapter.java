@@ -28,7 +28,7 @@ public class RetrofitAdapter {
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
                 .addInterceptor(chain -> {
-                    // accessToken 정보 가져오기
+                    // hasRegistered 정보 가져오기
                     Realm realm = Realm.getDefaultInstance();
                     AccessToken token = realm.where(AccessToken.class).findFirst();
                     String authorization = null;

@@ -1,33 +1,32 @@
 package com.surfergraphy.surfergraphy.photos;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
-import com.surfergraphy.surfergraphy.BaseLifecycleActivity;
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.base.activities.BaseLifecycleActivity;
+import com.surfergraphy.surfergraphy.login.Activity_Login;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 
-import static android.widget.Toast.LENGTH_LONG;
-
 public class Activity_Photos extends BaseLifecycleActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewModel_Photo viewModelPhoto;
-    private PhotosRecyclerViewAdapter photosRecyclerViewAdapter;
+    private Adapter_Photos adapterPhotos;
 
     @BindView(R.id.rrv_recycler_view_photos)
     RealmRecyclerView realmRecyclerView_Photos;
@@ -61,16 +60,22 @@ public class Activity_Photos extends BaseLifecycleActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-
-
         viewModelPhoto = ViewModelProviders.of(this).get(ViewModel_Photo.class);
+        viewModelPhoto.getAccessToken().observe(this, accessToken -> {
+            if (accessToken != null) {
+                if (accessToken.expired) {
+                    Intent intent = new Intent(this, Activity_Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
         viewModelPhoto.dataSyncPhotos();
         viewModelPhoto.getPhotos().observe(this, photos -> {
             if (photos != null && photos.size() > 0) {
-                if (photosRecyclerViewAdapter == null) {
-                    photosRecyclerViewAdapter = new PhotosRecyclerViewAdapter(this, photos, true, false);
-                    realmRecyclerView_Photos.setAdapter(photosRecyclerViewAdapter);
+                if (adapterPhotos == null) {
+                    adapterPhotos = new Adapter_Photos(this, photos, true, false);
+                    realmRecyclerView_Photos.setAdapter(adapterPhotos);
                 }
             }
         });
@@ -114,17 +119,17 @@ public class Activity_Photos extends BaseLifecycleActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_my_info) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_my_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_my_cart) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_yangyang) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_busan) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_jeju) {
 
         }
 

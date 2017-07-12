@@ -29,4 +29,8 @@ public class PhotoDao {
     public LiveRealmData<Photo> findPhotos() {
         return asLiveData(realm.where(Photo.class).findAllAsync());
     }
+
+    public LiveRealmData<Photo> findPhotos(int photoId) {
+        return asLiveData(realm.where(Photo.class).equalTo("id", photoId).findAllAsync());
+    }
 }
