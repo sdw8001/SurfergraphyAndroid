@@ -42,4 +42,8 @@ public class ViewModel_Login extends AndroidViewModel {
         return accessTokenLiveData;
     }
 
+    public void logoutAccount() {
+        accessTokenModel(realm).deleteAccessToken();
+    }
+
 }

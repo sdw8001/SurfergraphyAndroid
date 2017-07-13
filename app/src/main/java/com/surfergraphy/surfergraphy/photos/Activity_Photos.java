@@ -13,16 +13,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.base.activities.BaseLifecycleActivity;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
+import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 
-public class Activity_Photos extends BaseLifecycleActivity
+public class Activity_Photos extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ViewModel_Photo viewModelPhoto;
@@ -61,6 +64,7 @@ public class Activity_Photos extends BaseLifecycleActivity
 
 
         viewModelPhoto = ViewModelProviders.of(this).get(ViewModel_Photo.class);
+
         viewModelPhoto.getAccessToken().observe(this, accessToken -> {
             if (accessToken != null) {
                 if (accessToken.expired) {
@@ -130,7 +134,7 @@ public class Activity_Photos extends BaseLifecycleActivity
         } else if (id == R.id.nav_busan) {
 
         } else if (id == R.id.nav_jeju) {
-
+            viewModelLogin.logoutAccount();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

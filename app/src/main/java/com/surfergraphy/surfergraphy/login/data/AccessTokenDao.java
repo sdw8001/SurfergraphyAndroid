@@ -28,7 +28,7 @@ public class AccessTokenDao {
     }
 
     public void deleteAccessToken() {
-        realm.delete(AccessToken.class);
+        realm.executeTransactionAsync(realm1 -> realm1.delete(AccessToken.class));
     }
 
     public void updateExpiredAccessToken(boolean expired) {
