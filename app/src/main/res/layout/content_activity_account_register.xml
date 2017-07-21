@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.surfergraphy.surfergraphy.account.Activity_AccountRegister"
+    tools:showIn="@layout/activity_account_register">
+
+    <!-- 이메일 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#313335"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_text_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#1f2021"
+            android:elevation="1dp"
+            android:hint="@string/input_requird_email"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
+            android:text="a@a.com"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_email_message1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="이메일 형식으로 입력해 주세요."
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_text_email"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="※ 계정은 비밀번호 분실 시에 사용됩니다."
+            android:textColor="#999999"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/text_view_email_message1"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_email_message1" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2b2b2b" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#3c3f41" />
+    </LinearLayout>
+
+    <!-- 비밀번호 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#313335"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_email">
+
+        <EditText
+            android:id="@+id/edit_text_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#1f2021"
+            android:elevation="1dp"
+            android:hint="@string/input_password"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:text="Aaaa111!"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="소문자, 대문자, 숫자, 특수문자를 혼합하여 8자리 이상 가능"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/edit_text_password"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_password" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_password">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2b2b2b" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#3c3f41" />
+    </LinearLayout>
+
+    <!-- 비밀번호 확인 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_password_confirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#313335"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_password">
+
+        <EditText
+            android:id="@+id/edit_text_password_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#1f2021"
+            android:elevation="1dp"
+            android:hint="@string/input_password_confirm"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:text="Aaaa111!"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_password_confirm">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2b2b2b" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#3c3f41" />
+    </LinearLayout>
+
+    <!-- 닉네임 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_nick_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#313335"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_password_confirm">
+
+        <EditText
+            android:id="@+id/edit_text_nick_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#1f2021"
+            android:elevation="1dp"
+            android:hint="@string/input_requird_nick_name"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:text="Test Surfer"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_nick_name">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2b2b2b" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#3c3f41" />
+    </LinearLayout>
+
+    <!-- 핸드폰번호 -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#313335"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_nick_name">
+
+        <EditText
+            android:id="@+id/edit_text_phone_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#1f2021"
+            android:elevation="1dp"
+            android:hint="@string/input_requird_phone_number"
+            android:inputType="phone"
+            android:padding="8dp"
+            android:text="010-1234-4321!"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="회원으로 가입합니다."
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_phone_number" />
+</android.support.constraint.ConstraintLayout>

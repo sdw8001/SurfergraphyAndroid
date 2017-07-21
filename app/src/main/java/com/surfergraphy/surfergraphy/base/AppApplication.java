@@ -14,7 +14,11 @@ public class AppApplication extends Application {
         super.onCreate();
         AndroidThreeTen.init(this);
         Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+//        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        RealmConfiguration config = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
         Realm.setDefaultConfiguration(config);
 
         // Font 적용

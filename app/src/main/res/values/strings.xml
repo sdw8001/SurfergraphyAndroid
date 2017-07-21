@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Surfergraphy</string>
     <string name="login_name">Login</string>
-    <string name="input_please_account">Please enter your account.</string>
-    <string name="input_please_password">Please enter your password.</string>
+    <string name="account_join">Join</string>
+
+    <string name="input_requird_email">Email (Requird)</string>
+    <string name="input_password">Password</string>
+    <string name="input_password_confirm">Confirm password</string>
+    <string name="input_requird_nick_name">Nick Name (Requird)</string>
+    <string name="input_requird_phone_number">Phone number (Requird)</string>
 
     <string name="title_activity_photos">Photos</string>
+    <string name="title_activity_account_register">Create Account</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -18,6 +24,7 @@
     <string name="location_yangyang">YangYang</string>
     <string name="location_busan">Busan</string>
     <string name="location_jeju">Jeju</string>
+    <string name="logout">Logout</string>
 
 
     <string name="title_activity__scrolling">Activity_Scrolling</string>

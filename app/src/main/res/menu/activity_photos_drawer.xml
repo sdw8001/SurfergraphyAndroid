@@ -14,25 +14,32 @@
             android:id="@+id/nav_my_cart"
             android:icon="@drawable/ic_menu_cart"
             android:title="@string/my_cart" />
+
+        <item
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_photos">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_yangyang"
+                        android:icon="@drawable/ic_menu_camera"
+                        android:title="@string/location_yangyang" />
+                    <item
+                        android:id="@+id/nav_busan"
+                        android:icon="@drawable/ic_menu_camera"
+                        android:title="@string/location_busan" />
+                    <item
+                        android:id="@+id/nav_jeju"
+                        android:icon="@drawable/ic_menu_camera"
+                        android:title="@string/location_jeju" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_exit"
+            android:title="@string/logout" />
     </group>
 
-    <item
-        android:icon="@drawable/ic_menu_camera"
-        android:title="@string/location_photos">
-        <menu>
-            <item
-                android:id="@+id/nav_yangyang"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/location_yangyang" />
-            <item
-                android:id="@+id/nav_busan"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/location_busan" />
-            <item
-                android:id="@+id/nav_jeju"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/location_jeju" />
-        </menu>
-    </item>
 
 </menu>

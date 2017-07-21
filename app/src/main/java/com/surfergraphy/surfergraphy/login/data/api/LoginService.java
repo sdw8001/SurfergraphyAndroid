@@ -9,12 +9,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-public interface AccountUserService {
+public interface LoginService {
 
     @FormUrlEncoded
     @POST("Token")
     Call<AccessToken> login(@Field("grant_type") String grantType, @Field("username") String userName, @Field("password") String password);
-
-    @GET("api/Account/UserInfo")
-    Call<AuthorizationAccountUser> getAuthorizationAccountUser();
 }

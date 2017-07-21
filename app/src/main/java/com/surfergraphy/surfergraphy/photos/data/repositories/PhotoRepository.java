@@ -2,6 +2,7 @@ package com.surfergraphy.surfergraphy.photos.data.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.surfergraphy.surfergraphy.base.data.ActionResponse;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
 import com.surfergraphy.surfergraphy.photos.data.api.PhotoService;
@@ -43,7 +44,7 @@ public class PhotoRepository {
                     }
 
                     @Override
-                    public void badRequest(Response<List<Photo>> response) {
+                    public void badRequest(Response<List<Photo>> response, ActionResponse actionResponse) {
 
                     }
 
@@ -70,6 +71,69 @@ public class PhotoRepository {
                 new Throwable("getPhoto Failed", t);
             }
         });
+    }
+
+    public void getPlacePhotos(final Realm realm, final String place) {
+        this.realm = realm;
+
+        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+        PhotoService photoService = retrofit.create(PhotoService.class);
+
+        final Call<List<Photo>> call = photoService.getPlacePhotos(place);
+        call.enqueue(new Callback<List<Photo>>() {
+            @Override
+            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                new ResponseAction<>(response, new ResponseAction_Default<List<Photo>>() {
+                    @Override
+                    public void error(Response<List<Photo>> response) {
+
+                    }
+
+                    @Override
+                    public void badRequest(Response<List<Photo>> response, ActionResponse actionResponse) {
+
+                    }
+
+                    @Override
+                    public void notFound(Response<List<Photo>> response) {
+
+                    }
+
+                    @Override
+                    public void ok(Response<List<Photo>> response) {
+                        createOrUpdatePhotos(response.body());
+                    }
+
+                    @Override
+                    public void unAuthorized(Response<List<Photo>> response) {
+                        updateExpiredAccessToken(true);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Photo>> call, Throwable t) {
+                new Throwable("getPhoto Failed", t);
+            }
+        });
+    }
+
+    public void deletePhotos(final Realm realm) {
+        this.realm = realm;
+
+        realm.beginTransaction();
+        photoModel(realm).deletePhotos();
+        realm.commitTransaction();
+    }
+
+    public void deletePlacePhotos(final Realm realm, final String place) {
+        this.realm = realm;
+
+        realm.beginTransaction();
+        photoModel(realm).deletePlacePhotos(place);
+        realm.commitTransaction();
     }
 
     private void updateExpiredAccessToken(boolean expired) {

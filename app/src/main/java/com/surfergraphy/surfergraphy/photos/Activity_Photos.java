@@ -10,16 +10,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
-import com.surfergraphy.surfergraphy.base.activities.BaseLifecycleActivity;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
-import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,13 +72,24 @@ public class Activity_Photos extends BaseActivity
                 }
             }
         });
-        viewModelPhoto.dataSyncPhotos();
+        viewModelPhoto.getViewInfo_Photo().observe(this, viewInfo_photos -> {
+            if (viewInfo_photos != null && viewInfo_photos.size() == 1) {
+                String place = viewInfo_photos.get(0).place;
+                if (TextUtils.isEmpty(place)) {
+                    this.setTitle("사진 > " + "전체");
+                    viewModelPhoto.dataSyncPhotos();
+                } else {
+                    this.setTitle("사진 > " + place);
+                    viewModelPhoto.dataSyncPlacePhotos(place);
+                }
+            }
+        });
         viewModelPhoto.getPhotos().observe(this, photos -> {
-            if (photos != null && photos.size() > 0) {
+            if (photos != null) {
                 if (adapterPhotos == null) {
                     adapterPhotos = new Adapter_Photos(this, photos, true, false);
-                    realmRecyclerView_Photos.setAdapter(adapterPhotos);
                 }
+                realmRecyclerView_Photos.setAdapter(adapterPhotos);
             }
         });
     }
@@ -130,10 +139,18 @@ public class Activity_Photos extends BaseActivity
         } else if (id == R.id.nav_my_cart) {
 
         } else if (id == R.id.nav_yangyang) {
-
+            viewModelPhoto.setPlace("양양");
+            viewModelPhoto.deletePhotos();
+            viewModelPhoto.dataSyncPlacePhotos("양양");
         } else if (id == R.id.nav_busan) {
-
+            viewModelPhoto.setPlace("부산");
+            viewModelPhoto.deletePhotos();
+            viewModelPhoto.dataSyncPlacePhotos("부산");
         } else if (id == R.id.nav_jeju) {
+            viewModelPhoto.setPlace("제주");
+            viewModelPhoto.deletePhotos();
+            viewModelPhoto.dataSyncPlacePhotos("제주");
+        } else if (id == R.id.nav_logout) {
             viewModelLogin.logoutAccount();
         }
 

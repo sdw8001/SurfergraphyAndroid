@@ -2,11 +2,16 @@
 <resources>
     <string name="app_name">서퍼그라피</string>
     <string name="login_name">로그인</string>
+    <string name="account_join">회원가입</string>
 
-    <string name="input_please_account">Email을 입력해주세요.</string>
-    <string name="input_please_password">비밀번호를 입력해주세요.</string>
+    <string name="input_requird_email">Email (필수)</string>
+    <string name="input_password">비밀번호</string>
+    <string name="input_password_confirm">비밀번호확인</string>
+    <string name="input_requird_nick_name">닉네임 (필수)</string>
+    <string name="input_requird_phone_number">핸드폰 번호 (필수)</string>
 
     <string name="title_activity_photos">사진</string>
+    <string name="title_activity_account_register">회원가입</string>
 
     <string name="navigation_drawer_open">네비게이션 열기</string>
     <string name="navigation_drawer_close">네비게이션 닫기</string>
@@ -20,5 +25,6 @@
     <string name="location_yangyang">양양</string>
     <string name="location_busan">부산</string>
     <string name="location_jeju">제주</string>
+    <string name="logout">로그아웃</string>
 
 </resources>

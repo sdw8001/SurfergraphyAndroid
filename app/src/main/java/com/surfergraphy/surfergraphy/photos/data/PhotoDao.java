@@ -3,6 +3,7 @@ package com.surfergraphy.surfergraphy.photos.data;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
 
@@ -32,5 +33,13 @@ public class PhotoDao {
 
     public LiveRealmData<Photo> findPhotos(int photoId) {
         return asLiveData(realm.where(Photo.class).equalTo("id", photoId).findAllAsync());
+    }
+
+    public void deletePhotos() {
+        realm.delete(Photo.class);
+    }
+
+    public void deletePlacePhotos(final String place) {
+        realm.where(Photo.class).equalTo("place", place).findAll().deleteAllFromRealm();
     }
 }

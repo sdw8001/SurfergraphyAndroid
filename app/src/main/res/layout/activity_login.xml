@@ -13,14 +13,14 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextAccount"
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_email"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/surfergraphy_final_white" />
 
     <EditText
-        android:id="@+id/editTextAccount"
+        android:id="@+id/edit_text_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -28,8 +28,7 @@
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="128dp"
-        android:ems="10"
-        android:hint="@string/input_please_account"
+        android:hint="@string/input_requird_email"
         android:inputType="textEmailAddress"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
         app:layout_constraintHorizontal_bias="0.503"
@@ -46,14 +45,13 @@
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/input_please_password"
+        android:hint="@string/input_password"
         android:inputType="textPassword"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Inverse"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
 
     <Button
         android:id="@+id/buttonLogin"
@@ -68,4 +66,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <Button
+        android:id="@+id/buttonAccountRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="7dp"
+        android:text="@string/account_join"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 </android.support.constraint.ConstraintLayout>

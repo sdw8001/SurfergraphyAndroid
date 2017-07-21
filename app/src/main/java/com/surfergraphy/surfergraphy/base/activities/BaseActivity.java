@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.surfergraphy.surfergraphy.base.interfaces.ICheckAccessToken;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 
-public class BaseActivity extends BaseLifecycleActivity {
+public class BaseActivity extends BaseLifecycleActivity implements ICheckAccessToken {
 
     protected ViewModel_Login viewModelLogin;
 
@@ -18,7 +19,11 @@ public class BaseActivity extends BaseLifecycleActivity {
         super.onCreate(savedInstanceState);
 
         this.viewModelLogin = ViewModelProviders.of(this).get(ViewModel_Login.class);
+        this.checkAccessToken();
+    }
 
+    @Override
+    public void checkAccessToken() {
         viewModelLogin.getAccessToken().observe(this, accessToken -> {
             if (this.getClass() != Activity_Login.class) {
                 if (accessToken != null) {

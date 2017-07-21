@@ -36,6 +36,11 @@
             android:name=".photos.Activity_PhotoDetail"
             android:label="@string/title_activity_photos"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 회원가입 -->
+        <activity android:name=".account.Activity_AccountRegister"
+            android:label="@string/title_activity_account_register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- Test -->
         <activity
             android:name=".test.TestActivity"
             android:label="@string/title_activity_test"

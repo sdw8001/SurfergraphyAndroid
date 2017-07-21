@@ -9,10 +9,14 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PhotoService {
 
     @GET("api/Photos")
     Call<List<Photo>> getPhotos();
+
+    @GET("api/Photos/Place/{place}")
+    Call<List<Photo>> getPlacePhotos(@Path("place") String place);
 }
