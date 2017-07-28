@@ -30,17 +30,17 @@ public class Activity_Intro extends BaseLifecycleActivity {
         viewModel_intro = ViewModelProviders.of(this).get(ViewModel_Intro.class);
         viewModel_intro.getAuthorizationAccountUser();
         imageView_Logo.animate()
-                .setStartDelay(500)
+                .setStartDelay(50)
                 .alpha(1.0f)
-                .setDuration(2000)
+                .setDuration(200)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         imageView_Logo.animate()
-                                .setStartDelay(500)
+                                .setStartDelay(50)
                                 .alpha(0.0f)
-                                .setDuration(2000).setListener(new AnimatorListenerAdapter() {
+                                .setDuration(200).setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 super.onAnimationEnd(animation);

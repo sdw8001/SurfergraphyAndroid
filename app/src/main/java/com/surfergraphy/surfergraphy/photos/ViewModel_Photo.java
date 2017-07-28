@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.text.TextUtils;
 
+import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
 import com.surfergraphy.surfergraphy.photos.data.ViewInfo_Photo;
@@ -19,8 +20,8 @@ import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
 
-public class ViewModel_Photo extends AndroidViewModel {
-    private Realm realm;
+public class ViewModel_Photo extends BaseViewModel {
+
     private PhotoRepository photoRepository;
     private LiveData<AccessToken> accessTokenLiveData;
     private LiveData<RealmResults<Photo>> photoListLiveData;
@@ -28,7 +29,6 @@ public class ViewModel_Photo extends AndroidViewModel {
 
     public ViewModel_Photo(Application application) {
         super(application);
-        realm = Realm.getDefaultInstance();
         photoRepository = new PhotoRepository();
         RealmResults<ViewInfo_Photo> results = realm.where(ViewInfo_Photo.class).findAll();
         if (results.size() == 0) {
@@ -41,12 +41,6 @@ public class ViewModel_Photo extends AndroidViewModel {
             results.get(0).place = null;
             realm.commitTransaction();
         }
-    }
-
-    @Override
-    protected void onCleared() {
-        realm.close();
-        super.onCleared();
     }
 
     public void dataSyncPhotos() {

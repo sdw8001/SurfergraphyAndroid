@@ -3,14 +3,15 @@ package com.surfergraphy.surfergraphy.login.data;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
 
-public class AuthorizationAccountDao {
+public class AuthorizationAccountUserDao {
 
     private Realm realm;
 
-    public AuthorizationAccountDao(Realm realm) {
+    public AuthorizationAccountUserDao(Realm realm) {
         this.realm = realm;
     }
 
@@ -21,16 +22,15 @@ public class AuthorizationAccountDao {
         return authorizationAccountUser;
     }
 
-    public void addAccessToken(final String email, final boolean hasRegistered) {
-        AuthorizationAccountUser token = new AuthorizationAccountUser(email, hasRegistered);
-        realm.insert(token);
-    }
-
     public void deleteAuthorizationAccountUser() {
         realm.delete(AuthorizationAccountUser.class);
     }
 
-    public LiveRealmData<AuthorizationAccountUser> findAuthorizationAccountUser() {
+    public AuthorizationAccountUser findAuthorizationAccountUser() {
+        return realm.where(AuthorizationAccountUser.class).findFirst();
+    }
+
+    public LiveRealmData<AuthorizationAccountUser> findAuthorizationAccountUserLiveData() {
         return asLiveData(realm.where(AuthorizationAccountUser.class).findAllAsync());
     }
 }

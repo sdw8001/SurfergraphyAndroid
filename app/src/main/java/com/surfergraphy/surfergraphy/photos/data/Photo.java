@@ -21,14 +21,17 @@ public class Photo implements RealmModel{
     public String place;
     @SerializedName("MimeType")
     public String mimeType;
+    @SerializedName("Wave")
+    public int wave;
 
     public Photo() {}
 
-    public Photo(int id, String name, String url, String place, String mimeType) {
+    public Photo(int id, String name, String url, String place, String mimeType, int wave) {
         this.id = id;
         this.name = name;
         this.url = url;
         this.place = place;
         this.mimeType = mimeType;
+        this.wave = wave;
     }
 }

@@ -22,8 +22,8 @@ public class PhotoDao {
         return photo;
     }
 
-    public void addPhoto(final int id, final String name, final String url, final String place, final String mimeType) {
-        Photo photo = new Photo(id, name, url, place, mimeType);
+    public void addPhoto(final int id, final String name, final String url, final String place, final String mimeType, final int wave) {
+        Photo photo = new Photo(id, name, url, place, mimeType, wave);
         realm.insert(photo);
     }
 

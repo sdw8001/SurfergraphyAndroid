@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 
+import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.login.data.repositories.LoginRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
@@ -13,23 +14,16 @@ import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 import io.realm.Realm;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.authorizationAccountUserDao;
 
-public class ViewModel_Login extends AndroidViewModel {
+public class ViewModel_Login extends BaseViewModel {
 
-    private Realm realm;
     private LoginRepository loginRepository;
     private LiveData<AccessToken> accessTokenLiveData;
 
     public ViewModel_Login(Application application) {
         super(application);
-        realm = Realm.getDefaultInstance();
         loginRepository = new LoginRepository();
-    }
-
-    @Override
-    protected void onCleared() {
-        realm.close();
-        super.onCleared();
     }
 
     public void loginAccount(final String identity, final String password) {
@@ -44,6 +38,7 @@ public class ViewModel_Login extends AndroidViewModel {
 
     public void logoutAccount() {
         accessTokenModel(realm).deleteAccessToken();
+        authorizationAccountUserDao(realm).deleteAuthorizationAccountUser();
     }
 
 }

@@ -8,17 +8,29 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class AuthorizationAccountUser implements RealmModel {
-    @SerializedName("Email")
+    @SerializedName("Id")
     @PrimaryKey
+    public String id;
+    @SerializedName("Email")
     public String email;
+    @SerializedName("PhoneNumber")
+    public String phoneNumber;
+    @SerializedName("NickName")
+    public String nickName;
+    @SerializedName("Wave")
+    public int wave;
     @SerializedName("HasRegistered")
     public boolean hasRegistered;
 
     public AuthorizationAccountUser() {
     }
 
-    public AuthorizationAccountUser(String email, boolean hasRegistered) {
+    public AuthorizationAccountUser(String id, String email, String phoneNumber, String nickName, int wave, boolean hasRegistered) {
+        this.id = id;
         this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.nickName = nickName;
+        this.wave = wave;
         this.hasRegistered = hasRegistered;
     }
 }

@@ -8,28 +8,21 @@ import android.arch.lifecycle.Transformations;
 import com.surfergraphy.surfergraphy.account.data.RequestModel_AccountRegister;
 import com.surfergraphy.surfergraphy.account.data.repository.AccountRepository;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
+import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.Realm;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.actionResponseModel;
 
-public class ViewModel_AccountRegister extends AndroidViewModel {
+public class ViewModel_AccountRegister extends BaseViewModel {
 
-    private Realm realm;
     private AccountRepository accountRepository;
     private LiveData<ActionResponse> actionResponseLiveData;
 
     public ViewModel_AccountRegister(Application application) {
         super(application);
-        realm = Realm.getDefaultInstance();
         accountRepository = new AccountRepository();
-    }
-
-    @Override
-    protected void onCleared() {
-        realm.close();
-        super.onCleared();
     }
 
     public void requestAccountRegister(final int actionCode, final String email, final String password, final String passwordConfirm, final String nickName, final String phoneNumber) {

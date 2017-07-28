@@ -50,7 +50,7 @@ public class Adapter_Photos extends RealmBasedRecyclerViewAdapter<Photo, Adapter
     public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
         final Photo photo = realmResults.get(position);
 
-        Glide.with(getContext()).load(photo.url).into(viewHolder.imageView_Photo);
+        Glide.with(getContext()).load(photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
         viewHolder.textView_Watermark.setVisibility(View.VISIBLE);
         viewHolder.imageView_Photo.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), Activity_PhotoDetail.class);

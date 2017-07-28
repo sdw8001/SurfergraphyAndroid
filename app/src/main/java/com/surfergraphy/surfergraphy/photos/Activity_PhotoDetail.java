@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
-import com.surfergraphy.surfergraphy.base.activities.BaseLifecycleActivity;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
+import com.surfergraphy.surfergraphy.photos.data.Photo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +27,16 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
     ImageView imageView_Photo;
     @BindView(R.id.text_view_watermark)
     TextView textView_Watermark;
+    @BindView(R.id.text_view_price)
+    TextView textView_WavePrice;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.button_save)
+    Button button_Save;
+    @BindView(R.id.button_buy)
+    Button button_Buy;
+
+    private Photo photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +64,13 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
         });
 
         viewModel_photoDetail.getPhoto(getIntent().getIntExtra("photo_id", 0)).observe(this, photo -> {
+            this.photo = photo;
             Glide.with(this).load(photo.url).into(imageView_Photo);
+            textView_WavePrice.setText(String.valueOf(photo.wave));
         });
+
+        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(viewModel_photoDetail.getAccountUser().id, photo.id));
+        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(photo.id));
     }
 
     @Override

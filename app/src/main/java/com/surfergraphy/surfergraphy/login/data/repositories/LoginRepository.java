@@ -25,6 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.authorizationAccountUserDao;
 
 public class LoginRepository {
     private Realm realm;
@@ -55,6 +56,7 @@ public class LoginRepository {
         @Override
         protected void onPostExecute(AccessToken result) {
             createOrUpdateAccessToken(result);
+            getAuthorizationAccountUser(realm);
         }
     }
 
@@ -69,30 +71,29 @@ public class LoginRepository {
         call.enqueue(new Callback<AuthorizationAccountUser>() {
             @Override
             public void onResponse(Call<AuthorizationAccountUser> call, Response<AuthorizationAccountUser> response) {
-                new ResponseAction<>(response, new ResponseAction_Default() {
+                new ResponseAction<>(response, new ResponseAction_Default<AuthorizationAccountUser>() {
                     @Override
-                    public void error(Response response) {
+                    public void error(Response<AuthorizationAccountUser> response) {
 
                     }
 
                     @Override
-                    public void badRequest(Response response, ActionResponse actionResponse) {
+                    public void badRequest(Response<AuthorizationAccountUser> response, ActionResponse actionResponse) {
 
                     }
 
                     @Override
-                    public void notFound(Response response) {
+                    public void notFound(Response<AuthorizationAccountUser> response) {
 
                     }
 
                     @Override
-                    public void ok(Response response) {
-
+                    public void ok(Response<AuthorizationAccountUser> response) {
+                        createOrUpdateAuthorizationAccountUser(response.body());
                     }
 
                     @Override
-                    public void unAuthorized(Response response) {
-//                        deleteAccessToken();
+                    public void unAuthorized(Response<AuthorizationAccountUser> response) {
                         updateExpiredAccessToken(true);
                     }
                 });
@@ -103,6 +104,13 @@ public class LoginRepository {
                 new Throwable("getAuthorizationAccountUser Failed", t);
             }
         });
+    }
+
+    private AuthorizationAccountUser createOrUpdateAuthorizationAccountUser(final AuthorizationAccountUser authorizationAccountUser) {
+        realm.beginTransaction();
+        AuthorizationAccountUser accountUser = authorizationAccountUserDao(realm).createOrUpdate(authorizationAccountUser);
+        realm.commitTransaction();
+        return accountUser;
     }
 
     private AccessToken createOrUpdateAccessToken(final AccessToken accessToken) {

@@ -1,33 +1,28 @@
 package com.surfergraphy.surfergraphy.photos;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 
+import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
+import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoRepository;
+import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoSaveHistoryRepository;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
-
-import io.realm.Realm;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
 
-public class ViewModel_PhotoDetail extends AndroidViewModel {
-    private Realm realm;
+public class ViewModel_PhotoDetail extends BaseViewModel {
+
+    private PhotoSaveHistoryRepository photoSaveHistoryRepository;
     private LiveData<AccessToken> accessTokenLiveData;
     private LiveData<Photo> photoListLiveData;
 
     public ViewModel_PhotoDetail(Application application) {
         super(application);
-        realm = Realm.getDefaultInstance();
-    }
-
-    @Override
-    protected void onCleared() {
-        realm.close();
-        super.onCleared();
+        photoSaveHistoryRepository = new PhotoSaveHistoryRepository();
     }
 
     public LiveData<Photo> getPhoto(int photoId) {
@@ -40,5 +35,13 @@ public class ViewModel_PhotoDetail extends AndroidViewModel {
         LiveRealmData<AccessToken> accessTokenLiveRealmData = accessTokenModel(realm).findAccessToken();
         accessTokenLiveData = Transformations.map(accessTokenLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
         return accessTokenLiveData;
+    }
+
+    public void savePhoto(final String userId, final int photoId) {
+        photoSaveHistoryRepository.savePhoto(realm, userId, photoId);
+    }
+
+    public void buyPhoto(int photoId) {
+
     }
 }

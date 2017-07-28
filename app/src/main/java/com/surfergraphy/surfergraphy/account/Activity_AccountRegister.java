@@ -3,6 +3,7 @@ package com.surfergraphy.surfergraphy.account;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,7 +47,22 @@ public class Activity_AccountRegister extends BaseActivity {
 
         viewModel_AccountRegister = ViewModelProviders.of(this).get(ViewModel_AccountRegister.class);
 
-        button_AccountRegister.setOnClickListener(v -> viewModel_AccountRegister.requestAccountRegister(ActionCode.ACTION_ACCOUNT_REGISTER, editText_Email.getText().toString(), editText_Password.getText().toString(), editText_PasswordConfirm.getText().toString(), editText_NickName.getText().toString(), editText_PhoneNumber.getText().toString()));
+        button_AccountRegister.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(editText_Email.getText())) {
+                Toast.makeText(this, "아이디(Email)를 입력하세요.", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editText_Password.getText())) {
+                Toast.makeText(this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editText_PasswordConfirm.getText())) {
+                Toast.makeText(this, "확인 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editText_NickName.getText())) {
+                Toast.makeText(this, "닉네임을 입력하세요.", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editText_PhoneNumber.getText())) {
+                Toast.makeText(this, "핸드폰번호를 입력하세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                viewModel_AccountRegister.requestAccountRegister(ActionCode.ACTION_ACCOUNT_REGISTER, editText_Email.getText().toString(),
+                        editText_Password.getText().toString(), editText_PasswordConfirm.getText().toString(), editText_NickName.getText().toString(), editText_PhoneNumber.getText().toString());
+            }
+        });
         viewModel_AccountRegister.getActionResponse(ActionCode.ACTION_ACCOUNT_REGISTER).observe(this, actionResponse -> {
             if (actionResponse != null) {
                 switch (actionResponse.getResultCode()) {
