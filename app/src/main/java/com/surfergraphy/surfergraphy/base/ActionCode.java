@@ -1,9 +1,7 @@
 package com.surfergraphy.surfergraphy.base;
 
-/**
- * Created by ddfactory on 2017-07-17.
- */
-
 public class ActionCode {
     public static final int ACTION_ACCOUNT_REGISTER = 1000;
+    public static final int ACTION_PHOTO_DETAIL_SAVE = 2000;
+    public static final int ACTION_PHOTO_DETAIL_BUY = 2001;
 }

@@ -13,6 +13,7 @@ import retrofit2.Response;
 public class ResponseAction<T> {
 
     public final static int HTTP_200_OK = 200;
+    public final static int HTTP_201_OK_CREATED = 201;
     public final static int HTTP_400_BAD_REQUEST = 400;
     public final static int HTTP_401_UN_AUTHORIZED = 401;
     public final static int HTTP_404_NOT_FOUND = 404;
@@ -38,6 +39,9 @@ public class ResponseAction<T> {
         switch (response.code()) {
             case HTTP_200_OK:
                 callbackAction.ok(response);
+                break;
+            case HTTP_201_OK_CREATED:
+                callbackAction.okCreated(response);
                 break;
             case HTTP_400_BAD_REQUEST:
                 callbackAction.badRequest(response, actionResponse);

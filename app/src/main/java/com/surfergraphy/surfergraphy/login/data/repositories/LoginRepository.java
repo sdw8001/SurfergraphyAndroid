@@ -1,11 +1,10 @@
 package com.surfergraphy.surfergraphy.login.data.repositories;
 
-import android.os.AsyncTask;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.surfergraphy.surfergraphy.account.data.api.AccountService;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
+import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.login.data.AuthorizationAccountUser;
@@ -16,8 +15,6 @@ import com.surfergraphy.surfergraphy.utils.RetrofitAdapter;
 
 import org.threeten.bp.LocalDateTime;
 
-import java.io.IOException;
-
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,42 +24,62 @@ import retrofit2.Retrofit;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.authorizationAccountUserDao;
 
-public class LoginRepository {
-    private Realm realm;
+public class LoginRepository extends BaseRepository {
 
-    public void loginAccount(final Realm realm, final String identity, final String password) {
-        this.realm = realm;
+    public LoginRepository(Realm realm) {
+        super(realm);
+    }
 
+    public void loginAccount(final String identity, final String password) {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         LoginService loginService = retrofit.create(LoginService.class);
         final Call<AccessToken> call = loginService.login("password", identity, password);
-        new NetworkCall().execute(call);
-    }
+        call.enqueue(new Callback<AccessToken>() {
+            @Override
+            public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                new ResponseAction<>(response, new ResponseAction_Default<AccessToken>() {
+                    @Override
+                    public void error(Response response) {
 
-    private class NetworkCall extends AsyncTask<Call, Void, AccessToken> {
-        @Override
-        protected AccessToken doInBackground(Call[] params) {
-            try {
-                Call<AccessToken> call = params[0];
-                Response<AccessToken> response = call.execute();
-                return response.body();
-            } catch (IOException e) {
-                e.printStackTrace();
+                    }
+
+                    @Override
+                    public void badRequest(Response response, ActionResponse actionResponse) {
+
+                    }
+
+                    @Override
+                    public void notFound(Response response) {
+
+                    }
+
+                    @Override
+                    public void ok(Response<AccessToken> response) {
+                        createOrUpdateAccessToken(response.body());
+                        getAuthorizationAccountUser();
+                    }
+
+                    @Override
+                    public void okCreated(Response response) {
+
+                    }
+
+                    @Override
+                    public void unAuthorized(Response response) {
+
+                    }
+                });
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(AccessToken result) {
-            createOrUpdateAccessToken(result);
-            getAuthorizationAccountUser(realm);
-        }
+            @Override
+            public void onFailure(Call<AccessToken> call, Throwable t) {
+
+            }
+        });
     }
 
-    public void getAuthorizationAccountUser(final Realm realm) {
-        this.realm = realm;
-
+    public void getAuthorizationAccountUser() {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         AccountService accountService = retrofit.create(AccountService.class);
@@ -90,6 +107,11 @@ public class LoginRepository {
                     @Override
                     public void ok(Response<AuthorizationAccountUser> response) {
                         createOrUpdateAuthorizationAccountUser(response.body());
+                    }
+
+                    @Override
+                    public void okCreated(Response<AuthorizationAccountUser> response) {
+
                     }
 
                     @Override

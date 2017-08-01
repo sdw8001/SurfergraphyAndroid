@@ -7,6 +7,7 @@ import com.surfergraphy.surfergraphy.account.data.api.AccountService;
 import com.surfergraphy.surfergraphy.base.ActionCode;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
 import com.surfergraphy.surfergraphy.base.data.ApiError;
+import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surfergraphy.utils.DateDeserializer;
 import com.surfergraphy.surfergraphy.utils.ErrorUtils;
@@ -24,12 +25,13 @@ import retrofit2.Retrofit;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.actionResponseModel;
 
-public class AccountRepository {
-    private Realm realm;
+public class AccountRepository extends BaseRepository {
 
-    public void getAccountRegister(final Realm realm, final int actionCode, final RequestModel_AccountRegister requestModel) {
-        this.realm = realm;
+    public AccountRepository(Realm realm) {
+        super(realm);
+    }
 
+    public void getAccountRegister(final int actionCode, final RequestModel_AccountRegister requestModel) {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         AccountService accountService = retrofit.create(AccountService.class);
@@ -68,6 +70,11 @@ public class AccountRepository {
                     }
 
                     @Override
+                    public void okCreated(Response<ResponseBody> response) {
+
+                    }
+
+                    @Override
                     public void unAuthorized(Response<ResponseBody> response) {
 
                     }
@@ -79,13 +86,5 @@ public class AccountRepository {
                 new Throwable("getAuthorizationAccountUser Failed", t);
             }
         });
-    }
-
-    private ActionResponse createOrUpdateActionResponse(final ActionResponse actionResponse) {
-        return actionResponseModel(realm).createOrUpdate(actionResponse);
-    }
-
-    private void getActionResponse(final int actionCode) {
-        actionResponseModel(realm).findActionResponse(actionCode);
     }
 }

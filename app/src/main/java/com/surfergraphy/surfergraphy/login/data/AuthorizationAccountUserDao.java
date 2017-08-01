@@ -23,7 +23,7 @@ public class AuthorizationAccountUserDao {
     }
 
     public void deleteAuthorizationAccountUser() {
-        realm.delete(AuthorizationAccountUser.class);
+        realm.executeTransactionAsync(realm1 -> realm1.delete(AuthorizationAccountUser.class));
     }
 
     public AuthorizationAccountUser findAuthorizationAccountUser() {

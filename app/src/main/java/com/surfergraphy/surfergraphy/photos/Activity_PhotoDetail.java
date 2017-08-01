@@ -9,12 +9,15 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.base.ActionCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
+import com.surfergraphy.surfergraphy.utils.ResponseAction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,8 +72,21 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             textView_WavePrice.setText(String.valueOf(photo.wave));
         });
 
-        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(viewModel_photoDetail.getAccountUser().id, photo.id));
-        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(photo.id));
+        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_PHOTO_DETAIL_SAVE).observe(this, actionResponse -> {
+            if (actionResponse != null) {
+                switch (actionResponse.getResultCode()) {
+                    case ResponseAction.HTTP_201_OK_CREATED:
+                        Toast.makeText(this, actionResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case ResponseAction.HTTP_400_BAD_REQUEST:
+                        Toast.makeText(this, actionResponse.getDetailMessages(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                viewModel_photoDetail.expiredActionToken(actionResponse.getActionCode());
+            }
+        });
+        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getAccountUser().id, photo.id));
+        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(ActionCode.ACTION_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id));
     }
 
     @Override

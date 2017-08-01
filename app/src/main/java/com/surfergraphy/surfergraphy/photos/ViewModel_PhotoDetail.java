@@ -22,7 +22,7 @@ public class ViewModel_PhotoDetail extends BaseViewModel {
 
     public ViewModel_PhotoDetail(Application application) {
         super(application);
-        photoSaveHistoryRepository = new PhotoSaveHistoryRepository();
+        photoSaveHistoryRepository = new PhotoSaveHistoryRepository(realm);
     }
 
     public LiveData<Photo> getPhoto(int photoId) {
@@ -37,11 +37,11 @@ public class ViewModel_PhotoDetail extends BaseViewModel {
         return accessTokenLiveData;
     }
 
-    public void savePhoto(final String userId, final int photoId) {
-        photoSaveHistoryRepository.savePhoto(realm, userId, photoId);
+    public void savePhoto(final int actionCode, final String userId, final int photoId) {
+        photoSaveHistoryRepository.savePhoto(actionCode, userId, photoId);
     }
 
-    public void buyPhoto(int photoId) {
-
+    public void buyPhoto(final int actionCode, final int photoId) {
+        photoSaveHistoryRepository.getPhoto(actionCode, photoId);
     }
 }

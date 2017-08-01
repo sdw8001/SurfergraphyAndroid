@@ -68,6 +68,7 @@ public class Activity_AccountRegister extends BaseActivity {
                 switch (actionResponse.getResultCode()) {
                     case ResponseAction.HTTP_200_OK:
                         Toast.makeText(this, actionResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
                         break;
                     case ResponseAction.HTTP_400_BAD_REQUEST:
                         Toast.makeText(this, actionResponse.getDetailMessages(), Toast.LENGTH_SHORT).show();

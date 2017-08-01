@@ -3,6 +3,7 @@ package com.surfergraphy.surfergraphy.photos.data.repositories;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
+import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
 import com.surfergraphy.surfergraphy.photos.data.api.PhotoService;
@@ -23,12 +24,13 @@ import retrofit2.Retrofit;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
 
-public class PhotoRepository {
-    private Realm realm;
+public class PhotoRepository extends BaseRepository {
 
-    public void getPhotos(final Realm realm) {
-        this.realm = realm;
+    public PhotoRepository(Realm realm) {
+        super(realm);
+    }
 
+    public void getPhotos() {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoService photoService = retrofit.create(PhotoService.class);
@@ -59,6 +61,11 @@ public class PhotoRepository {
                     }
 
                     @Override
+                    public void okCreated(Response<List<Photo>> response) {
+
+                    }
+
+                    @Override
                     public void unAuthorized(Response<List<Photo>> response) {
                         updateExpiredAccessToken(true);
                     }
@@ -73,9 +80,7 @@ public class PhotoRepository {
         });
     }
 
-    public void getPlacePhotos(final Realm realm, final String place) {
-        this.realm = realm;
-
+    public void getPlacePhotos(final String place) {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoService photoService = retrofit.create(PhotoService.class);
@@ -106,6 +111,11 @@ public class PhotoRepository {
                     }
 
                     @Override
+                    public void okCreated(Response<List<Photo>> response) {
+
+                    }
+
+                    @Override
                     public void unAuthorized(Response<List<Photo>> response) {
                         updateExpiredAccessToken(true);
                     }
@@ -120,17 +130,13 @@ public class PhotoRepository {
         });
     }
 
-    public void deletePhotos(final Realm realm) {
-        this.realm = realm;
-
+    public void deletePhotos() {
         realm.beginTransaction();
         photoModel(realm).deletePhotos();
         realm.commitTransaction();
     }
 
-    public void deletePlacePhotos(final Realm realm, final String place) {
-        this.realm = realm;
-
+    public void deletePlacePhotos(final String place) {
         realm.beginTransaction();
         photoModel(realm).deletePlacePhotos(place);
         realm.commitTransaction();

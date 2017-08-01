@@ -3,7 +3,6 @@ package com.surfergraphy.surfergraphy.base.navigation;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
