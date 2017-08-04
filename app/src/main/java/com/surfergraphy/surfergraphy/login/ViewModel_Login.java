@@ -23,11 +23,11 @@ public class ViewModel_Login extends BaseViewModel {
 
     public ViewModel_Login(Application application) {
         super(application);
-        loginRepository = new LoginRepository();
+        loginRepository = new LoginRepository(realm);
     }
 
     public void loginAccount(final String identity, final String password) {
-        loginRepository.loginAccount(realm, identity, password);
+        loginRepository.loginAccount(identity, password);
     }
 
     public LiveData<AccessToken> getAccessToken() {

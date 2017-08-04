@@ -16,8 +16,11 @@ public interface PhotoSaveHistoryService {
     @GET("api/PhotoSaveHistories")
     Call<List<PhotoSaveHistory>> getPhotoSaveHistories();
 
+    @GET("api/PhotoSaveHistories/UserPhotos")
+    Call<List<PhotoSaveHistory>> getUserPhotoSaveHistories();
+
     @GET("api/PhotoSaveHistories/UserPhotos/{photoId}")
-    Call<List<PhotoSaveHistory>> getPhotoSaveHistoryByPhoto(@Path("photoId") String photoId);
+    Call<List<PhotoSaveHistory>> getPhotoSaveHistoryByPhoto(@Path("photoId") int photoId);
 
     @FormUrlEncoded
     @POST("api/PhotoSaveHistories/")

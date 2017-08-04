@@ -21,8 +21,20 @@ public class PhotoSaveHistoryDao {
         return photoSaveHistory;
     }
 
-    public LiveRealmData<PhotoSaveHistory> findPhotoSaveHistories() {
+    public LiveRealmData<PhotoSaveHistory> findPhotoSaveHistoriesLiveData() {
         return asLiveData(realm.where(PhotoSaveHistory.class).findAllAsync());
+    }
+
+    public LiveRealmData<PhotoSaveHistory> findPhotoSaveHistoriesLiveData(final String userId) {
+        return asLiveData(realm.where(PhotoSaveHistory.class).equalTo("userId", userId).findAllAsync());
+    }
+
+    public LiveRealmData<PhotoSaveHistory> findPhotoSaveHistoryLiveData(final String userId, final int photoId) {
+        return asLiveData(realm.where(PhotoSaveHistory.class).equalTo("userId", userId).equalTo("photoId", photoId).findAllAsync());
+    }
+
+    public PhotoSaveHistory findPhotoSaveHistory(final int photoId) {
+        return realm.where(PhotoSaveHistory.class).equalTo("photoId", photoId).findFirst();
     }
 
     public void deletePhotoSaveHistories() {

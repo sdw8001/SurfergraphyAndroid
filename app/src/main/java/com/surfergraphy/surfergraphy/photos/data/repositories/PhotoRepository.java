@@ -23,6 +23,7 @@ import retrofit2.Retrofit;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
 
 public class PhotoRepository extends BaseRepository {
 
@@ -140,10 +141,6 @@ public class PhotoRepository extends BaseRepository {
         realm.beginTransaction();
         photoModel(realm).deletePlacePhotos(place);
         realm.commitTransaction();
-    }
-
-    private void updateExpiredAccessToken(boolean expired) {
-        accessTokenModel(realm).updateExpiredAccessToken(expired);
     }
 
     private void createOrUpdatePhotos(final List<Photo> photos) {

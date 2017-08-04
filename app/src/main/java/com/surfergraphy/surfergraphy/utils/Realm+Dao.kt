@@ -4,6 +4,7 @@ package com.surfergraphy.surfergraphy.utils
 import com.surfergraphy.surfergraphy.base.data.ActionResponseDao
 import com.surfergraphy.surfergraphy.login.data.AccessTokenDao
 import com.surfergraphy.surfergraphy.login.data.AuthorizationAccountUserDao
+import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistoryDao
 import com.surfergraphy.surfergraphy.photos.data.PhotoDao
 import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistoryDao
 import io.realm.Realm
@@ -15,5 +16,6 @@ fun Realm.accessTokenModel(): AccessTokenDao = AccessTokenDao(this)
 fun Realm.authorizationAccountUserDao(): AuthorizationAccountUserDao = AuthorizationAccountUserDao(this)
 fun Realm.photoModel(): PhotoDao = PhotoDao(this)
 fun Realm.photoSaveHistory(): PhotoSaveHistoryDao = PhotoSaveHistoryDao(this)
+fun Realm.photoBuyHistory(): PhotoBuyHistoryDao = PhotoBuyHistoryDao(this)
 
 fun <T: RealmModel> RealmResults<T>.asLiveData() = LiveRealmData<T>(this)

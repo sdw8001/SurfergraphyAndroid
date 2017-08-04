@@ -27,12 +27,16 @@ public class PhotoDao {
         realm.insert(photo);
     }
 
-    public LiveRealmData<Photo> findPhotos() {
+    public LiveRealmData<Photo> findPhotosLiveData() {
         return asLiveData(realm.where(Photo.class).findAllAsync());
     }
 
-    public LiveRealmData<Photo> findPhotos(int photoId) {
+    public LiveRealmData<Photo> findPhotoLiveData(int photoId) {
         return asLiveData(realm.where(Photo.class).equalTo("id", photoId).findAllAsync());
+    }
+
+    public RealmResults<Photo> findPhoto(int photoId) {
+        return realm.where(Photo.class).equalTo("id", photoId).findAllAsync();
     }
 
     public void deletePhotos() {

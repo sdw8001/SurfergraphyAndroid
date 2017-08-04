@@ -15,6 +15,8 @@ import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
@@ -28,14 +30,12 @@ public class Adapter_Photos extends RealmBasedRecyclerViewAdapter<Photo, Adapter
 
     public class ViewHolder extends RealmViewHolder {
 
-        public ImageView imageView_Photo;
-        public TextView textView_Watermark;
+        @BindView(R.id.image_view_photo)
+        ImageView imageView_Photo;
 
         public ViewHolder(ViewGroup container) {
             super(container);
-            imageView_Photo = (ImageView) container.findViewById(R.id.image_view_photo);
-            textView_Watermark = (TextView) container.findViewById(R.id.text_view_watermark);
-            textView_Watermark.bringToFront();
+            ButterKnife.bind(this, container);
         }
     }
 
@@ -51,7 +51,6 @@ public class Adapter_Photos extends RealmBasedRecyclerViewAdapter<Photo, Adapter
         final Photo photo = realmResults.get(position);
 
         Glide.with(getContext()).load(photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
-        viewHolder.textView_Watermark.setVisibility(View.VISIBLE);
         viewHolder.imageView_Photo.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), Activity_PhotoDetail.class);
             intent.putExtra("photo_id", photo.id);

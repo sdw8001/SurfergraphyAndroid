@@ -7,6 +7,7 @@ import android.arch.lifecycle.Transformations;
 import com.surfergraphy.surfergraphy.account.data.RequestModel_AccountRegister;
 import com.surfergraphy.surfergraphy.account.data.repository.AccountRepository;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
+import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 

@@ -15,6 +15,8 @@ import com.surfergraphy.surfergraphy.utils.RetrofitAdapter;
 
 import org.threeten.bp.LocalDateTime;
 
+import java.util.concurrent.Delayed;
+
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +59,7 @@ public class LoginRepository extends BaseRepository {
                     @Override
                     public void ok(Response<AccessToken> response) {
                         createOrUpdateAccessToken(response.body());
-                        getAuthorizationAccountUser();
+                        syncAuthorizationAccountUser();
                     }
 
                     @Override
@@ -79,70 +81,10 @@ public class LoginRepository extends BaseRepository {
         });
     }
 
-    public void getAuthorizationAccountUser() {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        AccountService accountService = retrofit.create(AccountService.class);
-
-        final Call<AuthorizationAccountUser> call = accountService.getAuthorizationAccountUser();
-        call.enqueue(new Callback<AuthorizationAccountUser>() {
-            @Override
-            public void onResponse(Call<AuthorizationAccountUser> call, Response<AuthorizationAccountUser> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<AuthorizationAccountUser>() {
-                    @Override
-                    public void error(Response<AuthorizationAccountUser> response) {
-
-                    }
-
-                    @Override
-                    public void badRequest(Response<AuthorizationAccountUser> response, ActionResponse actionResponse) {
-
-                    }
-
-                    @Override
-                    public void notFound(Response<AuthorizationAccountUser> response) {
-
-                    }
-
-                    @Override
-                    public void ok(Response<AuthorizationAccountUser> response) {
-                        createOrUpdateAuthorizationAccountUser(response.body());
-                    }
-
-                    @Override
-                    public void okCreated(Response<AuthorizationAccountUser> response) {
-
-                    }
-
-                    @Override
-                    public void unAuthorized(Response<AuthorizationAccountUser> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<AuthorizationAccountUser> call, Throwable t) {
-                new Throwable("getAuthorizationAccountUser Failed", t);
-            }
-        });
-    }
-
-    private AuthorizationAccountUser createOrUpdateAuthorizationAccountUser(final AuthorizationAccountUser authorizationAccountUser) {
-        realm.beginTransaction();
-        AuthorizationAccountUser accountUser = authorizationAccountUserDao(realm).createOrUpdate(authorizationAccountUser);
-        realm.commitTransaction();
-        return accountUser;
-    }
-
     private AccessToken createOrUpdateAccessToken(final AccessToken accessToken) {
         realm.beginTransaction();
         AccessToken token = accessTokenModel(realm).createOrUpdate(accessToken);
         realm.commitTransaction();
         return token;
-    }
-
-    private void updateExpiredAccessToken(boolean expired) {
-        accessTokenModel(realm).updateExpiredAccessToken(expired);
     }
 }

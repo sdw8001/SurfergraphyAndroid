@@ -10,10 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
+import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
+import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +40,13 @@ public class Activity_Photos extends BaseActivity {
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                viewModelLogin.syncAuthorizationAccountUser();
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 

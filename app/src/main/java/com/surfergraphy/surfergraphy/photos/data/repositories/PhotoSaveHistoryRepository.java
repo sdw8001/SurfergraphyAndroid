@@ -2,10 +2,10 @@ package com.surfergraphy.surfergraphy.photos.data.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.surfergraphy.surfergraphy.base.ActionCode;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
 import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
-import com.surfergraphy.surfergraphy.photos.data.Photo;
 import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
 import com.surfergraphy.surfergraphy.photos.data.api.PhotoSaveHistoryService;
 import com.surfergraphy.surfergraphy.utils.DateDeserializer;
@@ -22,21 +22,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
 
 public class PhotoSaveHistoryRepository extends BaseRepository {
 
     public PhotoSaveHistoryRepository(Realm realm) {
         super(realm);
+        syncDataUserPhotos();
     }
 
-    public void getPhotos() {
+    public void syncDataUserPhotos() {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
 
-        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getPhotoSaveHistories();
+        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getUserPhotoSaveHistories();
         call.enqueue(new Callback<List<PhotoSaveHistory>>() {
             @Override
             public void onResponse(Call<List<PhotoSaveHistory>> call, Response<List<PhotoSaveHistory>> response) {
@@ -58,6 +58,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
 
                     @Override
                     public void ok(Response<List<PhotoSaveHistory>> response) {
+                        deletePhotoSaveHistories();
                         createOrUpdatePhotoSaveHistories(response.body());
                     }
 
@@ -86,7 +87,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
 
-        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getPhotoSaveHistoryByPhoto();
+        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getPhotoSaveHistoryByPhoto(photoId);
         call.enqueue(new Callback<List<PhotoSaveHistory>>() {
             @Override
             public void onResponse(Call<List<PhotoSaveHistory>> call, Response<List<PhotoSaveHistory>> response) {
@@ -164,11 +165,13 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
                     @Override
                     public void okCreated(Response<PhotoSaveHistory> response) {
 
-                        ActionResponse actionResponse = new ActionResponse();
-                        actionResponse.setActionCode(actionCode);
-                        actionResponse.setResultCode(response.code());
-                        actionResponse.setMessage("저장되었습니다.");
-                        createOrUpdateActionResponse(actionResponse);
+                        if (actionCode == ActionCode.ACTION_PHOTO_DETAIL_SAVE) {
+                            ActionResponse actionResponse = new ActionResponse();
+                            actionResponse.setActionCode(actionCode);
+                            actionResponse.setResultCode(response.code());
+                            actionResponse.setMessage("저장되었습니다.");
+                            createOrUpdateActionResponse(actionResponse);
+                        }
 
                         createOrUpdatePhotoSaveHistory(response.body());
                     }
@@ -213,9 +216,5 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
         realm.beginTransaction();
         photoSaveHistory(realm).deletePhotoSaveHistories();
         realm.commitTransaction();
-    }
-
-    private void updateExpiredAccessToken(boolean expired) {
-        accessTokenModel(realm).updateExpiredAccessToken(expired);
     }
 }

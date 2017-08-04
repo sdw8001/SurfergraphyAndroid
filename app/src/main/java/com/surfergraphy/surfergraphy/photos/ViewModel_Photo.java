@@ -1,24 +1,27 @@
 package com.surfergraphy.surfergraphy.photos;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
-import android.text.TextUtils;
 
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
+import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
+import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
 import com.surfergraphy.surfergraphy.photos.data.ViewInfo_Photo;
+import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoBuyHistoryRepository;
 import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoRepository;
+import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoSaveHistoryRepository;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoBuyHistory;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
 
 public class ViewModel_Photo extends BaseViewModel {
 
@@ -29,7 +32,7 @@ public class ViewModel_Photo extends BaseViewModel {
 
     public ViewModel_Photo(Application application) {
         super(application);
-        photoRepository = new PhotoRepository();
+        photoRepository = new PhotoRepository(realm);
         RealmResults<ViewInfo_Photo> results = realm.where(ViewInfo_Photo.class).findAll();
         if (results.size() == 0) {
             ViewInfo_Photo viewInfo_photo = new ViewInfo_Photo();
@@ -44,19 +47,19 @@ public class ViewModel_Photo extends BaseViewModel {
     }
 
     public void dataSyncPhotos() {
-        photoRepository.getPhotos(realm);
+        photoRepository.getPhotos();
     }
 
     public void dataSyncPlacePhotos(final String place) {
-        photoRepository.getPlacePhotos(realm, place);
+        photoRepository.getPlacePhotos(place);
     }
 
     public void deletePhotos() {
-        photoRepository.deletePhotos(realm);
+        photoRepository.deletePhotos();
     }
 
     public LiveData<RealmResults<Photo>> getPhotos() {
-        photoListLiveData = photoModel(realm).findPhotos();
+        photoListLiveData = photoModel(realm).findPhotosLiveData();
         return photoListLiveData;
     }
 

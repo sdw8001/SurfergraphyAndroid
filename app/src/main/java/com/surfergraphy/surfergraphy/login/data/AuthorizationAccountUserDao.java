@@ -17,7 +17,7 @@ public class AuthorizationAccountUserDao {
 
     public AuthorizationAccountUser createOrUpdate(AuthorizationAccountUser authorizationAccountUser) {
         if (authorizationAccountUser != null) {
-            authorizationAccountUser = realm.copyToRealmOrUpdate(authorizationAccountUser);
+            realm.executeTransaction(realm1 -> realm1.copyToRealmOrUpdate(authorizationAccountUser));
         }
         return authorizationAccountUser;
     }
@@ -31,6 +31,6 @@ public class AuthorizationAccountUserDao {
     }
 
     public LiveRealmData<AuthorizationAccountUser> findAuthorizationAccountUserLiveData() {
-        return asLiveData(realm.where(AuthorizationAccountUser.class).findAllAsync());
+        return asLiveData(realm.where(AuthorizationAccountUser.class).findAll());
     }
 }

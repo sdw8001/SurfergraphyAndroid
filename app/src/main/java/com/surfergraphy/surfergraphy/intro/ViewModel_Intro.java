@@ -14,10 +14,10 @@ public class ViewModel_Intro extends BaseViewModel {
 
     public ViewModel_Intro(Application application) {
         super(application);
-        loginRepository = new LoginRepository();
+        loginRepository = new LoginRepository(realm);
     }
 
     public void getAuthorizationAccountUser() {
-        loginRepository.getAuthorizationAccountUser(realm);
+        loginRepository.syncAuthorizationAccountUser();
     }
 }

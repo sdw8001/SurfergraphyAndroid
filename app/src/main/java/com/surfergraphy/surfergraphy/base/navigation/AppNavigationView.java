@@ -1,17 +1,20 @@
 package com.surfergraphy.surfergraphy.base.navigation;
 
+import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
+import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 import com.surfergraphy.surfergraphy.photos.ViewModel_Photo;
 
@@ -35,15 +38,25 @@ public class AppNavigationView extends NavigationView implements NavigationView.
     public AppNavigationView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        viewModelPhoto = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Photo.class);
+        viewModelLogin = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Login.class);
         View header = getHeaderView(0);
         headerViewHolder = new HeaderViewHolder(header);
         setNavigationItemSelectedListener(this);
 
-
-        viewModelPhoto = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Photo.class);
-        viewModelLogin = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Login.class);
+        viewModelLogin.getAccountUserLiveData().observe((LifecycleActivity) context, authorizationAccountUser -> {
+            if (authorizationAccountUser != null) {
+                headerViewHolder.nickName.setText(authorizationAccountUser.nickName);
+                headerViewHolder.email.setText(authorizationAccountUser.email);
+                headerViewHolder.wave.setText(String.valueOf(authorizationAccountUser.wave));
+            }
+        });
     }
 
+    @Override
+    public Menu getMenu() {
+        return super.getMenu();
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -73,7 +86,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
             viewModelLogin.logoutAccount();
         }
 
-        DrawerLayout drawer = (DrawerLayout) ((BaseActivity)context).findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -84,6 +97,8 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         TextView nickName;
         @BindView(R.id.text_view_user_email)
         TextView email;
+        @BindView(R.id.text_view_wave)
+        TextView wave;
 
         HeaderViewHolder(View view) {
             ButterKnife.bind(this, view);

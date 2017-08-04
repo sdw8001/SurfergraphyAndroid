@@ -3,9 +3,11 @@ package com.surfergraphy.surfergraphy.photos;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,16 +72,37 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             this.photo = photo;
             Glide.with(this).load(photo.url).into(imageView_Photo);
             textView_WavePrice.setText(String.valueOf(photo.wave));
+
+            viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
+            viewModel_photoDetail.getUserPhotoBuyHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoBuyHistory -> {
+                if (photoBuyHistory == null) {
+                    button_Buy.setEnabled(true);
+                    textView_Watermark.setVisibility(View.VISIBLE);
+                } else {
+                    button_Buy.setEnabled(false);
+                    textView_Watermark.setVisibility(View.GONE);
+                }
+            });
         });
 
         viewModel_photoDetail.getActionResponse(ActionCode.ACTION_PHOTO_DETAIL_SAVE).observe(this, actionResponse -> {
-            if (actionResponse != null) {
+            if (actionResponse != null && button_Save.isEnabled()) {
                 switch (actionResponse.getResultCode()) {
                     case ResponseAction.HTTP_201_OK_CREATED:
-                        Toast.makeText(this, actionResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        break;
                     case ResponseAction.HTTP_400_BAD_REQUEST:
-                        Toast.makeText(this, actionResponse.getDetailMessages(), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getWindow().getDecorView().getRootView(), actionResponse.getMessage(), Snackbar.LENGTH_SHORT).show();
+                        break;
+                }
+                viewModel_photoDetail.expiredActionToken(actionResponse.getActionCode());
+            }
+        });
+
+        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_PHOTO_DETAIL_BUY).observe(this, actionResponse -> {
+            if (actionResponse != null && button_Buy.isEnabled()) {
+                switch (actionResponse.getResultCode()) {
+                    case ResponseAction.HTTP_201_OK_CREATED:
+                    case ResponseAction.HTTP_400_BAD_REQUEST:
+                        Snackbar.make(getWindow().getDecorView().getRootView(), actionResponse.getMessage(), Snackbar.LENGTH_SHORT).show();
                         break;
                 }
                 viewModel_photoDetail.expiredActionToken(actionResponse.getActionCode());
