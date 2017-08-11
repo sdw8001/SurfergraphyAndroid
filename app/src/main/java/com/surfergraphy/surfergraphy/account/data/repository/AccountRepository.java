@@ -48,9 +48,9 @@ public class AccountRepository extends BaseRepository {
 
                     @Override
                     public void badRequest(Response<ResponseBody> response, ActionResponse actionResponse) {
-                        ApiError error = ErrorUtils.parseError(response);
-                        if (error.getModelState().getDetailMessages().size() > 0)
-                            actionResponse.setDetailMessages(error.getModelState().getDetailMessages().get(0));
+//                        ApiError error = ErrorUtils.parseError(response);
+//                        if (error.getModelState().getDetailMessages().size() > 0)
+//                            actionResponse.setDetailMessages(error.getModelState().getDetailMessages().get(0));
                         actionResponse.setActionCode(actionCode);
                         createOrUpdateActionResponse(actionResponse);
                     }

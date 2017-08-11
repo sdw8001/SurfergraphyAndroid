@@ -11,6 +11,7 @@
 
     <string name="title_activity_photos">Photos</string>
     <string name="title_activity_account_register">Create Account</string>
+    <string name="title_activity_album">My Album</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

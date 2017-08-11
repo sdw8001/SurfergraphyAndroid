@@ -12,6 +12,8 @@ public class ActionResponse implements RealmModel {
     private int id;
     private int actionCode;
     private int resultCode;
+    @SerializedName("ErrorCode")
+    private int errorCode;
     @SerializedName("Message")
     private String message;
     @SerializedName("ModelState")
@@ -32,6 +34,14 @@ public class ActionResponse implements RealmModel {
 
     public void setActionCode(int actionCode) {
         this.actionCode = actionCode;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public int getResultCode() {

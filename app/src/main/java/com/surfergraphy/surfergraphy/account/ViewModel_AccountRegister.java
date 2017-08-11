@@ -23,7 +23,7 @@ public class ViewModel_AccountRegister extends BaseViewModel {
     }
 
     public void requestAccountRegister(final int actionCode, final String email, final String password, final String passwordConfirm, final String nickName, final String phoneNumber) {
-        RequestModel_AccountRegister requestModel = new RequestModel_AccountRegister(email, password, password, phoneNumber, nickName);
+        RequestModel_AccountRegister requestModel = new RequestModel_AccountRegister(email, password, passwordConfirm, phoneNumber, nickName);
         accountRepository.getAccountRegister(actionCode, requestModel);
     }
 

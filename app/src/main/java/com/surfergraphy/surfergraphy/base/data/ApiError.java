@@ -3,10 +3,11 @@ package com.surfergraphy.surfergraphy.base.data;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiError {
-    public final String messageCode = "Message";
     private int actionCode;
     private int resultCode;
-    @SerializedName(messageCode)
+    @SerializedName("ErrorCode")
+    private int errorCode;
+    @SerializedName("Message")
     private String message;
     @SerializedName("ModelState")
     private ModelState modelState;
@@ -26,6 +27,14 @@ public class ApiError {
 
     public void setResultCode(int resultCode) {
         this.resultCode = resultCode;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getMessage() {

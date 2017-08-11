@@ -3,11 +3,13 @@ package com.surfergraphy.surfergraphy.photos.data.repositories;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
+import com.surfergraphy.surfergraphy.base.data.ApiError;
 import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
 import com.surfergraphy.surfergraphy.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
 import com.surfergraphy.surfergraphy.photos.data.api.PhotoBuyHistoryService;
 import com.surfergraphy.surfergraphy.utils.DateDeserializer;
+import com.surfergraphy.surfergraphy.utils.ErrorUtils;
 import com.surfergraphy.surfergraphy.utils.ResponseAction;
 import com.surfergraphy.surfergraphy.utils.RetrofitAdapter;
 
@@ -148,7 +150,8 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
                     @Override
                     public void badRequest(Response<PhotoBuyHistory> response, ActionResponse actionResponse) {
-
+                        actionResponse.setActionCode(actionCode);
+                        createOrUpdateActionResponse(actionResponse);
                     }
 
                     @Override
@@ -163,7 +166,6 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
                     @Override
                     public void okCreated(Response<PhotoBuyHistory> response) {
-
                         ActionResponse actionResponse = new ActionResponse();
                         actionResponse.setActionCode(actionCode);
                         actionResponse.setResultCode(response.code());
