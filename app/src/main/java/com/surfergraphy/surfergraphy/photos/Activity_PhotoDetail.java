@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.surfergraphy.surfergraphy.R;
@@ -69,23 +68,25 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
         });
 
         viewModel_photoDetail.getPhoto(getIntent().getIntExtra("photo_id", 0)).observe(this, photo -> {
-            this.photo = photo;
-            Glide.with(this).load(photo.url).into(imageView_Photo);
-            textView_WavePrice.setText(String.valueOf(photo.wave));
+            if (photo != null) {
+                this.photo = photo;
+                Glide.with(this).load(photo.url).into(imageView_Photo);
+                textView_WavePrice.setText(String.valueOf(photo.wave));
 
-            viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
-            viewModel_photoDetail.getUserPhotoBuyHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoBuyHistory -> {
-                if (photoBuyHistory == null) {
-                    button_Buy.setEnabled(true);
-                    textView_Watermark.setVisibility(View.VISIBLE);
-                } else {
-                    button_Buy.setEnabled(false);
-                    textView_Watermark.setVisibility(View.GONE);
-                }
-            });
+                viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
+                viewModel_photoDetail.getUserPhotoBuyHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoBuyHistory -> {
+                    if (photoBuyHistory == null) {
+                        button_Buy.setEnabled(true);
+                        textView_Watermark.setVisibility(View.VISIBLE);
+                    } else {
+                        button_Buy.setEnabled(false);
+                        textView_Watermark.setVisibility(View.GONE);
+                    }
+                });
+            }
         });
 
-        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_PHOTO_DETAIL_SAVE).observe(this, actionResponse -> {
+        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE).observe(this, actionResponse -> {
             if (actionResponse != null && button_Save.isEnabled()) {
                 switch (actionResponse.getResultCode()) {
                     case ResponseAction.HTTP_201_OK_CREATED:
@@ -97,7 +98,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             }
         });
 
-        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_PHOTO_DETAIL_BUY).observe(this, actionResponse -> {
+        viewModel_photoDetail.getActionResponse(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY).observe(this, actionResponse -> {
             if (actionResponse != null && button_Buy.isEnabled()) {
                 switch (actionResponse.getResultCode()) {
                     case ResponseAction.HTTP_201_OK_CREATED:
@@ -108,8 +109,8 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 viewModel_photoDetail.expiredActionToken(actionResponse.getActionCode());
             }
         });
-        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getAccountUser().id, photo.id));
-        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(ActionCode.ACTION_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id));
+        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getAccountUser().id, photo.id));
+        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id));
     }
 
     @Override

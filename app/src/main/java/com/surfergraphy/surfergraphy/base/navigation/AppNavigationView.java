@@ -1,8 +1,10 @@
 package com.surfergraphy.surfergraphy.base.navigation;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +15,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.album.Activity_Album;
+import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
+import com.surfergraphy.surfergraphy.photos.Activity_Photos;
 import com.surfergraphy.surfergraphy.photos.ViewModel_Photo;
 
 import butterknife.BindView;
@@ -23,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class AppNavigationView extends NavigationView implements NavigationView.OnNavigationItemSelectedListener {
     private Context context;
+    private int currentActivityCode;
     private ViewModel_Login viewModelLogin;
     private ViewModel_Photo viewModelPhoto;
     HeaderViewHolder headerViewHolder;
@@ -67,18 +73,43 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         if (id == R.id.nav_my_info) {
             // Handle the camera action
         } else if (id == R.id.nav_my_gallery) {
-
+            if (currentActivityCode != ActivityCode.ACTIVITY_ALBUM) {
+                Intent intent = new Intent(context, Activity_Album.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            }
         } else if (id == R.id.nav_my_cart) {
 
         } else if (id == R.id.nav_yangyang) {
+            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
+                Intent intent = new Intent(context, Activity_Photos.class);
+                intent.putExtra("place", "양양");
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                return true;
+            }
             viewModelPhoto.setPlace("양양");
             viewModelPhoto.deletePhotos();
             viewModelPhoto.dataSyncPlacePhotos("양양");
         } else if (id == R.id.nav_busan) {
+            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
+                Intent intent = new Intent(context, Activity_Photos.class);
+                intent.putExtra("place", "부산");
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                return true;
+            }
             viewModelPhoto.setPlace("부산");
             viewModelPhoto.deletePhotos();
             viewModelPhoto.dataSyncPlacePhotos("부산");
         } else if (id == R.id.nav_jeju) {
+            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
+                Intent intent = new Intent(context, Activity_Photos.class);
+                intent.putExtra("place", "제주");
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                return true;
+            }
             viewModelPhoto.setPlace("제주");
             viewModelPhoto.deletePhotos();
             viewModelPhoto.dataSyncPlacePhotos("제주");
@@ -89,6 +120,14 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public int getCurrentActivityCode() {
+        return currentActivityCode;
+    }
+
+    public void setCurrentActivityCode(int currentActivityCode) {
+        this.currentActivityCode = currentActivityCode;
     }
 
     protected static class HeaderViewHolder {

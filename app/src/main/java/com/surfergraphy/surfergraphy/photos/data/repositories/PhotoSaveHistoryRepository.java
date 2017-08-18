@@ -2,6 +2,7 @@ package com.surfergraphy.surfergraphy.photos.data.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.surfergraphy.surfergraphy.album.data.repositories.UserPhotoRepository;
 import com.surfergraphy.surfergraphy.base.ActionCode;
 import com.surfergraphy.surfergraphy.base.data.ActionResponse;
 import com.surfergraphy.surfergraphy.base.data.repositories.BaseRepository;
@@ -22,11 +23,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistoryModel;
 
 public class PhotoSaveHistoryRepository extends BaseRepository {
 
-    public PhotoSaveHistoryRepository(Realm realm) {
+    private static PhotoSaveHistoryRepository instance;
+    public static PhotoSaveHistoryRepository getInstance(Realm realm) {
+        if (instance == null)
+            instance = new PhotoSaveHistoryRepository(realm);
+        return instance;
+    }
+
+    private PhotoSaveHistoryRepository(Realm realm) {
         super(realm);
         syncDataUserPhotos();
     }
@@ -132,7 +140,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
         });
     }
 
-    public void savePhoto(final int actionCode, final String userId, final int photoId) {
+    public void savePhoto(final int actionCode, final String userId, final int photoId, final int photoBuyHistoryId) {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
@@ -165,7 +173,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
                     @Override
                     public void okCreated(Response<PhotoSaveHistory> response) {
 
-                        if (actionCode == ActionCode.ACTION_PHOTO_DETAIL_SAVE) {
+                        if (actionCode == ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE) {
                             ActionResponse actionResponse = new ActionResponse();
                             actionResponse.setActionCode(actionCode);
                             actionResponse.setResultCode(response.code());
@@ -173,7 +181,10 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
                             createOrUpdateActionResponse(actionResponse);
                         }
 
-                        createOrUpdatePhotoSaveHistory(response.body());
+                        PhotoSaveHistory photoSaveHistory = createOrUpdatePhotoSaveHistory(response.body());
+                        if (photoSaveHistory != null) {
+                            UserPhotoRepository.getInstance(realm).saveUserPhoto(actionCode, userId, photoId, photoSaveHistory.id, photoBuyHistoryId);
+                        }
                     }
 
                     @Override
@@ -191,13 +202,14 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
         });
     }
 
-    private void createOrUpdatePhotoSaveHistory(final PhotoSaveHistory photoSaveHistory) {
+    private PhotoSaveHistory createOrUpdatePhotoSaveHistory(final PhotoSaveHistory photoSaveHistory) {
         if (photoSaveHistory == null)
-            return;
+            return null;
 
         realm.beginTransaction();
-        photoSaveHistory(realm).createOrUpdate(photoSaveHistory);
+        photoSaveHistoryModel(realm).createOrUpdate(photoSaveHistory);
         realm.commitTransaction();
+        return photoSaveHistory;
     }
 
     private void createOrUpdatePhotoSaveHistories(final List<PhotoSaveHistory> photoSaveHistories) {
@@ -206,7 +218,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
 
         realm.beginTransaction();
         for (PhotoSaveHistory photoSaveHistory : photoSaveHistories) {
-            photoSaveHistory(realm).createOrUpdate(photoSaveHistory);
+            photoSaveHistoryModel(realm).createOrUpdate(photoSaveHistory);
         }
         realm.commitTransaction();
     }
@@ -214,7 +226,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
     public void deletePhotoSaveHistories() {
 
         realm.beginTransaction();
-        photoSaveHistory(realm).deletePhotoSaveHistories();
+        photoSaveHistoryModel(realm).deletePhotoSaveHistories();
         realm.commitTransaction();
     }
 }

@@ -7,21 +7,15 @@ import android.arch.lifecycle.Transformations;
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
-import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
-import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
 import com.surfergraphy.surfergraphy.photos.data.ViewInfo_Photo;
-import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoBuyHistoryRepository;
 import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoRepository;
-import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoSaveHistoryRepository;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.RealmResults;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoBuyHistory;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
 
 public class ViewModel_Photo extends BaseViewModel {
 

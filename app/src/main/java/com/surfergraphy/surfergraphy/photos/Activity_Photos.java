@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
+import com.surfergraphy.surfergraphy.base.navigation.AppNavigationView;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
 import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
 import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
@@ -27,6 +29,9 @@ public class Activity_Photos extends BaseActivity {
     private ViewModel_Photo viewModelPhoto;
     private Adapter_Photos adapterPhotos;
 
+    @BindView(R.id.nav_view)
+    AppNavigationView appNavigationView;
+
     @BindView(R.id.rrv_recycler_view_photos)
     RealmRecyclerView realmRecyclerView_Photos;
 
@@ -35,6 +40,7 @@ public class Activity_Photos extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
         ButterKnife.bind(this);
+        appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_PHOTOS);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,6 +88,21 @@ public class Activity_Photos extends BaseActivity {
                 realmRecyclerView_Photos.setAdapter(adapterPhotos);
             }
         });
+
+        String place = getIntent().getStringExtra("place");
+        if (!TextUtils.isEmpty(place)) {
+            switch (place) {
+                case "양양":
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(0));
+                    break;
+                case "부산":
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(1));
+                    break;
+                case "제주":
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(2));
+                    break;
+            }
+        }
     }
 
     @Override

@@ -37,6 +37,10 @@ public class PhotoSaveHistoryDao {
         return realm.where(PhotoSaveHistory.class).equalTo("photoId", photoId).findFirst();
     }
 
+    public PhotoSaveHistory findPhotoSaveHistory(final String userId, final int photoId) {
+        return realm.where(PhotoSaveHistory.class).equalTo("userId", userId).equalTo("photoId", photoId).findFirst();
+    }
+
     public void deletePhotoSaveHistories() {
         realm.delete(PhotoSaveHistory.class);
     }

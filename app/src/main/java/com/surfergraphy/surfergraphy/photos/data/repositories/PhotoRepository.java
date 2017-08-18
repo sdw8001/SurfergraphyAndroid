@@ -21,11 +21,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
-import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistory;
 
 public class PhotoRepository extends BaseRepository {
+
+    private static PhotoRepository instance;
+    public static PhotoRepository getInstance(Realm realm) {
+        if (instance == null)
+            instance = new PhotoRepository(realm);
+        return instance;
+    }
 
     public PhotoRepository(Realm realm) {
         super(realm);

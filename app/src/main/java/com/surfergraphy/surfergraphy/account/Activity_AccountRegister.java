@@ -59,11 +59,11 @@ public class Activity_AccountRegister extends BaseActivity {
             } else if (TextUtils.isEmpty(editText_PhoneNumber.getText())) {
                 Toast.makeText(this, "핸드폰번호를 입력하세요.", Toast.LENGTH_SHORT).show();
             } else {
-                viewModel_AccountRegister.requestAccountRegister(ActionCode.ACTION_ACCOUNT_REGISTER, editText_Email.getText().toString(),
+                viewModel_AccountRegister.requestAccountRegister(ActionCode.ACTION_CREATE_ACCOUNT_REGISTER, editText_Email.getText().toString(),
                         editText_Password.getText().toString(), editText_PasswordConfirm.getText().toString(), editText_NickName.getText().toString(), editText_PhoneNumber.getText().toString());
             }
         });
-        viewModel_AccountRegister.getActionResponse(ActionCode.ACTION_ACCOUNT_REGISTER).observe(this, actionResponse -> {
+        viewModel_AccountRegister.getActionResponse(ActionCode.ACTION_CREATE_ACCOUNT_REGISTER).observe(this, actionResponse -> {
             if (actionResponse != null) {
                 switch (actionResponse.getResultCode()) {
                     case ResponseAction.HTTP_200_OK:
