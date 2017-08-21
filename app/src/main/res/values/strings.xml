@@ -28,6 +28,6 @@
     <string name="logout">Logout</string>
 
 
-    <string name="title_activity__scrolling">Activity_Scrolling</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_wave_purchase">Wave Purchase</string>
 </resources>

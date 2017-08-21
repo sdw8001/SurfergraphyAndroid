@@ -3,6 +3,7 @@ package com.surfergraphy.surfergraphy.utils
 
 import com.surfergraphy.surfergraphy.album.data.UserPhotoDao
 import com.surfergraphy.surfergraphy.base.data.ActionResponseDao
+import com.surfergraphy.surfergraphy.iab.data.WavePurchaseDao
 import com.surfergraphy.surfergraphy.login.data.AccessTokenDao
 import com.surfergraphy.surfergraphy.login.data.AuthorizationAccountUserDao
 import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistoryDao
@@ -19,5 +20,6 @@ fun Realm.photoModel(): PhotoDao = PhotoDao(this)
 fun Realm.userPhotoModel(): UserPhotoDao = UserPhotoDao(this)
 fun Realm.photoSaveHistoryModel(): PhotoSaveHistoryDao = PhotoSaveHistoryDao(this)
 fun Realm.photoBuyHistoryModel(): PhotoBuyHistoryDao = PhotoBuyHistoryDao(this)
+fun Realm.wavePurchaseModel(): WavePurchaseDao = WavePurchaseDao(this)
 
 fun <T: RealmModel> RealmResults<T>.asLiveData() = LiveRealmData<T>(this)

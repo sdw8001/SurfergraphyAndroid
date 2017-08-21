@@ -19,6 +19,7 @@ import com.surfergraphy.surfergraphy.album.Activity_Album;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
+import com.surfergraphy.surfergraphy.iab.Activity_WavePurchase;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 import com.surfergraphy.surfergraphy.photos.Activity_Photos;
 import com.surfergraphy.surfergraphy.photos.ViewModel_Photo;
@@ -72,7 +73,13 @@ public class AppNavigationView extends NavigationView implements NavigationView.
 
         if (id == R.id.nav_my_info) {
             // Handle the camera action
-        } else if (id == R.id.nav_my_gallery) {
+        } else if (id == R.id.nav_my_wave) {
+            if (currentActivityCode != ActivityCode.ACTIVITY_WAVE_PURCHASE) {
+                Intent intent = new Intent(context, Activity_WavePurchase.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            }
+        }  else if (id == R.id.nav_my_gallery) {
             if (currentActivityCode != ActivityCode.ACTIVITY_ALBUM) {
                 Intent intent = new Intent(context, Activity_Album.class);
                 context.startActivity(intent);

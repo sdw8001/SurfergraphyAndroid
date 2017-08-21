@@ -1,43 +1,48 @@
-package com.surfergraphy.surfergraphy.album;
+package com.surfergraphy.surfergraphy.iab;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.base.navigation.AppNavigationView;
+import com.surfergraphy.surfergraphy.iab.data.WavePurchase;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 
-public class Activity_Album extends BaseActivity {
+public class Activity_WavePurchase extends BaseActivity {
 
-    private ViewModel_UserPhoto viewModel_userPhoto;
-    private Adapter_UserPhotos adapter_userPhotos;
+    private ViewModel_WavePurchase viewModel_wavePurchase;
+    private Adapter_WavePurchase adapter_wavePurchase;
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
 
-    @BindView(R.id.rrv_recycler_view_photos)
-    RealmRecyclerView realmRecyclerView_Photos;
+    @BindView(R.id.rrv_recycler_view_wave_purchase)
+    RealmRecyclerView realmRecyclerView_WavePurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_wave_purchase);
         ButterKnife.bind(this);
-        appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_ALBUM);
+        appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_WAVE_PURCHASE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,9 +59,9 @@ public class Activity_Album extends BaseActivity {
         toggle.syncState();
 
 
-        viewModel_userPhoto = ViewModelProviders.of(this).get(ViewModel_UserPhoto.class);
+        viewModel_wavePurchase = ViewModelProviders.of(this).get(ViewModel_WavePurchase.class);
 
-        viewModel_userPhoto.getAccessToken().observe(this, accessToken -> {
+        viewModel_wavePurchase.getAccessToken().observe(this, accessToken -> {
             if (accessToken != null) {
                 if (accessToken.expired) {
                     Intent intent = new Intent(this, Activity_Login.class);
@@ -65,12 +70,22 @@ public class Activity_Album extends BaseActivity {
                 }
             }
         });
-        viewModel_userPhoto.getUserPhotos().observe(this, photos -> {
-            if (photos != null) {
-                if (adapter_userPhotos == null) {
-                    adapter_userPhotos = new Adapter_UserPhotos(this, photos, true, false);
+        viewModel_wavePurchase.getWavePurchases().observe(this, wavePurchases -> {
+            if (wavePurchases != null) {
+                if (adapter_wavePurchase == null) {
+                    adapter_wavePurchase = new Adapter_WavePurchase(this, wavePurchases, true, false, wavePurchase -> {
+                        String message = String.valueOf(wavePurchase.waveCount) + " Wave를\n" + String.format("%,d", wavePurchase.wavePrice) + "원에 구매하시겠습니까?";
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Wave 구매하기")
+                                .setMessage(message)
+                                .setCancelable(true)
+                                .setPositiveButton("구매",(dialog, which) -> viewModel_wavePurchase.buyWavePurchase(wavePurchase))
+                                .setNegativeButton("취소", (dialog, which) -> dialog.cancel());
+                        AlertDialog buyDialog = builder.create();
+                        buyDialog.show();
+                    });
                 }
-                realmRecyclerView_Photos.setAdapter(adapter_userPhotos);
+                realmRecyclerView_WavePurchase.setAdapter(adapter_wavePurchase);
             }
         });
     }

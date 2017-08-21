@@ -3,6 +3,7 @@
     package="com.surfergraphy.surfergraphy">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name=".base.AppApplication"
@@ -45,6 +46,11 @@
         <activity
             android:name=".album.Activity_Album"
             android:label="@string/title_activity_album"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- Wave 구매 -->
+        <activity
+            android:name=".iab.Activity_WavePurchase"
+            android:label="@string/title_activity_wave_purchase"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- Test -->
         <activity

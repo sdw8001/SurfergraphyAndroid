@@ -28,4 +28,7 @@
     <string name="location_jeju">제주</string>
     <string name="logout">로그아웃</string>
 
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_wave_purchase">Wave 구매</string>
+
 </resources>
