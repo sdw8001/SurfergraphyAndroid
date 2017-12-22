@@ -1,8 +1,9 @@
-package com.surfergraphy.surfergraphy.iab.data;
+package com.surfergraphy.surfergraphy.wavepurchase.data;
 
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.asLiveData;
 
@@ -22,6 +23,10 @@ public class WavePurchaseDao {
 
     public LiveRealmData<WavePurchase> findWavePurchaseLiveData() {
         return asLiveData(realm.where(WavePurchase.class).findAllAsync());
+    }
+
+    public RealmResults<WavePurchase> findWavePurchases() {
+        return realm.where(WavePurchase.class).findAllAsync();
     }
 
     public void deleteWavePurchase() {

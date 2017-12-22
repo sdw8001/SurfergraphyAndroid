@@ -93,13 +93,13 @@ public class Activity_Photos extends BaseActivity {
         if (!TextUtils.isEmpty(place)) {
             switch (place) {
                 case "양양":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(0));
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_yangyang));
                     break;
                 case "부산":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(1));
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_busan));
                     break;
                 case "제주":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().getItem(3).getSubMenu().getItem(2));
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_jeju));
                     break;
             }
         }

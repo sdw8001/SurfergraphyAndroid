@@ -1,4 +1,4 @@
-package com.surfergraphy.surfergraphy.iab.data;
+package com.surfergraphy.surfergraphy.wavepurchase.data;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +12,7 @@ public class WavePurchase implements RealmModel{
 
     @SerializedName("Id")
     @PrimaryKey
-    public int id;
+    public String id;
     @SerializedName("WaveCount")
     public int waveCount;
     @SerializedName("WavePrice")
@@ -20,7 +20,7 @@ public class WavePurchase implements RealmModel{
 
     public WavePurchase() {}
 
-    public WavePurchase(int id, int waveCount, int wavePrice) {
+    public WavePurchase(String id, int waveCount, int wavePrice) {
         this.id = id;
         this.waveCount = waveCount;
         this.wavePrice = wavePrice;

@@ -1,4 +1,4 @@
-package com.surfergraphy.surfergraphy.iab;
+package com.surfergraphy.surfergraphy.wavepurchase;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -8,19 +8,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
+import com.surfergraphy.surfergraphy.base.helper.InAppBillingHelper;
 import com.surfergraphy.surfergraphy.base.navigation.AppNavigationView;
-import com.surfergraphy.surfergraphy.iab.data.WavePurchase;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +28,7 @@ public class Activity_WavePurchase extends BaseActivity {
 
     private ViewModel_WavePurchase viewModel_wavePurchase;
     private Adapter_WavePurchase adapter_wavePurchase;
+    private InAppBillingHelper inAppBillingHelper;
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
@@ -58,8 +57,10 @@ public class Activity_WavePurchase extends BaseActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
+        inAppBillingHelper = new InAppBillingHelper(this);
+//        inAppBillingHelper.setTest(true);
         viewModel_wavePurchase = ViewModelProviders.of(this).get(ViewModel_WavePurchase.class);
+        viewModel_wavePurchase.setInAppBillingHelper(inAppBillingHelper);
 
         viewModel_wavePurchase.getAccessToken().observe(this, accessToken -> {
             if (accessToken != null) {
@@ -70,7 +71,7 @@ public class Activity_WavePurchase extends BaseActivity {
                 }
             }
         });
-        viewModel_wavePurchase.getWavePurchases().observe(this, wavePurchases -> {
+        viewModel_wavePurchase.getWavePurchasesLiveData().observe(this, wavePurchases -> {
             if (wavePurchases != null) {
                 if (adapter_wavePurchase == null) {
                     adapter_wavePurchase = new Adapter_WavePurchase(this, wavePurchases, true, false, wavePurchase -> {
@@ -88,6 +89,22 @@ public class Activity_WavePurchase extends BaseActivity {
                 realmRecyclerView_WavePurchase.setAdapter(adapter_wavePurchase);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(Activity_WavePurchase.class.getSimpleName(), "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+
+        // Pass on the activity result to the helper for handling
+        if (inAppBillingHelper == null || !inAppBillingHelper.onActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            Log.d(Activity_WavePurchase.class.getSimpleName(), "onActivityResult handled by IABUtil.");
+        }
     }
 
     @Override

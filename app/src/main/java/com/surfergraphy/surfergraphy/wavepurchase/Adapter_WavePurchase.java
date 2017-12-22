@@ -1,19 +1,13 @@
-package com.surfergraphy.surfergraphy.iab;
+package com.surfergraphy.surfergraphy.wavepurchase;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.surfergraphy.surfergraphy.R;
-import com.surfergraphy.surfergraphy.album.data.UserPhoto;
-import com.surfergraphy.surfergraphy.iab.data.WavePurchase;
-import com.surfergraphy.surfergraphy.photos.Activity_PhotoDetail;
+import com.surfergraphy.surfergraphy.wavepurchase.data.WavePurchase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

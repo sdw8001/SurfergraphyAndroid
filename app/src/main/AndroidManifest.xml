@@ -49,7 +49,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- Wave 구매 -->
         <activity
-            android:name=".iab.Activity_WavePurchase"
+            android:name=".wavepurchase.Activity_WavePurchase"
             android:label="@string/title_activity_wave_purchase"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- Test -->

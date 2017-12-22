@@ -3,7 +3,7 @@ package com.surfergraphy.surfergraphy.utils
 
 import com.surfergraphy.surfergraphy.album.data.UserPhotoDao
 import com.surfergraphy.surfergraphy.base.data.ActionResponseDao
-import com.surfergraphy.surfergraphy.iab.data.WavePurchaseDao
+import com.surfergraphy.surfergraphy.wavepurchase.data.WavePurchaseDao
 import com.surfergraphy.surfergraphy.login.data.AccessTokenDao
 import com.surfergraphy.surfergraphy.login.data.AuthorizationAccountUserDao
 import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistoryDao

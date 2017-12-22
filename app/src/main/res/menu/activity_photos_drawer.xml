@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_my_info"
-            android:icon="@drawable/ic_menu_my"
-            android:title="@string/my_info" />
+        <!--<item-->
+            <!--android:id="@+id/nav_my_info"-->
+            <!--android:icon="@drawable/ic_menu_my"-->
+            <!--android:title="@string/my_info" />-->
         <item
             android:id="@+id/nav_my_wave"
             android:icon="@drawable/ic_receipt_black_24dp"
@@ -14,10 +14,10 @@
             android:id="@+id/nav_my_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/my_gallery" />
-        <item
-            android:id="@+id/nav_my_cart"
-            android:icon="@drawable/ic_menu_cart"
-            android:title="@string/my_cart" />
+        <!--<item-->
+            <!--android:id="@+id/nav_my_cart"-->
+            <!--android:icon="@drawable/ic_menu_cart"-->
+            <!--android:title="@string/my_cart" />-->
 
         <item
             android:icon="@drawable/ic_menu_camera"
