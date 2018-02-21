@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 
+import com.surfergraphy.surfergraphy.base.BaseType;
 import com.surfergraphy.surfergraphy.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
@@ -44,8 +45,8 @@ public class ViewModel_Photo extends BaseViewModel {
         photoRepository.getPhotos();
     }
 
-    public void dataSyncPlacePhotos(final String place) {
-        photoRepository.getPlacePhotos(place);
+    public void dataSyncPlacePhotos(final BaseType.LocationType place) {
+        photoRepository.getPlacePhotos(place.getCode());
     }
 
     public void deletePhotos() {
@@ -68,10 +69,10 @@ public class ViewModel_Photo extends BaseViewModel {
         return viewInfo_photoLiveData;
     }
 
-    public void setPlace(final String place) {
+    public void setPlace(final BaseType.LocationType place) {
         ViewInfo_Photo viewInfo_photo = realm.where(ViewInfo_Photo.class).findFirst();
         realm.beginTransaction();
-        viewInfo_photo.place = place;
+        viewInfo_photo.place = place.getCode();
         realm.commitTransaction();
     }
 }

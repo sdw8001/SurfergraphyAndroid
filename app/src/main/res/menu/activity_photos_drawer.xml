@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/nav_my_info"-->
-            <!--android:icon="@drawable/ic_menu_my"-->
-            <!--android:title="@string/my_info" />-->
-        <item
-            android:id="@+id/nav_my_wave"
-            android:icon="@drawable/ic_receipt_black_24dp"
-            android:title="@string/title_activity_wave_purchase" />
-        <item
-            android:id="@+id/nav_my_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/my_gallery" />
-        <!--<item-->
-            <!--android:id="@+id/nav_my_cart"-->
-            <!--android:icon="@drawable/ic_menu_cart"-->
-            <!--android:title="@string/my_cart" />-->
 
         <item
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/location_photos">
+            android:title="@string/location_korea"
+            app:showAsAction="always">
             <menu>
-                <group android:checkableBehavior="single">
+                <group
+                    android:checkableBehavior="single"
+                    android:visible="true">
                     <item
-                        android:id="@+id/nav_yangyang"
+                        android:id="@+id/nav_korea_east_coast"
                         android:icon="@drawable/ic_menu_camera"
-                        android:title="@string/location_yangyang" />
+                        android:title="@string/location_korea_east_coast"
+                        app:fontType="bold|italic" />
                     <item
-                        android:id="@+id/nav_busan"
+                        android:id="@+id/nav_korea_south_coast"
                         android:icon="@drawable/ic_menu_camera"
-                        android:title="@string/location_busan" />
+                        android:title="@string/location_korea_south_coast"
+                        app:fontType="bold|italic" />
                     <item
-                        android:id="@+id/nav_jeju"
+                        android:id="@+id/nav_korea_jeju_island"
                         android:icon="@drawable/ic_menu_camera"
-                        android:title="@string/location_jeju" />
+                        android:title="@string/location_korea_jeju_island"
+                        app:fontType="bold|italic" />
+                    <item
+                        android:id="@+id/nav_korea_west_coast"
+                        android:icon="@drawable/ic_menu_camera"
+                        android:title="@string/location_korea_west_coast"
+                        app:fontType="bold|italic" />
                 </group>
             </menu>
         </item>
+        <item
+            android:id="@+id/nav_japan"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_japan" />
+        <item
+            android:id="@+id/nav_china"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_china" />
+        <item
+            android:id="@+id/nav_indonesia"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_indonesia" />
+        <item
+            android:id="@+id/nav_philippines"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_philippines" />
+        <item
+            android:id="@+id/nav_taiwan"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_taiwan" />
+        <item
+            android:id="@+id/nav_usa"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_usa" />
+        <item
+            android:id="@+id/nav_hawaii"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_hawaii" />
+        <item
+            android:id="@+id/nav_australia"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_australia" />
+        <item
+            android:id="@+id/nav_other_countries"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_other_countries" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_exit"

@@ -5,18 +5,22 @@ import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.album.Activity_Album;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
+import com.surfergraphy.surfergraphy.base.BaseType;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.wavepurchase.Activity_WavePurchase;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
@@ -47,7 +51,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         viewModelPhoto = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Photo.class);
         viewModelLogin = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Login.class);
         View header = getHeaderView(0);
-        headerViewHolder = new HeaderViewHolder(header);
+        headerViewHolder = new HeaderViewHolder(context, header);
         setNavigationItemSelectedListener(this);
 
         viewModelLogin.getAccountUserLiveData().observe((LifecycleActivity) context, authorizationAccountUser -> {
@@ -70,66 +74,53 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /*if (id == R.id.nav_my_info) {
-            // Handle the camera action
-        } else*/ if (id == R.id.nav_my_wave) {
-            if (currentActivityCode != ActivityCode.ACTIVITY_WAVE_PURCHASE) {
-                Intent intent = new Intent(context, Activity_WavePurchase.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            }
-        }  else if (id == R.id.nav_my_gallery) {
-            if (currentActivityCode != ActivityCode.ACTIVITY_ALBUM) {
-                Intent intent = new Intent(context, Activity_Album.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            }
-        }/* else if (id == R.id.nav_my_cart) {
-
-        }*/ else if (id == R.id.nav_yangyang) {
-            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
-                Intent intent = new Intent(context, Activity_Photos.class);
-                intent.putExtra("place", "양양");
-                context.startActivity(intent);
-                ((Activity) context).finish();
-                return true;
-            }
-            viewModelPhoto.setPlace("양양");
-            viewModelPhoto.deletePhotos();
-            viewModelPhoto.dataSyncPlacePhotos("양양");
-        } else if (id == R.id.nav_busan) {
-            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
-                Intent intent = new Intent(context, Activity_Photos.class);
-                intent.putExtra("place", "부산");
-                context.startActivity(intent);
-                ((Activity) context).finish();
-                return true;
-            }
-            viewModelPhoto.setPlace("부산");
-            viewModelPhoto.deletePhotos();
-            viewModelPhoto.dataSyncPlacePhotos("부산");
-        } else if (id == R.id.nav_jeju) {
-            if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
-                Intent intent = new Intent(context, Activity_Photos.class);
-                intent.putExtra("place", "제주");
-                context.startActivity(intent);
-                ((Activity) context).finish();
-                return true;
-            }
-            viewModelPhoto.setPlace("제주");
-            viewModelPhoto.deletePhotos();
-            viewModelPhoto.dataSyncPlacePhotos("제주");
+        if (id == R.id.nav_korea_east_coast) {
+            selectMenuLocation(BaseType.LocationType.Korea_EastCoast);
+        } else if (id == R.id.nav_korea_south_coast) {
+            selectMenuLocation(BaseType.LocationType.Korea_SouthCoast);
+        } else if (id == R.id.nav_korea_west_coast) {
+            selectMenuLocation(BaseType.LocationType.Korea_WestCoast);
+        } else if (id == R.id.nav_korea_jeju_island) {
+            selectMenuLocation(BaseType.LocationType.Korea_JejuIsland);
+        } else if (id == R.id.nav_japan) {
+            selectMenuLocation(BaseType.LocationType.Japan);
+        } else if (id == R.id.nav_china) {
+            selectMenuLocation(BaseType.LocationType.China);
+        } else if (id == R.id.nav_indonesia) {
+            selectMenuLocation(BaseType.LocationType.Indonesia);
+        } else if (id == R.id.nav_philippines) {
+            selectMenuLocation(BaseType.LocationType.Philippines);
+        } else if (id == R.id.nav_taiwan) {
+            selectMenuLocation(BaseType.LocationType.Taiwan);
+        } else if (id == R.id.nav_usa) {
+            selectMenuLocation(BaseType.LocationType.Usa);
+        } else if (id == R.id.nav_hawaii) {
+            selectMenuLocation(BaseType.LocationType.Hawaii);
+        } else if (id == R.id.nav_australia) {
+            selectMenuLocation(BaseType.LocationType.Australia);
+        } else if (id == R.id.nav_other_countries) {
+            selectMenuLocation(BaseType.LocationType.OtherCountries);
         } else if (id == R.id.nav_logout) {
             viewModelLogin.logoutAccount();
+            DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         }
-
-        DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public int getCurrentActivityCode() {
-        return currentActivityCode;
+    private void selectMenuLocation(BaseType.LocationType locationType) {
+        if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
+            Intent intent = new Intent(context, Activity_Photos.class);
+            intent.putExtra("place", locationType);
+            context.startActivity(intent);
+            ((Activity) context).finish();
+            return;
+        }
+        viewModelPhoto.setPlace(locationType);
+        viewModelPhoto.deletePhotos();
+        viewModelPhoto.dataSyncPlacePhotos(locationType);
+        DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     public void setCurrentActivityCode(int currentActivityCode) {
@@ -138,6 +129,9 @@ public class AppNavigationView extends NavigationView implements NavigationView.
 
     protected static class HeaderViewHolder {
 
+        @BindView(R.id.logo_site)
+        ImageView logoSite;
+
         @BindView(R.id.text_view_nick_name)
         TextView nickName;
         @BindView(R.id.text_view_user_email)
@@ -145,8 +139,51 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         @BindView(R.id.text_view_wave)
         TextView wave;
 
-        HeaderViewHolder(View view) {
+        @BindView(R.id.nav_menu_top_collection)
+        TextView collection;
+        @BindView(R.id.nav_menu_top_downloaded)
+        TextView downloaded;
+        @BindView(R.id.nav_menu_top_buy_wave)
+        TextView buyWave;
+        @BindView(R.id.nav_menu_top_about)
+        TextView about;
+
+        HeaderViewHolder(Context context, View view) {
             ButterKnife.bind(this, view);
+
+            // 로고 클릭 - 웹사이트 이동
+            logoSite.setOnClickListener(v -> {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.surfergraphy.com"));
+                    context.startActivity(intent);
+                } catch (Exception e) {
+                    Log.e("BannerNotEnableUrl", e.getMessage());
+                }
+            });
+
+            // 컬랙션 클릭
+            collection.setOnClickListener(v -> {
+
+            });
+
+            // 보관함 클릭
+            downloaded.setOnClickListener(v -> {
+                Intent intent = new Intent(context, Activity_Album.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            });
+
+            // 웨이브구매 클릭
+            buyWave.setOnClickListener(v -> {
+                Intent intent = new Intent(context, Activity_WavePurchase.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            });
+
+            // 어바웃 클릭
+            about.setOnClickListener(v -> {
+
+            });
         }
     }
 }

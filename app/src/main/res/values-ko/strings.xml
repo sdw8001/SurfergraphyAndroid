@@ -10,9 +10,9 @@
     <string name="input_requird_nick_name">닉네임 (필수)</string>
     <string name="input_requird_phone_number">핸드폰 번호 (필수)</string>
 
-    <string name="title_activity_photos">사진</string>
+    <string name="title_activity_photos">Photo</string>
     <string name="title_activity_account_register">회원가입</string>
-    <string name="title_activity_album">보관함</string>
+    <string name="title_activity_album">Buy Digital download</string>
 
     <string name="navigation_drawer_open">네비게이션 열기</string>
     <string name="navigation_drawer_close">네비게이션 닫기</string>
@@ -22,13 +22,23 @@
     <string name="my_gallery">보관함</string>
     <string name="my_cart">카트</string>
     <string name="location">지역</string>
-    <string name="location_photos">지역사진</string>
-    <string name="location_yangyang">양양</string>
-    <string name="location_busan">부산</string>
-    <string name="location_jeju">제주</string>
-    <string name="logout">로그아웃</string>
+    <string name="location_korea">KOREA</string>
+    <string name="location_korea_east_coast">East Coast</string>
+    <string name="location_korea_west_coast">West Coast</string>
+    <string name="location_korea_south_coast">South Coast</string>
+    <string name="location_korea_jeju_island">Jeju Island</string>
+    <string name="location_japan">JAPAN</string>
+    <string name="location_china">CHINA</string>
+    <string name="location_indonesia">INDONESIA</string>
+    <string name="location_philippines">PHILIPPINES</string>
+    <string name="location_taiwan">TAIWAN</string>
+    <string name="location_usa">USA</string>
+    <string name="location_hawaii">HAWAII</string>
+    <string name="location_australia">AUSTRALIA</string>
+    <string name="location_other_countries">Other Countries</string>
+    <string name="logout">Logout</string>
 
     <string name="title_activity_test">TestActivity</string>
-    <string name="title_activity_wave_purchase">Wave 구매</string>
+    <string name="title_activity_wave_purchase">Buy Wave</string>
 
 </resources>

@@ -6,19 +6,16 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
+import com.surfergraphy.surfergraphy.base.BaseType;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
 import com.surfergraphy.surfergraphy.base.navigation.AppNavigationView;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
-import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
-import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +25,7 @@ public class Activity_Photos extends BaseActivity {
 
     private ViewModel_Photo viewModelPhoto;
     private Adapter_Photos adapterPhotos;
+    private BaseType.LocationType locationType;
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
@@ -41,9 +39,6 @@ public class Activity_Photos extends BaseActivity {
         setContentView(R.layout.activity_photos);
         ButterKnife.bind(this);
         appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_PHOTOS);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -70,13 +65,13 @@ public class Activity_Photos extends BaseActivity {
         });
         viewModelPhoto.getViewInfo_Photo().observe(this, viewInfo_photos -> {
             if (viewInfo_photos != null && viewInfo_photos.size() == 1) {
-                String place = viewInfo_photos.get(0).place;
-                if (TextUtils.isEmpty(place)) {
-                    this.setTitle("사진 > " + "전체");
+                this.locationType = BaseType.LocationType.findLocationType(viewInfo_photos.get(0).place);
+                if (locationType == null) {
+                    this.setTitle("Photos");
                     viewModelPhoto.dataSyncPhotos();
                 } else {
-                    this.setTitle("사진 > " + place);
-                    viewModelPhoto.dataSyncPlacePhotos(place);
+                    this.setTitle(locationType.getName());
+                    viewModelPhoto.dataSyncPlacePhotos(locationType);
                 }
             }
         });
@@ -88,18 +83,20 @@ public class Activity_Photos extends BaseActivity {
                 realmRecyclerView_Photos.setAdapter(adapterPhotos);
             }
         });
-
-        String place = getIntent().getStringExtra("place");
-        if (!TextUtils.isEmpty(place)) {
-            switch (place) {
-                case "양양":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_yangyang));
+        this.locationType = (BaseType.LocationType) getIntent().getSerializableExtra("place");
+        if (locationType != null) {
+            switch (locationType) {
+                case Korea_EastCoast:
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_east_coast));
                     break;
-                case "부산":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_busan));
+                case Korea_SouthCoast:
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_south_coast));
                     break;
-                case "제주":
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_jeju));
+                case Korea_WestCoast:
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_west_coast));
+                    break;
+                case Korea_JejuIsland:
+                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_jeju_island));
                     break;
             }
         }
@@ -113,13 +110,6 @@ public class Activity_Photos extends BaseActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_photos, menu);
-        return true;
     }
 
     @Override

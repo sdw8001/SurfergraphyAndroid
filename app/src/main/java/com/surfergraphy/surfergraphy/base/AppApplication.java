@@ -3,7 +3,7 @@ package com.surfergraphy.surfergraphy.base;
 import android.app.Application;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.surfergraphy.surfergraphy.utils.TypefaceUtil;
+import com.surfergraphy.surfergraphy.base.typeface.Typekit;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -22,6 +22,14 @@ public class AppApplication extends Application {
         Realm.setDefaultConfiguration(config);
 
         // Font 적용
-        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "SourceSansPro-Bold.ttf");
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "SourceSansPro-Regular.otf"))
+                .addItalic(Typekit.createFromAsset(this, "SourceSansPro-It.otf"))
+                .addLight(Typekit.createFromAsset(this, "SourceSansPro-Light.otf"))
+                .addLightItalic(Typekit.createFromAsset(this, "SourceSansPro-LightIt.otf"))
+                .addBold(Typekit.createFromAsset(this, "SourceSansPro-Bold.otf"))
+                .addBoldItalic(Typekit.createFromAsset(this, "SourceSansPro-BoldIt.otf"))
+                .addBlack(Typekit.createFromAsset(this, "SourceSansPro-Black.otf"))
+                .addBlackItalic(Typekit.createFromAsset(this, "SourceSansPro-BlackIt.otf"));
     }
 }

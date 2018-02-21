@@ -14,8 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".intro.Activity_Intro"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".intro.Activity_Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,38 +24,31 @@
         <!-- 로그인 -->
         <activity
             android:name=".login.Activity_Login"
-            android:label="@string/login_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/login_name" />
         <!-- 사진 -->
         <activity
             android:name=".photos.Activity_Photos"
-            android:label="@string/title_activity_photos"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_photos" />
         <!-- 사진디테일 -->
         <activity
             android:name=".photos.Activity_PhotoDetail"
-            android:label="@string/title_activity_photos"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_photos" />
         <!-- 회원가입 -->
         <activity
             android:name=".account.Activity_AccountRegister"
-            android:label="@string/title_activity_account_register"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_account_register" />
         <!-- 보관함 -->
         <activity
             android:name=".album.Activity_Album"
-            android:label="@string/title_activity_album"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_album" />
         <!-- Wave 구매 -->
         <activity
             android:name=".wavepurchase.Activity_WavePurchase"
-            android:label="@string/title_activity_wave_purchase"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_wave_purchase" />
         <!-- Test -->
         <activity
             android:name=".test.TestActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_test" />
     </application>
 
 </manifest>

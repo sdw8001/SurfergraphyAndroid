@@ -9,9 +9,9 @@
     <string name="input_requird_nick_name">Nick Name (Requird)</string>
     <string name="input_requird_phone_number">Phone number (Requird)</string>
 
-    <string name="title_activity_photos">Photos</string>
+    <string name="title_activity_photos">Photo</string>
     <string name="title_activity_account_register">Create Account</string>
-    <string name="title_activity_album">My Album</string>
+    <string name="title_activity_album">Buy Digital download</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -21,13 +21,23 @@
     <string name="my_gallery">Gallery</string>
     <string name="my_cart">Cart</string>
     <string name="location">Location</string>
-    <string name="location_photos">Location Photos</string>
-    <string name="location_yangyang">YangYang</string>
-    <string name="location_busan">Busan</string>
-    <string name="location_jeju">Jeju</string>
+    <string name="location_korea">KOREA</string>
+    <string name="location_korea_east_coast">East Coast</string>
+    <string name="location_korea_west_coast">West Coast</string>
+    <string name="location_korea_south_coast">South Coast</string>
+    <string name="location_korea_jeju_island">Jeju Island</string>
+    <string name="location_japan">JAPAN</string>
+    <string name="location_china">CHINA</string>
+    <string name="location_indonesia">INDONESIA</string>
+    <string name="location_philippines">PHILIPPINES</string>
+    <string name="location_taiwan">TAIWAN</string>
+    <string name="location_usa">USA</string>
+    <string name="location_hawaii">HAWAII</string>
+    <string name="location_australia">AUSTRALIA</string>
+    <string name="location_other_countries">Other Countries</string>
     <string name="logout">Logout</string>
 
 
     <string name="title_activity_test">TestActivity</string>
-    <string name="title_activity_wave_purchase">Wave Purchase</string>
+    <string name="title_activity_wave_purchase">Buy Wave</string>
 </resources>

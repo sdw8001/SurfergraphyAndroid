@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#FFFFFF"
     tools:context="com.surfergraphy.surfergraphy.intro.Activity_Intro">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_marginTop="32dp"
         android:alpha="0"
         android:scaleType="centerInside"
-        android:src="@drawable/surfergraphy_final_white"
+        android:src="@drawable/surfergraphy_final_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

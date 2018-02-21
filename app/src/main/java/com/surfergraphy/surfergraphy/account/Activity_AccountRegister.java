@@ -41,8 +41,6 @@ public class Activity_AccountRegister extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewModel_AccountRegister = ViewModelProviders.of(this).get(ViewModel_AccountRegister.class);
