@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#333333</color>
-    <color name="color_primary_dark">#000000</color>
-    <color name="color_accent">#ec407a</color>
-    <color name="color_control_highlight">#CCCCCC</color>
-    <color name="color_common_background">#ededed</color>
+    <color name="colorPrimary">#333333</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryLight">#AAAAAA</color>
+    <color name="colorAccent">#ec407a</color>
+    <color name="colorControlHighlight">#CCCCCC</color>
+    <color name="colorCommonBackground">#ededed</color>
 </resources>

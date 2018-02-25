@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">서퍼그라피</string>
-    <string name="login_name">로그인</string>
-    <string name="account_join">회원가입</string>
+    <string name="login_name">Login</string>
+    <string name="account_join">Join Membership</string>
 
     <string name="input_requird_email">Email (필수)</string>
     <string name="input_password">비밀번호</string>
@@ -11,8 +11,9 @@
     <string name="input_requird_phone_number">핸드폰 번호 (필수)</string>
 
     <string name="title_activity_photos">Photo</string>
-    <string name="title_activity_account_register">회원가입</string>
+    <string name="title_activity_account_register">Join Membership</string>
     <string name="title_activity_album">Buy Digital download</string>
+    <string name="title_activity_like">Likes</string>
 
     <string name="navigation_drawer_open">네비게이션 열기</string>
     <string name="navigation_drawer_close">네비게이션 닫기</string>
@@ -40,5 +41,6 @@
 
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_wave_purchase">Buy Wave</string>
+    <string name="title_activity_about">About</string>
 
 </resources>

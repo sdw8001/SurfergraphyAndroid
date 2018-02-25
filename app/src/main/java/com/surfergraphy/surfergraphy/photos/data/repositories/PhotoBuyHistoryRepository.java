@@ -182,7 +182,6 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
                         syncAuthorizationAccountUser();
 
-
                         PhotoBuyHistory photoBuyHistory = createOrUpdatePhotoBuyHistory(response.body());
                         if (photoBuyHistory != null) {
                             PhotoSaveHistory photoSaveHistory = photoSaveHistoryModel(realm).findPhotoSaveHistory(userId, photoId);

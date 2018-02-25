@@ -37,8 +37,8 @@ public class WavePurchasePhotoRepository extends BaseRepository {
         // 55개 : 5500원
         wavePurchases.add(new WavePurchase("wave55", 55, 5500));
 
-        // 120개 : 12000원
-        wavePurchases.add(new WavePurchase("wave120", 120, 12000));
+        // 120개 : 11000원
+        wavePurchases.add(new WavePurchase("wave120", 120, 11000));
 
         // 280개 : 22000원
         wavePurchases.add(new WavePurchase("wave280", 280, 22000));

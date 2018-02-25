@@ -13,6 +13,8 @@ public class Photo implements RealmModel{
     @SerializedName("Id")
     @PrimaryKey
     public int id;
+    @SerializedName("PhotographerId")
+    public String photographerId;
     @SerializedName("Name")
     public String name;
     @SerializedName("Url")
@@ -23,15 +25,16 @@ public class Photo implements RealmModel{
     public String mimeType;
     @SerializedName("Wave")
     public int wave;
+    @SerializedName("DimensionWidth")
+    public int dimensionWidth;
+    @SerializedName("DimensionHeight")
+    public int dimensionHeight;
+    @SerializedName("Resolution")
+    public int resolution;
+    @SerializedName("Date")
+    public String createdDate;
+    @SerializedName("ExpirationDate")
+    public String expirationDate;
 
     public Photo() {}
-
-    public Photo(int id, String name, String url, String place, String mimeType, int wave) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.place = place;
-        this.mimeType = mimeType;
-        this.wave = wave;
-    }
 }

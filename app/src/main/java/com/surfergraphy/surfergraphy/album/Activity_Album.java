@@ -65,6 +65,7 @@ public class Activity_Album extends BaseActivity {
                 }
             }
         });
+        viewModel_userPhoto.syncDataUserPhotos();
         viewModel_userPhoto.getUserPhotos().observe(this, photos -> {
             if (photos != null) {
                 if (adapter_userPhotos == null) {
@@ -73,6 +74,7 @@ public class Activity_Album extends BaseActivity {
                 realmRecyclerView_Photos.setAdapter(adapter_userPhotos);
             }
         });
+
     }
 
     @Override
@@ -91,11 +93,6 @@ public class Activity_Album extends BaseActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

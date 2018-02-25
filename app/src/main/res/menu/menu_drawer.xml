@@ -14,22 +14,22 @@
                     android:visible="true">
                     <item
                         android:id="@+id/nav_korea_east_coast"
-                        android:icon="@drawable/ic_menu_camera"
+                        android:icon="@drawable/ko"
                         android:title="@string/location_korea_east_coast"
                         app:fontType="bold|italic" />
                     <item
                         android:id="@+id/nav_korea_south_coast"
-                        android:icon="@drawable/ic_menu_camera"
+                        android:icon="@drawable/ko"
                         android:title="@string/location_korea_south_coast"
                         app:fontType="bold|italic" />
                     <item
                         android:id="@+id/nav_korea_jeju_island"
-                        android:icon="@drawable/ic_menu_camera"
+                        android:icon="@drawable/ko"
                         android:title="@string/location_korea_jeju_island"
                         app:fontType="bold|italic" />
                     <item
                         android:id="@+id/nav_korea_west_coast"
-                        android:icon="@drawable/ic_menu_camera"
+                        android:icon="@drawable/ko"
                         android:title="@string/location_korea_west_coast"
                         app:fontType="bold|italic" />
                 </group>
@@ -37,35 +37,35 @@
         </item>
         <item
             android:id="@+id/nav_japan"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/jp"
             android:title="@string/location_japan" />
         <item
             android:id="@+id/nav_china"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/cn"
             android:title="@string/location_china" />
         <item
             android:id="@+id/nav_indonesia"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/id"
             android:title="@string/location_indonesia" />
         <item
             android:id="@+id/nav_philippines"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ph"
             android:title="@string/location_philippines" />
         <item
             android:id="@+id/nav_taiwan"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/tw"
             android:title="@string/location_taiwan" />
         <item
             android:id="@+id/nav_usa"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/us"
             android:title="@string/location_usa" />
         <item
             android:id="@+id/nav_hawaii"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/us"
             android:title="@string/location_hawaii" />
         <item
             android:id="@+id/nav_australia"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/au"
             android:title="@string/location_australia" />
         <item
             android:id="@+id/nav_other_countries"

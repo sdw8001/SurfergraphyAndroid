@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".base.AppApplication"
@@ -37,6 +38,10 @@
         <activity
             android:name=".account.Activity_AccountRegister"
             android:label="@string/title_activity_account_register" />
+        <!-- Like -->
+        <activity
+            android:name=".like.Activity_LikePhoto"
+            android:label="@string/title_activity_like" />
         <!-- 보관함 -->
         <activity
             android:name=".album.Activity_Album"
@@ -45,6 +50,10 @@
         <activity
             android:name=".wavepurchase.Activity_WavePurchase"
             android:label="@string/title_activity_wave_purchase" />
+        <!-- About -->
+        <activity
+            android:name=".about.Activity_About"
+            android:label="@string/title_activity_about" />
         <!-- Test -->
         <activity
             android:name=".test.TestActivity"

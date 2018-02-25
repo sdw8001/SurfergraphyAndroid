@@ -22,11 +22,6 @@ public class PhotoDao {
         return photo;
     }
 
-    public void addPhoto(final int id, final String name, final String url, final String place, final String mimeType, final int wave) {
-        Photo photo = new Photo(id, name, url, place, mimeType, wave);
-        realm.insert(photo);
-    }
-
     public LiveRealmData<Photo> findPhotosLiveData() {
         return asLiveData(realm.where(Photo.class).findAllAsync());
     }

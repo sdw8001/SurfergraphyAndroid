@@ -77,11 +77,13 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/member_profile_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="1.5dp"
                 app:srcCompat="@drawable/member_photo" />
 
         </LinearLayout>

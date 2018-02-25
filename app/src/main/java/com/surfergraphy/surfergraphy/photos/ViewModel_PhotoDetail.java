@@ -10,8 +10,10 @@ import com.surfergraphy.surfergraphy.login.data.AccessToken;
 import com.surfergraphy.surfergraphy.photos.data.Photo;
 import com.surfergraphy.surfergraphy.photos.data.PhotoBuyHistory;
 import com.surfergraphy.surfergraphy.photos.data.PhotoSaveHistory;
+import com.surfergraphy.surfergraphy.photos.data.Photographer;
 import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoBuyHistoryRepository;
 import com.surfergraphy.surfergraphy.photos.data.repositories.PhotoSaveHistoryRepository;
+import com.surfergraphy.surfergraphy.photos.data.repositories.PhotographerRepository;
 import com.surfergraphy.surfergraphy.utils.LiveRealmData;
 
 import io.realm.ObjectChangeSet;
@@ -22,22 +24,26 @@ import static com.surfergraphy.surfergraphy.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoBuyHistoryModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoModel;
 import static com.surfergraphy.surfergraphy.utils.RealmUtils.photoSaveHistoryModel;
+import static com.surfergraphy.surfergraphy.utils.RealmUtils.photographerModel;
 
 public class ViewModel_PhotoDetail extends BaseViewModel {
 
     private PhotoSaveHistoryRepository photoSaveHistoryRepository;
     private PhotoBuyHistoryRepository photoBuyHistoryRepository;
     private UserPhotoRepository userPhotoRepository;
+    private PhotographerRepository photographerRepository;
     private LiveData<AccessToken> accessTokenLiveData;
     private LiveData<Photo> photoListLiveData;
     private LiveData<PhotoSaveHistory> photoSaveHistoryLiveData;
     private LiveData<PhotoBuyHistory> photoBuyHistoryLiveData;
+    private LiveData<Photographer> photographerLiveData;
 
     public ViewModel_PhotoDetail(Application application) {
         super(application);
         photoSaveHistoryRepository = PhotoSaveHistoryRepository.getInstance(realm);
         photoBuyHistoryRepository = PhotoBuyHistoryRepository.getInstance(realm);
         userPhotoRepository = UserPhotoRepository.getInstance(realm);
+        photographerRepository = PhotographerRepository.getInstance(realm);
     }
 
     public LiveData<Photo> getPhoto(int photoId) {
@@ -70,5 +76,15 @@ public class ViewModel_PhotoDetail extends BaseViewModel {
 
     public void buyPhoto(final int actionCode, final String userId, final int photoId) {
         photoBuyHistoryRepository.buyPhoto(actionCode, userId, photoId);
+    }
+
+    public void dataSyncPhotographer(String id) {
+        photographerRepository.getPhotographer(id);
+    }
+
+    public LiveData<Photographer> getPhotographer(String id) {
+        LiveRealmData<Photographer> liveRealmData = photographerModel(realm).findPhotographerLiveData(id);
+        photographerLiveData = Transformations.map(liveRealmData, data -> data.size() > 0 ? data.get(0) : null);
+        return photographerLiveData;
     }
 }

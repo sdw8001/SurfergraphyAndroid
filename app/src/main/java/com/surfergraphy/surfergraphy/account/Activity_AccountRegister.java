@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class Activity_AccountRegister extends BaseActivity {
     @BindView(R.id.edit_text_phone_number)
     EditText editText_PhoneNumber;
     @BindView(R.id.button_save)
-    Button button_AccountRegister;
+    View button_AccountRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

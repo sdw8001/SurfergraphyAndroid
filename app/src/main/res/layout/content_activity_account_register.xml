@@ -38,8 +38,8 @@
             android:id="@+id/text_view_email_message1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:text="이메일 형식으로 입력해 주세요."
             android:textColor="@android:color/black"
             android:textSize="12sp"
@@ -207,15 +207,31 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <Button
+    <android.support.v7.widget.CardView
         android:id="@+id/button_save"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="회원으로 가입합니다."
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#eeeeee"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_phone_number" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_phone_number">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_round_background"
+            android:duplicateParentState="true"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Join Membership"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

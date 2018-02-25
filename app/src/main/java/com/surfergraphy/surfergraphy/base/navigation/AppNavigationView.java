@@ -17,15 +17,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.surfergraphy.surfergraphy.R;
+import com.surfergraphy.surfergraphy.about.Activity_About;
 import com.surfergraphy.surfergraphy.album.Activity_Album;
 import com.surfergraphy.surfergraphy.base.ActivityCode;
 import com.surfergraphy.surfergraphy.base.BaseType;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
-import com.surfergraphy.surfergraphy.wavepurchase.Activity_WavePurchase;
+import com.surfergraphy.surfergraphy.like.Activity_LikePhoto;
 import com.surfergraphy.surfergraphy.login.ViewModel_Login;
 import com.surfergraphy.surfergraphy.photos.Activity_Photos;
 import com.surfergraphy.surfergraphy.photos.ViewModel_Photo;
+import com.surfergraphy.surfergraphy.wavepurchase.Activity_WavePurchase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         View header = getHeaderView(0);
         headerViewHolder = new HeaderViewHolder(context, header);
         setNavigationItemSelectedListener(this);
-
+        setItemIconTintList(null);
         viewModelLogin.getAccountUserLiveData().observe((LifecycleActivity) context, authorizationAccountUser -> {
             if (authorizationAccountUser != null) {
                 headerViewHolder.nickName.setText(authorizationAccountUser.nickName);
@@ -138,6 +142,8 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         TextView email;
         @BindView(R.id.text_view_wave)
         TextView wave;
+        @BindView(R.id.member_profile_image)
+        CircularImageView memberImage;
 
         @BindView(R.id.nav_menu_top_collection)
         TextView collection;
@@ -151,6 +157,8 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         HeaderViewHolder(Context context, View view) {
             ButterKnife.bind(this, view);
 
+            Glide.with(context).load(R.drawable.member_photo).thumbnail(0.1f).into(memberImage);
+
             // 로고 클릭 - 웹사이트 이동
             logoSite.setOnClickListener(v -> {
                 try {
@@ -163,7 +171,9 @@ public class AppNavigationView extends NavigationView implements NavigationView.
 
             // 컬랙션 클릭
             collection.setOnClickListener(v -> {
-
+                Intent intent = new Intent(context, Activity_LikePhoto.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
             });
 
             // 보관함 클릭
@@ -182,7 +192,9 @@ public class AppNavigationView extends NavigationView implements NavigationView.
 
             // 어바웃 클릭
             about.setOnClickListener(v -> {
-
+                Intent intent = new Intent(context, Activity_About.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
             });
         }
     }

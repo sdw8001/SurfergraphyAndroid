@@ -18,6 +18,7 @@ public class RetrofitAdapter {
     public static final int WRITE_TIMEOUT = 15;
     public static final int READ_TIMEOUT = 15;
     public static final String API_SERVER_URL = "http://surfergraphyapi.azurewebsites.net/";
+
     private static OkHttpClient client;
 
     public static Retrofit getInstance(String apiServerUrl, Gson gson) {
