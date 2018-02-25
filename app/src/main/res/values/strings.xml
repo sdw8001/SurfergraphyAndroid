@@ -3,6 +3,9 @@
     <string name="login_name">Login</string>
     <string name="account_join">Join</string>
 
+    <string name="facebook_app_id">580274992317135</string>
+    <string name="fb_login_protocol_scheme">fb580274992317135</string>
+
     <string name="input_requird_email">Email (Requird)</string>
     <string name="input_password">Password</string>
     <string name="input_password_confirm">Confirm password</string>

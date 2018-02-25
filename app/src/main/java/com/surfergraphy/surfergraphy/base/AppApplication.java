@@ -1,9 +1,13 @@
 package com.surfergraphy.surfergraphy.base;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.surfergraphy.surfergraphy.base.typeface.Typekit;
+import com.surfergraphy.surfergraphy.utils.CommonTask;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -12,6 +16,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("KEY_HASH", CommonTask.getKeyHash(this));
         AndroidThreeTen.init(this);
         Realm.init(this);
 //        RealmConfiguration config = new RealmConfiguration.Builder().build();
@@ -20,6 +25,8 @@ public class AppApplication extends Application {
                 .build();
 
         Realm.setDefaultConfiguration(config);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         // Font 적용
         Typekit.getInstance()

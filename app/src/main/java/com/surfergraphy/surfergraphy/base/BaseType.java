@@ -47,4 +47,23 @@ public class BaseType {
             return null;
         }
     }
+
+    public enum SignIn {
+        NoSessions(null),
+        NewSignIn("new_sign_in"),
+        Email("g"),
+        Kakao("k"),
+        Facebook("f"),
+        Naver("n");
+
+        private String code;
+
+        SignIn(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+    }
 }

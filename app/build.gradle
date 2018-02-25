@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        mavenCentral()
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -64,4 +67,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha1'
+
+    // 페이스북 로그인 sdk 를 사용하기 위해 필요.
+    compile 'com.facebook.android:facebook-android-sdk:4.18.0'
 }
