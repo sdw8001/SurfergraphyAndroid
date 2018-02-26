@@ -1,6 +1,9 @@
 package com.surfergraphy.surfergraphy.photos;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,11 +22,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.surfergraphy.surfergraphy.R;
 import com.surfergraphy.surfergraphy.base.ActionCode;
 import com.surfergraphy.surfergraphy.base.BaseType;
 import com.surfergraphy.surfergraphy.base.activities.BaseActivity;
+import com.surfergraphy.surfergraphy.intro.Activity_Intro;
 import com.surfergraphy.surfergraphy.like.ViewModel_LikePhoto;
 import com.surfergraphy.surfergraphy.like.data.LikePhoto;
 import com.surfergraphy.surfergraphy.login.Activity_Login;
@@ -37,6 +43,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -91,6 +98,21 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
 
         ButterKnife.bind(this);
 
+        TedPermission.with(Activity_PhotoDetail.this)
+                .setPermissionListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+
+                    }
+                })
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -179,7 +201,23 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             v.setSelected(!v.isSelected());
         });
         button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getAccountUser().id, photo.id));
-        button_Buy.setOnClickListener(v -> viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id));
+
+
+        DialogInterface.OnClickListener dialogClickListener = (dialogInterface, i) -> {
+            switch (i) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    // Yes
+                    viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id);
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // No
+                    break;
+            }
+        };
+        button_Buy.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Activity_PhotoDetail.this);
+            builder.setMessage("Would you like to buy this picture?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+        });
         button_BuyFrame.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://storefarm.naver.com/surfergraphy"))));
     }
 
@@ -191,7 +229,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 try {
                     URL imageUrl = new URL(photoUrl);
                     Bitmap bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream()).copy(Bitmap.Config.ARGB_8888, true);
-                    String extStorageDirectory = Environment.getExternalStorageDirectory().toString() + "/Pictures/Surfergraphy/";
+                    String extStorageDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/Surfergraphy/";
                     File directory = new File(extStorageDirectory);
                     if (!directory.exists())
                         directory.mkdirs();
@@ -221,6 +259,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                     OutputStream outStream = null;
                     outStream = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
                     outStream.flush();
                     outStream.close();
 
