@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActivityCode;
 import com.surfergraphy.surf.base.activities.BaseActivity;
@@ -17,6 +19,9 @@ public class Activity_About extends BaseActivity {
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
+
+    @BindView(R.id.logo_bottom)
+    ImageView logoBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class Activity_About extends BaseActivity {
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        Glide.with(Activity_About.this).load(R.drawable.surfergraphy_agency).into(logoBottom);
     }
 
 }
