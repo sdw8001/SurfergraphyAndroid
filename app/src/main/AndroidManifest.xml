@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.surfergraphy.surfergraphy">
+    package="com.surfergraphy.surf">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".base.AppApplication"
+        android:name="com.surfergraphy.surf.base.AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".intro.Activity_Intro">
+            android:name="com.surfergraphy.surf.intro.Activity_Intro">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,39 +43,39 @@
         </activity>
         <!-- 로그인 -->
         <activity
-            android:name=".login.Activity_Login"
+            android:name="com.surfergraphy.surf.login.Activity_Login"
             android:label="@string/login_name" />
         <!-- 사진 -->
         <activity
-            android:name=".photos.Activity_Photos"
+            android:name="com.surfergraphy.surf.photos.Activity_Photos"
             android:label="@string/title_activity_photos" />
         <!-- 사진디테일 -->
         <activity
-            android:name=".photos.Activity_PhotoDetail"
+            android:name="com.surfergraphy.surf.photos.Activity_PhotoDetail"
             android:label="@string/title_activity_photos" />
         <!-- 회원가입 -->
         <activity
-            android:name=".account.Activity_AccountRegister"
+            android:name="com.surfergraphy.surf.account.Activity_AccountRegister"
             android:label="@string/title_activity_account_register" />
         <!-- Like -->
         <activity
-            android:name=".like.Activity_LikePhoto"
+            android:name="com.surfergraphy.surf.like.Activity_LikePhoto"
             android:label="@string/title_activity_like" />
         <!-- 보관함 -->
         <activity
-            android:name=".album.Activity_Album"
+            android:name="com.surfergraphy.surf.album.Activity_Album"
             android:label="@string/title_activity_album" />
         <!-- Wave 구매 -->
         <activity
-            android:name=".wavepurchase.Activity_WavePurchase"
+            android:name="com.surfergraphy.surf.wavepurchase.Activity_WavePurchase"
             android:label="@string/title_activity_wave_purchase" />
         <!-- About -->
         <activity
-            android:name=".about.Activity_About"
+            android:name="com.surfergraphy.surf.about.Activity_About"
             android:label="@string/title_activity_about" />
         <!-- Test -->
         <activity
-            android:name=".test.TestActivity"
+            android:name="com.surfergraphy.surf.test.TestActivity"
             android:label="@string/title_activity_test" />
     </application>
 

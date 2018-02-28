@@ -4,14 +4,14 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
     defaultConfig {
-        applicationId "com.surfergraphy.surfergraphy"
+        applicationId "com.surfergraphy.surf"
         minSdkVersion 15
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0.001"
+        targetSdkVersion 25
+        versionCode 4
+        versionName "1.0.004"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

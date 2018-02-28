@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     android:padding="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.surfergraphy.surfergraphy.about.Activity_About"
+    tools:context="com.surfergraphy.surf.about.Activity_About"
     tools:showIn="@layout/app_bar_activity_about">
 
     <LinearLayout
