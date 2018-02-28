@@ -26,8 +26,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:hint="@string/input_requird_email"
-        android:inputType="textEmailAddress"
-        android:text="a@a.com" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -39,8 +38,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:hint="@string/input_password"
-        android:inputType="textPassword"
-        android:text="Aaaa111!" />
+        android:inputType="textPassword" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/buttonLogin"
