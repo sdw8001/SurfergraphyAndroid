@@ -2,10 +2,11 @@ package com.surfergraphy.surf.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -15,9 +16,17 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.surfergraphy.surf.R;
-import com.surfergraphy.surf.account.Activity_AccountRegister;
+import com.surfergraphy.surf.base.ActionCode;
 import com.surfergraphy.surf.base.activities.BaseActivity;
+import com.surfergraphy.surf.login.data.RequestModel_MemberInfo;
 import com.surfergraphy.surf.photos.Activity_Photos;
 
 import org.json.JSONObject;
@@ -25,20 +34,23 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Activity_Login extends BaseActivity {
+public class Activity_Login extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+
+    private final static String TAG = "Activity_Login";
+    private final static int RC_SIGN_IN_GOOGLE = 1000;
 
     private CallbackManager facebookCallbackManager;
+    private GoogleApiClient mGoogleApiClient;
 
     @BindView(R.id.edit_text_email)
     EditText editTextAccount;
     @BindView(R.id.editTextPassword)
     EditText editTextPassword;
-    @BindView(R.id.buttonLogin)
-    View buttonLogin;
-    @BindView(R.id.buttonAccountRegister)
-    View buttonAccountRegister;
 
-    @BindView(R.id.login_button)
+    @BindView(R.id.login_google)
+    SignInButton loginGoogleButton;
+
+    @BindView(R.id.login_facebook)
     LoginButton loginFacebookButton;
 
     @Override
@@ -46,12 +58,12 @@ public class Activity_Login extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+        setGoogleLogin();
         facebookCallbackManager = CallbackManager.Factory.create();
 
-        viewModelLogin.getAccessToken().observe(this, accessToken -> {
+        viewModelLogin.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
-                if (!accessToken.expired) {
+                if (!accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Photos.class);
                     startActivity(intent);
                     finish();
@@ -59,10 +71,9 @@ public class Activity_Login extends BaseActivity {
             }
         });
 
-        buttonLogin.setOnClickListener(v -> viewModelLogin.loginAccount(editTextAccount.getText().toString(), editTextPassword.getText().toString()));
-        buttonAccountRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_AccountRegister.class);
-            startActivity(intent);
+        loginGoogleButton.setOnClickListener(view -> {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN_GOOGLE);
         });
 
         loginFacebookButton.setReadPermissions("email");
@@ -90,8 +101,33 @@ public class Activity_Login extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN_GOOGLE) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Signed in successfully, show authenticated UI.
+                GoogleSignInAccount acct = result.getSignInAccount();
+                viewModelLogin.loginMember(ActionCode.ACTION_LOGIN_MEMBER, new RequestModel_MemberInfo(acct.getId(), acct.getIdToken(), acct.getEmail(), "G", acct.getDisplayName(), acct.getPhotoUrl().toString()));
+            } else {
+                // Signed out, show unauthenticated UI.
+                Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void setGoogleLogin() {
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void loginFacebook(AccessToken accessToken) {
@@ -118,5 +154,10 @@ public class Activity_Login extends BaseActivity {
         parameters.putString("fields", "id,name,email,gender,birthday");
         graphRequest.setParameters(parameters);
         graphRequest.executeAsync();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getApplicationContext(), "" + connectionResult, Toast.LENGTH_SHORT).show();
     }
 }

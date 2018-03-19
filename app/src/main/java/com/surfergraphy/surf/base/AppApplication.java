@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.surfergraphy.surf.base.typeface.Typekit;
 import com.surfergraphy.surf.utils.CommonTask;
@@ -13,6 +14,9 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class AppApplication extends Application {
+
+    public FirebaseAuth firebaseAuth;
+
     @Override
     public void onCreate() {
         super.onCreate();

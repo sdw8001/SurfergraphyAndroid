@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.surfergraphy.surf.R;
+import com.surfergraphy.surf.base.AppApplication;
 import com.surfergraphy.surf.base.interfaces.ICheckAccessToken;
 import com.surfergraphy.surf.base.typeface.TypekitContextWrapper;
 import com.surfergraphy.surf.login.Activity_Login;
@@ -43,11 +45,22 @@ public class BaseActivity extends BaseLifecycleActivity implements ICheckAccessT
     }
 
     @Override
+    public void initFirebaseAuth() {
+        AppApplication appApplication = (AppApplication) getApplication();
+        appApplication.firebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public FirebaseAuth getFirebaseAuth() {
+        return ((AppApplication) getApplication()).firebaseAuth;
+    }
+
+    @Override
     public void checkAccessToken() {
-        viewModelLogin.getAccessToken().observe(this, accessToken -> {
+        viewModelLogin.getLoginMemberLiveData().observe(this, accessToken -> {
             if (this.getClass() != Activity_Login.class) {
                 if (accessToken != null) {
-                    if (accessToken.expired) {
+                    if (accessToken.Expired) {
                         Toast.makeText(getBaseContext(), "토큰 만료. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, Activity_Login.class);
                         startActivity(intent);

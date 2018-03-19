@@ -55,9 +55,9 @@ public class Activity_Album extends BaseActivity {
 
         viewModel_userPhoto = ViewModelProviders.of(this).get(ViewModel_UserPhoto.class);
 
-        viewModel_userPhoto.getAccessToken().observe(this, accessToken -> {
+        viewModel_userPhoto.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
-                if (accessToken.expired) {
+                if (accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Login.class);
                     startActivity(intent);
                     finish();

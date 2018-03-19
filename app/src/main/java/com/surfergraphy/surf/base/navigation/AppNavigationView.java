@@ -58,11 +58,12 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         headerViewHolder = new HeaderViewHolder(context, header);
         setNavigationItemSelectedListener(this);
         setItemIconTintList(null);
-        viewModelLogin.getAccountUserLiveData().observe((LifecycleActivity) context, authorizationAccountUser -> {
-            if (authorizationAccountUser != null) {
-                headerViewHolder.nickName.setText(authorizationAccountUser.nickName);
-                headerViewHolder.email.setText(authorizationAccountUser.email);
-                headerViewHolder.wave.setText(String.valueOf(authorizationAccountUser.wave));
+        viewModelLogin.getLoginMemberLiveData().observe((LifecycleActivity) context, loginMember -> {
+            if (loginMember != null) {
+                headerViewHolder.nickName.setText(loginMember.Name);
+                headerViewHolder.email.setText(loginMember.Email);
+                headerViewHolder.wave.setText(String.valueOf(loginMember.Wave));
+                Glide.with(context).load(loginMember.ImageUrl).thumbnail(0.1f).into(headerViewHolder.memberImage);
             }
         });
     }

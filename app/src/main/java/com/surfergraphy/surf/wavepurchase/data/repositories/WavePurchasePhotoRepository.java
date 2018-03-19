@@ -108,14 +108,14 @@ public class WavePurchasePhotoRepository extends BaseRepository {
                     @Override
                     public void okCreated(Response<PurchaseInfo> response) {
 
-                        syncAuthorizationAccountUser();
+                        syncLoginMember();
                         if (responseCallback != null)
                             responseCallback.onSuccess();
                     }
 
                     @Override
                     public void unAuthorized(Response<PurchaseInfo> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 

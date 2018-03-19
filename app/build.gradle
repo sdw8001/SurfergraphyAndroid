@@ -10,8 +10,8 @@ android {
         applicationId "com.surfergraphy.surf"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.0.006"
+        versionCode 7
+        versionName "1.0.007"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -71,4 +71,10 @@ dependencies {
 
     // 페이스북 로그인 sdk 를 사용하기 위해 필요.
     compile 'com.facebook.android:facebook-android-sdk:4.18.0'
+    // 구글로그인
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
+    compile 'com.google.firebase:firebase-auth:11.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

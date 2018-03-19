@@ -14,7 +14,7 @@ public class ViewModel_Intro extends BaseViewModel {
         loginRepository = new LoginRepository(realm);
     }
 
-    public void getAuthorizationAccountUser() {
-        loginRepository.syncAuthorizationAccountUser();
+    public void syncLoginMember() {
+        loginRepository.syncLoginMember();
     }
 }

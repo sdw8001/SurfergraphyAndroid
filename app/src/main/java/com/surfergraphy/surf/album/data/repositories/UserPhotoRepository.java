@@ -76,7 +76,7 @@ public class UserPhotoRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<List<UserPhoto>> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 
@@ -135,7 +135,7 @@ public class UserPhotoRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<UserPhoto> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 

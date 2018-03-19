@@ -6,6 +6,7 @@ import com.surfergraphy.surf.album.data.repositories.UserPhotoRepository;
 import com.surfergraphy.surf.base.data.ActionResponse;
 import com.surfergraphy.surf.base.data.repositories.BaseRepository;
 import com.surfergraphy.surf.base.interfaces.ResponseAction_Default;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.PhotoBuyHistory;
 import com.surfergraphy.surf.photos.data.PhotoSaveHistory;
 import com.surfergraphy.surf.photos.data.api.PhotoBuyHistoryService;
@@ -37,15 +38,15 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
     private PhotoBuyHistoryRepository(Realm realm) {
         super(realm);
-        syncDataUserPhotos();
+        syncDataPhotoByHistories();
     }
 
-    public void syncDataUserPhotos() {
+    public void syncDataPhotoByHistories() {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoBuyHistoryService photoBuyHistoryService = retrofit.create(PhotoBuyHistoryService.class);
 
-        final Call<List<PhotoBuyHistory>> call = photoBuyHistoryService.getUserPhotoBuyHistories();
+        final Call<List<PhotoBuyHistory>> call = photoBuyHistoryService.getPhotoBuyHistories();
         call.enqueue(new Callback<List<PhotoBuyHistory>>() {
             @Override
             public void onResponse(Call<List<PhotoBuyHistory>> call, Response<List<PhotoBuyHistory>> response) {
@@ -78,57 +79,7 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<List<PhotoBuyHistory>> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<List<PhotoBuyHistory>> call, Throwable t) {
-                new Throwable("getPhoto Failed", t);
-            }
-        });
-    }
-
-    public void getPhoto(final int actionCode, final int photoId) {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        PhotoBuyHistoryService photoBuyHistoryService = retrofit.create(PhotoBuyHistoryService.class);
-
-        final Call<List<PhotoBuyHistory>> call = photoBuyHistoryService.getPhotoBuyHistoryByPhoto(photoId);
-        call.enqueue(new Callback<List<PhotoBuyHistory>>() {
-            @Override
-            public void onResponse(Call<List<PhotoBuyHistory>> call, Response<List<PhotoBuyHistory>> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<List<PhotoBuyHistory>>() {
-                    @Override
-                    public void error(Response<List<PhotoBuyHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void badRequest(Response<List<PhotoBuyHistory>> response, ActionResponse actionResponse) {
-
-                    }
-
-                    @Override
-                    public void notFound(Response<List<PhotoBuyHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void ok(Response<List<PhotoBuyHistory>> response) {
-                        createOrUpdatePhotoBuyHistories(response.body());
-                    }
-
-                    @Override
-                    public void okCreated(Response<List<PhotoBuyHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void unAuthorized(Response<List<PhotoBuyHistory>> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 
@@ -180,7 +131,7 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
                         actionResponse.setMessage("구매되었습니다.");
                         createOrUpdateActionResponse(actionResponse);
 
-                        syncAuthorizationAccountUser();
+                        syncLoginMember();
 
                         PhotoBuyHistory photoBuyHistory = createOrUpdatePhotoBuyHistory(response.body());
                         if (photoBuyHistory != null) {
@@ -195,7 +146,7 @@ public class PhotoBuyHistoryRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<PhotoBuyHistory> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 

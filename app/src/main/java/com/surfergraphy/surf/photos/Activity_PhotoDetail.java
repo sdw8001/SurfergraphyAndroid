@@ -119,9 +119,9 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
 
         viewModel_photoDetail = ViewModelProviders.of(this).get(ViewModel_PhotoDetail.class);
         viewModel_likePhoto = ViewModelProviders.of(this).get(ViewModel_LikePhoto.class);
-        viewModel_photoDetail.getAccessToken().observe(this, accessToken -> {
+        viewModel_photoDetail.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
-                if (accessToken.expired) {
+                if (accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Login.class);
                     startActivity(intent);
                     finish();
@@ -136,7 +136,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 Glide.with(this).load(photo.url).into(imageView_Photo);
                 textView_WavePrice.setText(String.valueOf(photo.wave));
                 viewModel_likePhoto.syncDataLikePhotos();
-                viewModel_likePhoto.getLikePhoto(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, likePhoto1 -> {
+                viewModel_likePhoto.getLikePhoto(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, likePhoto1 -> {
                     this.likePhoto = likePhoto1;
                     like.setSelected(likePhoto1 != null);
                 });
@@ -154,8 +154,8 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 dimensions.setText(photo.dimensionWidth + " x " + photo.dimensionHeight + "px");
                 resolution.setText(photo.resolution + "ppi");
 
-                viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
-                viewModel_photoDetail.getUserPhotoBuyHistory(viewModel_photoDetail.getAccountUser().id, photo.id).observe(this, photoBuyHistory -> {
+                viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
+                viewModel_photoDetail.getPhotoBuyHistory(photo.id).observe(this, photoBuyHistory -> {
                     if (photoBuyHistory == null) {
                         button_Buy.setEnabled(true);
                         watermark.setVisibility(View.VISIBLE);
@@ -196,17 +196,17 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             if (v.isSelected())
                 viewModel_likePhoto.cancelLikePhoto(ActionCode.ACTION_LIKE_PHOTO_CANCEL, likePhoto.id);
             else
-                viewModel_likePhoto.likePhoto(ActionCode.ACTION_LIKE_PHOTO, viewModel_photoDetail.getAccountUser().id, photo.id);
+                viewModel_likePhoto.likePhoto(ActionCode.ACTION_LIKE_PHOTO, viewModel_photoDetail.getLoginMember().Id, photo.id);
             v.setSelected(!v.isSelected());
         });
-        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getAccountUser().id, photo.id));
+        button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getLoginMember().Id, photo.id));
 
 
         DialogInterface.OnClickListener dialogClickListener = (dialogInterface, i) -> {
             switch (i) {
                 case DialogInterface.BUTTON_POSITIVE:
                     // Yes
-                    viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getAccountUser().id, photo.id);
+                    viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getLoginMember().Id, photo.id);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     // No

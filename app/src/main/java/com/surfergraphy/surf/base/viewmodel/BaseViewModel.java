@@ -7,20 +7,20 @@ import android.arch.lifecycle.Transformations;
 
 import com.surfergraphy.surf.base.data.ActionResponse;
 import com.surfergraphy.surf.base.data.repositories.BaseRepository;
-import com.surfergraphy.surf.login.data.AuthorizationAccountUser;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.utils.LiveRealmData;
 
 import io.realm.Realm;
 
 import static com.surfergraphy.surf.utils.RealmUtils.actionResponseModel;
-import static com.surfergraphy.surf.utils.RealmUtils.authorizationAccountUserDao;
+import static com.surfergraphy.surf.utils.RealmUtils.loginMemberModel;
 
 public class BaseViewModel extends AndroidViewModel {
 
     protected Realm realm;
     protected BaseRepository baseRepository;
     protected LiveData<ActionResponse> actionResponseLiveData;
-    protected LiveData<AuthorizationAccountUser> authorizationAccountUserLiveData;
+    protected LiveData<LoginMember> loginMemberLiveData;
 
     public BaseViewModel(Application application) {
         super(application);
@@ -34,14 +34,14 @@ public class BaseViewModel extends AndroidViewModel {
         super.onCleared();
     }
 
-    public LiveData<AuthorizationAccountUser> getAccountUserLiveData() {
-        LiveRealmData<AuthorizationAccountUser> accessTokenLiveRealmData = authorizationAccountUserDao(realm).findAuthorizationAccountUserLiveData();
-        authorizationAccountUserLiveData = Transformations.map(accessTokenLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
-        return authorizationAccountUserLiveData;
+    public LiveData<LoginMember> getLoginMemberLiveData() {
+        LiveRealmData<LoginMember> loginMemberLiveRealmData = loginMemberModel(realm).findLoginMemberLiveRealmData();
+        loginMemberLiveData = Transformations.map(loginMemberLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
+        return loginMemberLiveData;
     }
 
-    public AuthorizationAccountUser getAccountUser() {
-        return authorizationAccountUserDao(realm).findAuthorizationAccountUser();
+    public LoginMember getLoginMember() {
+        return loginMemberModel(realm).findLoginMember();
     }
 
     public LiveData<ActionResponse> getActionResponse(final int actionCode) {
@@ -55,6 +55,6 @@ public class BaseViewModel extends AndroidViewModel {
     }
 
     public void syncAuthorizationAccountUser() {
-        baseRepository.syncAuthorizationAccountUser();
+        baseRepository.syncLoginMember();
     }
 }

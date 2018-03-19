@@ -35,7 +35,7 @@ public class Activity_Intro extends BaseLifecycleActivity {
         ButterKnife.bind(this);
 
         viewModel_intro = ViewModelProviders.of(this).get(ViewModel_Intro.class);
-        viewModel_intro.getAuthorizationAccountUser();
+        viewModel_intro.syncLoginMember();
         imageView_Logo.animate()
                 .setStartDelay(500)
                 .alpha(1.0f)

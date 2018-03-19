@@ -33,6 +33,10 @@ public class CommonTask {
 
         for (Signature signature : packageInfo.signatures) {
             try {
+                MessageDigest md1 = MessageDigest.getInstance("SHA1");
+                md1.update(signature.toByteArray());
+                String key = Base64.encodeToString(md1.digest(), Base64.NO_WRAP);
+                Log.d("KEY_HASH", key);
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 return Base64.encodeToString(md.digest(), Base64.NO_WRAP);

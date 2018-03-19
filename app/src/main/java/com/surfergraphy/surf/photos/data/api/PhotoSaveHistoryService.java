@@ -13,14 +13,8 @@ import retrofit2.http.Path;
 
 public interface PhotoSaveHistoryService {
 
-    @GET("api/PhotoSaveHistories")
-    Call<List<PhotoSaveHistory>> getPhotoSaveHistories();
-
-    @GET("api/PhotoSaveHistories/UserPhotos")
-    Call<List<PhotoSaveHistory>> getUserPhotoSaveHistories();
-
-    @GET("api/PhotoSaveHistories/UserPhotos/{photoId}")
-    Call<List<PhotoSaveHistory>> getPhotoSaveHistoryByPhoto(@Path("photoId") int photoId);
+    @GET("api/PhotoSaveHistories/UserPhotos/{memberId}")
+    Call<List<PhotoSaveHistory>> getUserPhotoSaveHistories(@Path("memberId") String memberId);
 
     @FormUrlEncoded
     @POST("api/PhotoSaveHistories/")

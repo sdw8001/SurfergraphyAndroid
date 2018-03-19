@@ -2,7 +2,6 @@ package com.surfergraphy.surf.wavepurchase;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 import android.util.Log;
 
 import com.surfergraphy.surf.base.helper.InAppBillingHelper;
@@ -10,22 +9,19 @@ import com.surfergraphy.surf.base.util.IabResult;
 import com.surfergraphy.surf.base.util.Inventory;
 import com.surfergraphy.surf.base.util.Purchase;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.wavepurchase.data.WavePurchase;
 import com.surfergraphy.surf.wavepurchase.data.repositories.WavePurchasePhotoRepository;
-import com.surfergraphy.surf.login.data.AccessToken;
-import com.surfergraphy.surf.utils.LiveRealmData;
 
 import java.util.ArrayList;
 
 import io.realm.RealmResults;
 
-import static com.surfergraphy.surf.utils.RealmUtils.accessTokenModel;
 import static com.surfergraphy.surf.utils.RealmUtils.wavePurchaseModel;
 
 public class ViewModel_WavePurchase extends BaseViewModel {
 
     private WavePurchasePhotoRepository wavePurchasePhotoRepository;
-    private LiveData<AccessToken> accessTokenLiveData;
     private LiveData<RealmResults<WavePurchase>> wavePurchasesLiveData;
     private InAppBillingHelper inAppBillingHelper;
 
@@ -41,12 +37,6 @@ public class ViewModel_WavePurchase extends BaseViewModel {
     public LiveData<RealmResults<WavePurchase>> getWavePurchasesLiveData() {
         wavePurchasesLiveData = wavePurchaseModel(realm).findWavePurchaseLiveData();
         return wavePurchasesLiveData;
-    }
-
-    public LiveData<AccessToken> getAccessToken() {
-        LiveRealmData<AccessToken> accessTokenLiveRealmData = accessTokenModel(realm).findAccessToken();
-        accessTokenLiveData = Transformations.map(accessTokenLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
-        return accessTokenLiveData;
     }
 
     public RealmResults<WavePurchase> getWavePurchases() {
@@ -82,7 +72,7 @@ public class ViewModel_WavePurchase extends BaseViewModel {
     }
 
     public void buyWavePurchase(WavePurchase wavePurchase) {
-        inAppBillingHelper.purchaseItem(getAccountUser().id, wavePurchasePhotoRepository, wavePurchase.id, new InAppBillingHelper.PurchaseFinishedListener() {
+        inAppBillingHelper.purchaseItem(getLoginMember().Id, wavePurchasePhotoRepository, wavePurchase.id, new InAppBillingHelper.PurchaseFinishedListener() {
             @Override
             public void onSuccess(Purchase purchase) {
                 Log.e(ViewModel_WavePurchase.class.getSimpleName(), "InAppBilling.purchaseItem - Success");

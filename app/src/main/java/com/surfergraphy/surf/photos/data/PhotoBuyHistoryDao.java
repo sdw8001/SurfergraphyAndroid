@@ -29,8 +29,8 @@ public class PhotoBuyHistoryDao {
         return asLiveData(realm.where(PhotoBuyHistory.class).equalTo("userId", userId).findAllAsync());
     }
 
-    public LiveRealmData<PhotoBuyHistory> findPhotoBuyHistoryLiveData(final String userId, final int photoId) {
-        return asLiveData(realm.where(PhotoBuyHistory.class).equalTo("userId", userId).equalTo("photoId", photoId).findAllAsync());
+    public LiveRealmData<PhotoBuyHistory> findPhotoBuyHistoryLiveData(final int photoId) {
+        return asLiveData(realm.where(PhotoBuyHistory.class).equalTo("photoId", photoId).findAllAsync());
     }
 
     public PhotoBuyHistory findPhotoBuyHistory(final int photoId) {

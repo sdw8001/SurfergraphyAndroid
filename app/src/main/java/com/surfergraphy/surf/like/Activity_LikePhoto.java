@@ -55,9 +55,9 @@ public class Activity_LikePhoto extends BaseActivity {
 
         viewModel_likePhoto = ViewModelProviders.of(this).get(ViewModel_LikePhoto.class);
 
-        viewModel_likePhoto.getAccessToken().observe(this, accessToken -> {
+        viewModel_likePhoto.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
-                if (accessToken.expired) {
+                if (accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Login.class);
                     startActivity(intent);
                     finish();

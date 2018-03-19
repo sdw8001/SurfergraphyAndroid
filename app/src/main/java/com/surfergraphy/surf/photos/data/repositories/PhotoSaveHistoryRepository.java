@@ -7,6 +7,7 @@ import com.surfergraphy.surf.base.ActionCode;
 import com.surfergraphy.surf.base.data.ActionResponse;
 import com.surfergraphy.surf.base.data.repositories.BaseRepository;
 import com.surfergraphy.surf.base.interfaces.ResponseAction_Default;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.PhotoSaveHistory;
 import com.surfergraphy.surf.photos.data.api.PhotoSaveHistoryService;
 import com.surfergraphy.surf.utils.DateDeserializer;
@@ -28,6 +29,7 @@ import static com.surfergraphy.surf.utils.RealmUtils.photoSaveHistoryModel;
 public class PhotoSaveHistoryRepository extends BaseRepository {
 
     private static PhotoSaveHistoryRepository instance;
+
     public static PhotoSaveHistoryRepository getInstance(Realm realm) {
         if (instance == null)
             instance = new PhotoSaveHistoryRepository(realm);
@@ -40,104 +42,57 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
     }
 
     public void syncDataUserPhotos() {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
+        LoginMember currentLoginMember = realm.where(LoginMember.class).findFirst();
+        if (currentLoginMember != null) {
+            Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+            Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+            PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
 
-        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getUserPhotoSaveHistories();
-        call.enqueue(new Callback<List<PhotoSaveHistory>>() {
-            @Override
-            public void onResponse(Call<List<PhotoSaveHistory>> call, Response<List<PhotoSaveHistory>> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<List<PhotoSaveHistory>>() {
-                    @Override
-                    public void error(Response<List<PhotoSaveHistory>> response) {
+            final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getUserPhotoSaveHistories(currentLoginMember.Id);
+            call.enqueue(new Callback<List<PhotoSaveHistory>>() {
+                @Override
+                public void onResponse(Call<List<PhotoSaveHistory>> call, Response<List<PhotoSaveHistory>> response) {
+                    new ResponseAction<>(response, new ResponseAction_Default<List<PhotoSaveHistory>>() {
+                        @Override
+                        public void error(Response<List<PhotoSaveHistory>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void badRequest(Response<List<PhotoSaveHistory>> response, ActionResponse actionResponse) {
+                        @Override
+                        public void badRequest(Response<List<PhotoSaveHistory>> response, ActionResponse actionResponse) {
 
-                    }
+                        }
 
-                    @Override
-                    public void notFound(Response<List<PhotoSaveHistory>> response) {
+                        @Override
+                        public void notFound(Response<List<PhotoSaveHistory>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void ok(Response<List<PhotoSaveHistory>> response) {
-                        deletePhotoSaveHistories();
-                        createOrUpdatePhotoSaveHistories(response.body());
-                    }
+                        @Override
+                        public void ok(Response<List<PhotoSaveHistory>> response) {
+                            deletePhotoSaveHistories();
+                            createOrUpdatePhotoSaveHistories(response.body());
+                        }
 
-                    @Override
-                    public void okCreated(Response<List<PhotoSaveHistory>> response) {
+                        @Override
+                        public void okCreated(Response<List<PhotoSaveHistory>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void unAuthorized(Response<List<PhotoSaveHistory>> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
+                        @Override
+                        public void unAuthorized(Response<List<PhotoSaveHistory>> response) {
+                            updateExpiredLoginMember(true);
+                        }
+                    });
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<List<PhotoSaveHistory>> call, Throwable t) {
-                new Throwable("getPhoto Failed", t);
-            }
-        });
-    }
-
-    public void getPhoto(final int actionCode, final int photoId) {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        PhotoSaveHistoryService photoSaveHistoryService = retrofit.create(PhotoSaveHistoryService.class);
-
-        final Call<List<PhotoSaveHistory>> call = photoSaveHistoryService.getPhotoSaveHistoryByPhoto(photoId);
-        call.enqueue(new Callback<List<PhotoSaveHistory>>() {
-            @Override
-            public void onResponse(Call<List<PhotoSaveHistory>> call, Response<List<PhotoSaveHistory>> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<List<PhotoSaveHistory>>() {
-                    @Override
-                    public void error(Response<List<PhotoSaveHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void badRequest(Response<List<PhotoSaveHistory>> response, ActionResponse actionResponse) {
-
-                    }
-
-                    @Override
-                    public void notFound(Response<List<PhotoSaveHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void ok(Response<List<PhotoSaveHistory>> response) {
-                        createOrUpdatePhotoSaveHistories(response.body());
-                    }
-
-                    @Override
-                    public void okCreated(Response<List<PhotoSaveHistory>> response) {
-
-                    }
-
-                    @Override
-                    public void unAuthorized(Response<List<PhotoSaveHistory>> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<List<PhotoSaveHistory>> call, Throwable t) {
-                new Throwable("getPhoto Failed", t);
-            }
-        });
+                @Override
+                public void onFailure(Call<List<PhotoSaveHistory>> call, Throwable t) {
+                    new Throwable("getPhoto Failed", t);
+                }
+            });
+        }
     }
 
     public void savePhoto(final int actionCode, final String userId, final int photoId, final int photoBuyHistoryId) {
@@ -189,7 +144,7 @@ public class PhotoSaveHistoryRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<PhotoSaveHistory> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 

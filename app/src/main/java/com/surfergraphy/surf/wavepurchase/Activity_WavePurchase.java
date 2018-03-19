@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,9 +56,9 @@ public class Activity_WavePurchase extends BaseActivity {
         viewModel_wavePurchase = ViewModelProviders.of(this).get(ViewModel_WavePurchase.class);
         viewModel_wavePurchase.setInAppBillingHelper(inAppBillingHelper);
 
-        viewModel_wavePurchase.getAccessToken().observe(this, accessToken -> {
+        viewModel_wavePurchase.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
-                if (accessToken.expired) {
+                if (accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Login.class);
                     startActivity(intent);
                     finish();

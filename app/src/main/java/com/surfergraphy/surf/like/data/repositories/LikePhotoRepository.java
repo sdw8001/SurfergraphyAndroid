@@ -10,6 +10,7 @@ import com.surfergraphy.surf.base.data.repositories.BaseRepository;
 import com.surfergraphy.surf.base.interfaces.ResponseAction_Default;
 import com.surfergraphy.surf.like.data.LikePhoto;
 import com.surfergraphy.surf.like.data.api.LikePhotoService;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.utils.DateDeserializer;
 import com.surfergraphy.surf.utils.ResponseAction;
 import com.surfergraphy.surf.utils.RetrofitAdapter;
@@ -42,104 +43,57 @@ public class LikePhotoRepository extends BaseRepository {
     }
 
     public void syncDataUserPhotos() {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        LikePhotoService likePhotoService = retrofit.create(LikePhotoService.class);
+        LoginMember currentLoginMember = realm.where(LoginMember.class).findFirst();
+        if (currentLoginMember != null) {
+            Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+            Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+            LikePhotoService likePhotoService = retrofit.create(LikePhotoService.class);
 
-        final Call<List<LikePhoto>> call = likePhotoService.getUserLikePhotos();
-        call.enqueue(new Callback<List<LikePhoto>>() {
-            @Override
-            public void onResponse(Call<List<LikePhoto>> call, Response<List<LikePhoto>> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<List<LikePhoto>>() {
-                    @Override
-                    public void error(Response<List<LikePhoto>> response) {
+            final Call<List<LikePhoto>> call = likePhotoService.getUserLikePhotos(currentLoginMember.Id);
+            call.enqueue(new Callback<List<LikePhoto>>() {
+                @Override
+                public void onResponse(Call<List<LikePhoto>> call, Response<List<LikePhoto>> response) {
+                    new ResponseAction<>(response, new ResponseAction_Default<List<LikePhoto>>() {
+                        @Override
+                        public void error(Response<List<LikePhoto>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void badRequest(Response<List<LikePhoto>> response, ActionResponse actionResponse) {
+                        @Override
+                        public void badRequest(Response<List<LikePhoto>> response, ActionResponse actionResponse) {
 
-                    }
+                        }
 
-                    @Override
-                    public void notFound(Response<List<LikePhoto>> response) {
+                        @Override
+                        public void notFound(Response<List<LikePhoto>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void ok(Response<List<LikePhoto>> response) {
-                        deleteLikePhotos();
-                        createOrUpdateLikePhotos(response.body());
-                    }
+                        @Override
+                        public void ok(Response<List<LikePhoto>> response) {
+                            deleteLikePhotos();
+                            createOrUpdateLikePhotos(response.body());
+                        }
 
-                    @Override
-                    public void okCreated(Response<List<LikePhoto>> response) {
+                        @Override
+                        public void okCreated(Response<List<LikePhoto>> response) {
 
-                    }
+                        }
 
-                    @Override
-                    public void unAuthorized(Response<List<LikePhoto>> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
+                        @Override
+                        public void unAuthorized(Response<List<LikePhoto>> response) {
+                            updateExpiredLoginMember(true);
+                        }
+                    });
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<List<LikePhoto>> call, Throwable t) {
-                new Throwable("getPhoto Failed", t);
-            }
-        });
-    }
-
-    public void getPhoto(final int actionCode, final int photoId) {
-        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
-        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
-        LikePhotoService likePhotoService = retrofit.create(LikePhotoService.class);
-
-        final Call<List<LikePhoto>> call = likePhotoService.getLikePhotoByPhoto(photoId);
-        call.enqueue(new Callback<List<LikePhoto>>() {
-            @Override
-            public void onResponse(Call<List<LikePhoto>> call, Response<List<LikePhoto>> response) {
-                new ResponseAction<>(response, new ResponseAction_Default<List<LikePhoto>>() {
-                    @Override
-                    public void error(Response<List<LikePhoto>> response) {
-
-                    }
-
-                    @Override
-                    public void badRequest(Response<List<LikePhoto>> response, ActionResponse actionResponse) {
-
-                    }
-
-                    @Override
-                    public void notFound(Response<List<LikePhoto>> response) {
-
-                    }
-
-                    @Override
-                    public void ok(Response<List<LikePhoto>> response) {
-                        createOrUpdateLikePhotos(response.body());
-                    }
-
-                    @Override
-                    public void okCreated(Response<List<LikePhoto>> response) {
-
-                    }
-
-                    @Override
-                    public void unAuthorized(Response<List<LikePhoto>> response) {
-                        updateExpiredAccessToken(true);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(Call<List<LikePhoto>> call, Throwable t) {
-                new Throwable("getPhoto Failed", t);
-            }
-        });
+                @Override
+                public void onFailure(Call<List<LikePhoto>> call, Throwable t) {
+                    new Throwable("getPhoto Failed", t);
+                }
+            });
+        }
     }
 
     public void likePhoto(final int actionCode, final String userId, final int photoId) {
@@ -186,7 +140,7 @@ public class LikePhotoRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<LikePhoto> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 
@@ -243,7 +197,7 @@ public class LikePhotoRepository extends BaseRepository {
 
                     @Override
                     public void unAuthorized(Response<LikePhoto> response) {
-                        updateExpiredAccessToken(true);
+                        updateExpiredLoginMember(true);
                     }
                 });
 

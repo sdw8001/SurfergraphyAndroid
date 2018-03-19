@@ -16,11 +16,8 @@ public interface PhotoBuyHistoryService {
     @GET("api/PhotoBuyHistories")
     Call<List<PhotoBuyHistory>> getPhotoBuyHistories();
 
-    @GET("api/PhotoBuyHistories/UserPhotos")
-    Call<List<PhotoBuyHistory>> getUserPhotoBuyHistories();
-
-    @GET("api/PhotoBuyHistories/UserPhotos/{wavePrice}")
-    Call<List<PhotoBuyHistory>> getPhotoBuyHistoryByPhoto(@Path("wavePrice") int photoId);
+    @GET("api/PhotoBuyHistories/UserPhotos/{memberId}")
+    Call<List<PhotoBuyHistory>> getUserPhotoBuyHistories(@Path("memberId") String memberId);
 
     @FormUrlEncoded
     @POST("api/PhotoBuyHistories/")

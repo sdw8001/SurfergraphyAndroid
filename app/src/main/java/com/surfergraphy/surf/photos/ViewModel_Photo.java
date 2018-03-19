@@ -6,7 +6,7 @@ import android.arch.lifecycle.Transformations;
 
 import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
-import com.surfergraphy.surf.login.data.AccessToken;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.Photo;
 import com.surfergraphy.surf.photos.data.ViewInfo_Photo;
 import com.surfergraphy.surf.photos.data.repositories.PhotoRepository;
@@ -14,14 +14,13 @@ import com.surfergraphy.surf.utils.LiveRealmData;
 
 import io.realm.RealmResults;
 
-import static com.surfergraphy.surf.utils.RealmUtils.accessTokenModel;
+import static com.surfergraphy.surf.utils.RealmUtils.loginMemberModel;
 import static com.surfergraphy.surf.utils.RealmUtils.asLiveData;
 import static com.surfergraphy.surf.utils.RealmUtils.photoModel;
 
 public class ViewModel_Photo extends BaseViewModel {
 
     private PhotoRepository photoRepository;
-    private LiveData<AccessToken> accessTokenLiveData;
     private LiveData<RealmResults<Photo>> photoListLiveData;
     private LiveData<RealmResults<ViewInfo_Photo>> viewInfo_photoLiveData;
 
@@ -56,12 +55,6 @@ public class ViewModel_Photo extends BaseViewModel {
     public LiveData<RealmResults<Photo>> getPhotos() {
         photoListLiveData = photoModel(realm).findPhotosLiveData();
         return photoListLiveData;
-    }
-
-    public LiveData<AccessToken> getAccessToken() {
-        LiveRealmData<AccessToken> accessTokenLiveRealmData = accessTokenModel(realm).findAccessToken();
-        accessTokenLiveData = Transformations.map(accessTokenLiveRealmData, input -> input.size() > 0 ? input.get(0) : null);
-        return accessTokenLiveData;
     }
 
     public LiveData<RealmResults<ViewInfo_Photo>> getViewInfo_Photo() {

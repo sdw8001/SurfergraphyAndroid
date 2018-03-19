@@ -15,6 +15,8 @@ public class Photo implements RealmModel{
     public int id;
     @SerializedName("PhotographerId")
     public String photographerId;
+    @SerializedName("OwnedMemberId")
+    public String ownedMemberId;
     @SerializedName("Name")
     public String name;
     @SerializedName("Url")
@@ -35,6 +37,8 @@ public class Photo implements RealmModel{
     public String createdDate;
     @SerializedName("ExpirationDate")
     public String expirationDate;
+    @SerializedName("OwnedDate")
+    public String ownedDate;
 
     public Photo() {}
 }

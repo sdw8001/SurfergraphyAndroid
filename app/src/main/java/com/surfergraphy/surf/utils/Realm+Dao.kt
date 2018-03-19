@@ -5,16 +5,14 @@ import com.surfergraphy.surf.album.data.UserPhotoDao
 import com.surfergraphy.surf.base.data.ActionResponseDao
 import com.surfergraphy.surf.like.data.LikePhotoDao
 import com.surfergraphy.surf.wavepurchase.data.WavePurchaseDao
-import com.surfergraphy.surf.login.data.AccessTokenDao
-import com.surfergraphy.surf.login.data.AuthorizationAccountUserDao
+import com.surfergraphy.surf.login.data.LoginMemberDao
 import com.surfergraphy.surf.photos.data.*
 import io.realm.Realm
 import io.realm.RealmModel
 import io.realm.RealmResults
 
 fun Realm.actionResponseModel(): ActionResponseDao = ActionResponseDao(this)
-fun Realm.accessTokenModel(): AccessTokenDao = AccessTokenDao(this)
-fun Realm.authorizationAccountUserDao(): AuthorizationAccountUserDao = AuthorizationAccountUserDao(this)
+fun Realm.loginMemberModel(): LoginMemberDao = LoginMemberDao(this)
 fun Realm.photoModel(): PhotoDao = PhotoDao(this)
 fun Realm.photographerModel(): PhotographerDao = PhotographerDao(this)
 fun Realm.userPhotoModel(): UserPhotoDao = UserPhotoDao(this)

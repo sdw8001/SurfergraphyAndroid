@@ -1,7 +1,6 @@
 package com.surfergraphy.surf.like.data.api;
 
 import com.surfergraphy.surf.like.data.LikePhoto;
-import com.surfergraphy.surf.photos.data.PhotoSaveHistory;
 
 import java.util.List;
 
@@ -15,14 +14,8 @@ import retrofit2.http.Path;
 
 public interface LikePhotoService {
 
-    @GET("api/LikePhotos")
-    Call<List<PhotoSaveHistory>> getLikePhotos();
-
-    @GET("api/LikePhotos/UserPhotos")
-    Call<List<LikePhoto>> getUserLikePhotos();
-
-    @GET("api/LikePhotos/UserPhotos/{photoId}")
-    Call<List<LikePhoto>> getLikePhotoByPhoto(@Path("photoId") int photoId);
+    @GET("api/LikePhotos/UserPhotos/{memberId}")
+    Call<List<LikePhoto>> getUserLikePhotos(@Path("memberId") String memberId);
 
     @FormUrlEncoded
     @POST("api/LikePhotos/")

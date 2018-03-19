@@ -1,7 +1,7 @@
 package com.surfergraphy.surf.utils;
 
 import com.google.gson.Gson;
-import com.surfergraphy.surf.login.data.AccessToken;
+import com.surfergraphy.surf.login.data.LoginMember;
 
 import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
@@ -31,10 +31,10 @@ public class RetrofitAdapter {
                 .addInterceptor(chain -> {
                     // hasRegistered 정보 가져오기
                     Realm realm = Realm.getDefaultInstance();
-                    AccessToken token = realm.where(AccessToken.class).findFirst();
+                    LoginMember token = realm.where(LoginMember.class).findFirst();
                     String authorization = null;
-                    if (token != null)
-                        authorization = token.tokenType + " " + token.accessToken;
+//                    if (token != null)
+//                        authorization = token.tokenType + " " + token.accessToken;
                     realm.close();
 
                     Request original = chain.request();
