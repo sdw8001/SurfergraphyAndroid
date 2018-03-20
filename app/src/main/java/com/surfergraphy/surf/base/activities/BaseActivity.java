@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
@@ -16,7 +17,7 @@ import com.surfergraphy.surf.base.typeface.TypekitContextWrapper;
 import com.surfergraphy.surf.login.Activity_Login;
 import com.surfergraphy.surf.login.ViewModel_Login;
 
-public class BaseActivity extends BaseLifecycleActivity implements ICheckAccessToken {
+public class BaseActivity extends AppCompatActivity implements ICheckAccessToken {
 
     protected ViewModel_Login viewModelLogin;
     protected Toolbar toolbar;

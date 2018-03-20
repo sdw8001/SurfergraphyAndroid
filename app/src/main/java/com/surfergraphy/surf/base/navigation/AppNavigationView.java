@@ -1,7 +1,6 @@
 package com.surfergraphy.surf.base.navigation;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +57,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         headerViewHolder = new HeaderViewHolder(context, header);
         setNavigationItemSelectedListener(this);
         setItemIconTintList(null);
-        viewModelLogin.getLoginMemberLiveData().observe((LifecycleActivity) context, loginMember -> {
+        viewModelLogin.getLoginMemberLiveData().observe((BaseActivity) context, loginMember -> {
             if (loginMember != null) {
                 headerViewHolder.nickName.setText(loginMember.Name);
                 headerViewHolder.email.setText(loginMember.Email);

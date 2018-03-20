@@ -6,13 +6,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.surfergraphy.surf.R;
-import com.surfergraphy.surf.base.activities.BaseLifecycleActivity;
 import com.surfergraphy.surf.login.Activity_Login;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Activity_Intro extends BaseLifecycleActivity {
+public class Activity_Intro extends AppCompatActivity {
 
     private ViewModel_Intro viewModel_intro;
 
