@@ -10,8 +10,8 @@ android {
         applicationId "com.surfergraphy.surf"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 8
-        versionName "1.0.008"
+        versionCode 9
+        versionName "1.0.009"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -47,10 +47,11 @@ dependencies {
     })
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version";
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:support-v4:27.0.2'
-    compile 'com.android.support:cardview-v7:27.0.2'
-    compile 'com.android.support:design:27.0.2'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:support-v4:27.1.0'
+    compile 'com.android.support:cardview-v7:27.1.0'
+    compile 'com.android.support:design:27.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -59,18 +60,18 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     compile 'com.jakewharton:butterknife:8.6.0'
 
-    implementation "android.arch.lifecycle:extensions:1.1.0"
-    implementation "android.arch.lifecycle:viewmodel:1.1.0"
-    implementation "android.arch.lifecycle:livedata:1.1.0"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation 'android.arch.lifecycle:livedata:1.1.1'
 
     compile 'com.github.thorbenprimke:realm-recyclerview:0.9.25'
     compile 'com.github.bumptech.glide:glide:4.6.1'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile 'gun0912.ted:tedpermission:2.1.0'
+    compile 'gun0912.ted:tedpermission:2.1.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-alpha1'
+    annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
 
     // 페이스북 로그인 sdk 를 사용하기 위해 필요.
     compile 'com.facebook.android:facebook-android-sdk:4.18.0'
