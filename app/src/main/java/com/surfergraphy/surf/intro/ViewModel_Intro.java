@@ -15,6 +15,7 @@ public class ViewModel_Intro extends BaseViewModel {
     }
 
     public void syncLoginMember() {
+        loginRepository.syncExpiredPhotos();
         loginRepository.syncLoginMember();
     }
 }

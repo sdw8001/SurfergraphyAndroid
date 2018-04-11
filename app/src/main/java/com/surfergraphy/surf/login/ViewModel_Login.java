@@ -19,6 +19,7 @@ public class ViewModel_Login extends BaseViewModel {
     }
 
     public void loginMember(final int actionCode, final RequestModel_MemberInfo requestModel) {
+        loginRepository.syncExpiredPhotos();
         loginRepository.loginMember(actionCode, requestModel);
     }
 

@@ -1,5 +1,7 @@
 package com.surfergraphy.surf.login.data.repositories;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.surfergraphy.surf.base.ActionCode;
@@ -10,6 +12,7 @@ import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.login.data.Member;
 import com.surfergraphy.surf.login.data.RequestModel_MemberInfo;
 import com.surfergraphy.surf.login.data.api.LoginService;
+import com.surfergraphy.surf.photos.data.api.PhotoService;
 import com.surfergraphy.surf.utils.DateDeserializer;
 import com.surfergraphy.surf.utils.ResponseAction;
 import com.surfergraphy.surf.utils.RetrofitAdapter;
@@ -132,6 +135,26 @@ public class LoginRepository extends BaseRepository {
             @Override
             public void onFailure(Call<LoginMember> call, Throwable t) {
 
+            }
+        });
+    }
+
+    public void syncExpiredPhotos() {
+        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+        PhotoService service = retrofit.create(PhotoService.class);
+        final Call<Void> call = service.deleteExpiredPhotos();
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Expired Photos", "Deleted");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("Expired Photos", "error");
             }
         });
     }
