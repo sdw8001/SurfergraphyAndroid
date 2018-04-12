@@ -22,6 +22,7 @@ import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.about.Activity_About;
 import com.surfergraphy.surf.album.Activity_Album;
 import com.surfergraphy.surf.base.ActivityCode;
+import com.surfergraphy.surf.base.BaseIntentKey;
 import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.like.Activity_LikePhoto;
@@ -186,6 +187,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
             // 웨이브구매 클릭
             buyWave.setOnClickListener(v -> {
                 Intent intent = new Intent(context, Activity_WavePurchase.class);
+                intent.putExtra(BaseIntentKey.OpenType, BaseType.OpenType.Navigation);
                 context.startActivity(intent);
                 ((Activity) context).finish();
             });

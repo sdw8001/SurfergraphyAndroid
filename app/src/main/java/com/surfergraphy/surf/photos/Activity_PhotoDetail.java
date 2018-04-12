@@ -27,6 +27,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActionCode;
+import com.surfergraphy.surf.base.BaseIntentKey;
 import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.like.ViewModel_LikePhoto;
@@ -34,6 +35,7 @@ import com.surfergraphy.surf.like.data.LikePhoto;
 import com.surfergraphy.surf.login.Activity_Login;
 import com.surfergraphy.surf.photos.data.Photo;
 import com.surfergraphy.surf.utils.ResponseAction;
+import com.surfergraphy.surf.wavepurchase.Activity_WavePurchase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -201,21 +203,16 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
         });
         button_Save.setOnClickListener(v -> viewModel_photoDetail.savePhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_SAVE, viewModel_photoDetail.getLoginMember().Id, photo.id));
 
-
-        DialogInterface.OnClickListener dialogClickListener = (dialogInterface, i) -> {
-            switch (i) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    // Yes
-                    viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getLoginMember().Id, photo.id);
-                    break;
-                case DialogInterface.BUTTON_NEGATIVE:
-                    // No
-                    break;
-            }
-        };
         button_Buy.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Activity_PhotoDetail.this);
-            builder.setMessage("Would you like to buy this picture?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
+            if (viewModelLogin.getLoginMember().Wave >= photo.wave) {
+                // Wave 보유시 구매안내 팝업
+                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_PhotoDetail.this);
+                builder.setMessage("Would you like to buy this picture?").setPositiveButton("Yes", buyDialogClickListener).setNegativeButton("No", buyDialogClickListener).show();
+            } else {
+                // Wave 미보유시 Wave 구매화면 이동안내 팝업
+                AlertDialog.Builder builder = new AlertDialog.Builder(Activity_PhotoDetail.this);
+                builder.setMessage("Not enough wave.\nWould you like to go charging?").setPositiveButton("Yes", goPurchaseDialogClickListener).setNegativeButton("No", goPurchaseDialogClickListener).show();
+            }
         });
         button_BuyFrame.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://storefarm.naver.com/surfergraphy"))));
     }
@@ -285,4 +282,29 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
     }
+
+    private DialogInterface.OnClickListener buyDialogClickListener = (dialogInterface, i) -> {
+        switch (i) {
+            case DialogInterface.BUTTON_POSITIVE:
+                // Yes
+                viewModel_photoDetail.buyPhoto(ActionCode.ACTION_CREATE_PHOTO_DETAIL_BUY, viewModel_photoDetail.getLoginMember().Id, photo.id);
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                // No
+                break;
+        }
+    };
+    private DialogInterface.OnClickListener goPurchaseDialogClickListener = (dialogInterface, i) -> {
+        switch (i) {
+            case DialogInterface.BUTTON_POSITIVE:
+                // Yes
+                Intent intent = new Intent(this, Activity_WavePurchase.class);
+                intent.putExtra(BaseIntentKey.OpenType, BaseType.OpenType.Back);
+                startActivity(intent);
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+                // No
+                break;
+        }
+    };
 }

@@ -12,6 +12,8 @@ import android.view.View;
 
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActivityCode;
+import com.surfergraphy.surf.base.BaseIntentKey;
+import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.base.helper.InAppBillingHelper;
 import com.surfergraphy.surf.base.navigation.AppNavigationView;
@@ -26,6 +28,7 @@ public class Activity_WavePurchase extends BaseActivity {
     private ViewModel_WavePurchase viewModel_wavePurchase;
     private Adapter_WavePurchase adapter_wavePurchase;
     private InAppBillingHelper inAppBillingHelper;
+    private BaseType.OpenType openType = BaseType.OpenType.Navigation;
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
@@ -40,19 +43,23 @@ public class Activity_WavePurchase extends BaseActivity {
         ButterKnife.bind(this);
         appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_WAVE_PURCHASE);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                viewModelLogin.syncAuthorizationAccountUser();
-            }
-        };
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        openType = (BaseType.OpenType) getIntent().getSerializableExtra(BaseIntentKey.OpenType);
+        if (openType == BaseType.OpenType.Navigation) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                    viewModelLogin.syncAuthorizationAccountUser();
+                }
+            };
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+        } else if (openType == BaseType.OpenType.Back) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         inAppBillingHelper = new InAppBillingHelper(this);
-//        inAppBillingHelper.setTest(true);
         viewModel_wavePurchase = ViewModelProviders.of(this).get(ViewModel_WavePurchase.class);
         viewModel_wavePurchase.setInAppBillingHelper(inAppBillingHelper);
 
@@ -103,11 +110,11 @@ public class Activity_WavePurchase extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

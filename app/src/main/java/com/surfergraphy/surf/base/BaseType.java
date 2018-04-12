@@ -66,4 +66,19 @@ public class BaseType {
             return code;
         }
     }
+
+    public enum OpenType {
+        Navigation("navigation"),
+        Back("back");
+
+        private String code;
+
+        OpenType(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+    }
 }

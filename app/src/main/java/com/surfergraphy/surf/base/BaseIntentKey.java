@@ -11,4 +11,5 @@ public class BaseIntentKey {
     public static String ImageUrl = "image_url";
     public static String Name = "name";
     public static String SignInType = "sign_in_type";
+    public static String OpenType = "open_type";
 }
