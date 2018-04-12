@@ -54,8 +54,8 @@ public class Activity_Intro extends AppCompatActivity {
                                 super.onAnimationEnd(animation);
 
                                 Random random = new Random();
-                                int[] introImg = {R.drawable.loading_images_01, R.drawable.loading_images_02};
-                                Glide.with(Activity_Intro.this).load(introImg[random.nextInt(2)]).into(imageView_Logo);
+                                int[] introImg = {R.drawable.loading_images_01, R.drawable.loading_images_02, R.drawable.loading_images_03, R.drawable.loading_images_04};
+                                Glide.with(Activity_Intro.this).load(introImg[random.nextInt(4)]).into(imageView_Logo);
                                 imageView_Logo.animate()
                                         .alpha(1.0f)
                                         .setDuration(300)
