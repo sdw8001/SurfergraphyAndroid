@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActivityCode;
+import com.surfergraphy.surf.base.BaseIntentKey;
 import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.base.navigation.AppNavigationView;
@@ -25,6 +26,7 @@ public class Activity_Photos extends BaseActivity {
     private ViewModel_Photo viewModelPhoto;
     private Adapter_Photos adapterPhotos;
     private BaseType.LocationType locationType;
+    private BaseType.OpenType openType = BaseType.OpenType.Navigation;
 
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
@@ -50,9 +52,12 @@ public class Activity_Photos extends BaseActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        openType = (BaseType.OpenType) getIntent().getSerializableExtra(BaseIntentKey.OpenType);
+        if (openType == BaseType.OpenType.OpenNavigation) {
+            drawer.openDrawer(GravityCompat.START);
+        }
 
         viewModelPhoto = ViewModelProviders.of(this).get(ViewModel_Photo.class);
-
         viewModelPhoto.getLoginMemberLiveData().observe(this, accessToken -> {
             if (accessToken != null) {
                 if (accessToken.Expired) {

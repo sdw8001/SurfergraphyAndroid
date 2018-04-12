@@ -69,6 +69,7 @@ public class BaseType {
 
     public enum OpenType {
         Navigation("navigation"),
+        OpenNavigation("open_navigation"),
         Back("back");
 
         private String code;

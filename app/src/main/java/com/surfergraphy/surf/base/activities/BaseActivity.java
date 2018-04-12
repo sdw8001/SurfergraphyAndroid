@@ -1,5 +1,6 @@
 package com.surfergraphy.surf.base.activities;
 
+import android.app.ActivityManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +13,15 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.AppApplication;
+import com.surfergraphy.surf.base.BaseIntentKey;
+import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.interfaces.ICheckAccessToken;
 import com.surfergraphy.surf.base.typeface.TypekitContextWrapper;
 import com.surfergraphy.surf.login.Activity_Login;
 import com.surfergraphy.surf.login.ViewModel_Login;
+import com.surfergraphy.surf.photos.Activity_Photos;
+
+import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements ICheckAccessToken {
 
@@ -74,5 +80,22 @@ public class BaseActivity extends AppCompatActivity implements ICheckAccessToken
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        ActivityManager mngr = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+
+        if (taskList.get(0).numActivities == 1 && taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
+            // This is last activity in the stack
+
+            Intent intent = new Intent(this, Activity_Photos.class);
+            intent.putExtra(BaseIntentKey.OpenType, BaseType.OpenType.OpenNavigation);
+            startActivity(intent);
+            this.finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
