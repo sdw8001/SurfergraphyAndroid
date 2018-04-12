@@ -1,6 +1,7 @@
 package com.surfergraphy.surf.about;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
@@ -44,4 +45,13 @@ public class Activity_About extends BaseActivity {
         Glide.with(Activity_About.this).load(R.drawable.surfergraphy_agency).into(logoBottom);
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
