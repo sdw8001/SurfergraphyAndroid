@@ -5,6 +5,11 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_personal_shoot"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_personal_shoot" />
+
+        <item
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/location_korea"
             app:showAsAction="always">

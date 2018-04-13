@@ -21,8 +21,8 @@ public class UserPhotoDao {
     public UserPhoto createOrUpdate(UserPhoto userPhoto) {
         if (userPhoto != null) {
             userPhoto.photo = realm.where(Photo.class).equalTo("id", userPhoto.photoId).findFirst();
-            userPhoto.photoSaveHistory = realm.where(PhotoSaveHistory.class).equalTo("id", userPhoto.photoSaveHistoryId).findFirst();
-            userPhoto.photoBuyHistory = realm.where(PhotoBuyHistory.class).equalTo("id", userPhoto.photoBuyHistoryId).findFirst();
+            userPhoto.photoSaveHistory = realm.where(PhotoSaveHistory.class).equalTo("id", userPhoto.photoSaveHistoryId).equalTo("userId", userPhoto.userId).findFirst();
+            userPhoto.photoBuyHistory = realm.where(PhotoBuyHistory.class).equalTo("id", userPhoto.photoBuyHistoryId).equalTo("userId", userPhoto.userId).findFirst();
             userPhoto = realm.copyToRealmOrUpdate(userPhoto);
         }
         return userPhoto;
@@ -42,8 +42,8 @@ public class UserPhotoDao {
         for (UserPhoto userPhoto : realmResults) {
             realm.executeTransaction(realm1 -> {
                 userPhoto.photo = realm.where(Photo.class).equalTo("id", userPhoto.photoId).findFirst();
-                userPhoto.photoSaveHistory = realm.where(PhotoSaveHistory.class).equalTo("id", userPhoto.photoSaveHistoryId).findFirst();
-                userPhoto.photoBuyHistory = realm.where(PhotoBuyHistory.class).equalTo("id", userPhoto.photoBuyHistoryId).findFirst();
+                userPhoto.photoSaveHistory = realm.where(PhotoSaveHistory.class).equalTo("id", userPhoto.photoSaveHistoryId).equalTo("userId", userPhoto.userId).findFirst();
+                userPhoto.photoBuyHistory = realm.where(PhotoBuyHistory.class).equalTo("id", userPhoto.photoBuyHistoryId).equalTo("userId", userPhoto.userId).findFirst();
             });
         }
         return asLiveData(realm.where(UserPhoto.class).equalTo("userId", userId).findAllAsync());

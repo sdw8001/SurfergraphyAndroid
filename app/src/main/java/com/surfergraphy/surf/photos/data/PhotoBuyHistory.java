@@ -18,13 +18,19 @@ public class PhotoBuyHistory implements RealmModel {
     public int photoId;
     @SerializedName("Wave")
     public int wave;
+    @SerializedName("Paid")
+    public boolean paid;
+    @SerializedName("PaidDate")
+    public String paidDate;
 
     public PhotoBuyHistory() {}
 
-    public PhotoBuyHistory(int id, String userId, int photoId, int wave) {
+    public PhotoBuyHistory(int id, String userId, int photoId, int wave, boolean paid, String paidDate) {
         this.id = id;
         this.userId = userId;
         this.photoId = photoId;
         this.wave = wave;
+        this.paid = paid;
+        this.paidDate = paidDate;
     }
 }

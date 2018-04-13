@@ -9,6 +9,7 @@ import android.text.TextUtils;
 public class BaseType {
 
     public enum LocationType {
+        Personal_Shoot("PS", "Personal Shoot"),
         Korea_EastCoast("KOEC", "Korea - East Coast"),
         Korea_SouthCoast("KOSC", "Korea - South Coast"),
         Korea_WestCoast("KOWC", "Korea - West Coast"),

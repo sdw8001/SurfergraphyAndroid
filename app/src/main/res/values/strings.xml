@@ -25,6 +25,7 @@
     <string name="my_gallery">Gallery</string>
     <string name="my_cart">Cart</string>
     <string name="location">Location</string>
+    <string name="location_personal_shoot">Personal Shoot</string>
     <string name="location_korea">KOREA</string>
     <string name="location_korea_east_coast">East Coast</string>
     <string name="location_korea_west_coast">West Coast</string>
