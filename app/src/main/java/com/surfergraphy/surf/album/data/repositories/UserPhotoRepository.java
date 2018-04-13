@@ -174,4 +174,12 @@ public class UserPhotoRepository extends BaseRepository {
         }
         realm.commitTransaction();
     }
+
+    public void toggleSelectableUserPhoto(final String userId) {
+        realm.beginTransaction();
+        for (UserPhoto likePhoto : realm.where(UserPhoto.class).equalTo("userId", userId).findAll()) {
+            likePhoto.selectable = !likePhoto.selectable;
+        }
+        realm.commitTransaction();
+    }
 }

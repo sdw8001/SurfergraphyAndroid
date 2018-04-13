@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.album.data.UserPhoto;
 import com.surfergraphy.surf.photos.Activity_PhotoDetail;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,15 +22,20 @@ import io.realm.RealmViewHolder;
 
 public class Adapter_UserPhotos extends RealmBasedRecyclerViewAdapter<UserPhoto, Adapter_UserPhotos.ViewHolder> {
 
+    public ArrayList<Integer> selectedPhotoIds;
+
     public Adapter_UserPhotos(Context context, RealmResults<UserPhoto> realmResults, boolean automaticUpdate, boolean animateIdType) {
         super(context, realmResults, automaticUpdate, animateIdType);
-
+        selectedPhotoIds = new ArrayList<>();
     }
 
     public class ViewHolder extends RealmViewHolder {
 
         @BindView(R.id.image_view_photo)
         ImageView imageView_Photo;
+
+        @BindView(R.id.select_box)
+        CheckBox checkBox_Photo;
 
         public ViewHolder(ViewGroup container) {
             super(container);
@@ -45,12 +53,26 @@ public class Adapter_UserPhotos extends RealmBasedRecyclerViewAdapter<UserPhoto,
     @Override
     public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
         final UserPhoto userPhoto = realmResults.get(position);
+        if (selectedPhotoIds != null)
+            selectedPhotoIds.clear();
+
         if (userPhoto.photo != null) {
             Glide.with(getContext()).load(userPhoto.photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
+            viewHolder.checkBox_Photo.setVisibility(userPhoto.selectable ? View.VISIBLE : View.GONE);
             viewHolder.imageView_Photo.setOnClickListener(v -> {
-                Intent intent = new Intent(getContext(), Activity_PhotoDetail.class);
-                intent.putExtra("photo_id", userPhoto.photoId);
-                getContext().startActivity(intent);
+                if (userPhoto.selectable) {
+                    viewHolder.checkBox_Photo.toggle();
+                } else {
+                    Intent intent = new Intent(getContext(), Activity_PhotoDetail.class);
+                    intent.putExtra("photo_id", userPhoto.photoId);
+                    getContext().startActivity(intent);
+                }
+            });
+            viewHolder.checkBox_Photo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked)
+                    selectedPhotoIds.add(Integer.valueOf(userPhoto.id));
+                else
+                    selectedPhotoIds.remove(Integer.valueOf(userPhoto.id));
             });
         }
     }

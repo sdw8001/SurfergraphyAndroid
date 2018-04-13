@@ -22,6 +22,7 @@ public class LikePhoto implements RealmModel {
     public int photoBuyHistoryId;
     @SerializedName("Deleted")
     public boolean deleted;
+    public boolean selectable;
     public Photo photo;
     public PhotoBuyHistory photoBuyHistory;
 
@@ -34,5 +35,6 @@ public class LikePhoto implements RealmModel {
         this.photoId = photoId;
         this.photoBuyHistoryId = photoBuyHistoryId;
         this.deleted = deleted;
+        this.selectable = false;
     }
 }

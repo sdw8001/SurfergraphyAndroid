@@ -231,6 +231,14 @@ public class LikePhotoRepository extends BaseRepository {
         realm.commitTransaction();
     }
 
+    public void toggleSelectableLikePhoto(final String userId) {
+        realm.beginTransaction();
+        for (LikePhoto likePhoto : realm.where(LikePhoto.class).equalTo("userId", userId).findAll()) {
+            likePhoto.selectable = !likePhoto.selectable;
+        }
+        realm.commitTransaction();
+    }
+
     public void deleteLikePhotos() {
 
         realm.beginTransaction();

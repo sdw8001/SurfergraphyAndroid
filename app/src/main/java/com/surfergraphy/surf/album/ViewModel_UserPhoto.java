@@ -6,7 +6,6 @@ import android.arch.lifecycle.LiveData;
 import com.surfergraphy.surf.album.data.UserPhoto;
 import com.surfergraphy.surf.album.data.repositories.UserPhotoRepository;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
-import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.repositories.PhotoBuyHistoryRepository;
 import com.surfergraphy.surf.photos.data.repositories.PhotoSaveHistoryRepository;
 
@@ -19,7 +18,6 @@ public class ViewModel_UserPhoto extends BaseViewModel {
     private UserPhotoRepository userPhotoRepository;
     private PhotoSaveHistoryRepository photoSaveHistoryRepository;
     private PhotoBuyHistoryRepository photoBuyHistoryRepository;
-    private LiveData<LoginMember> accessTokenLiveData;
     private LiveData<RealmResults<UserPhoto>> userPhotoListLiveData;
 
     public ViewModel_UserPhoto(Application application) {
@@ -38,5 +36,17 @@ public class ViewModel_UserPhoto extends BaseViewModel {
     public LiveData<RealmResults<UserPhoto>> getUserPhotos() {
         userPhotoListLiveData = userPhotoModel(realm).findUserPhotoLiveData(getLoginMember().Id);
         return userPhotoListLiveData;
+    }
+
+    public String getUserPhotoUrl(final int id) {
+        UserPhoto userPhoto = realm.where(UserPhoto.class).equalTo("id", id).findFirst();
+        if (userPhoto != null) {
+            return userPhoto.photo.url;
+        }
+        return null;
+    }
+
+    public void toggleSelectableUserPhoto(final String userId) {
+        userPhotoRepository.toggleSelectableUserPhoto(userId);
     }
 }

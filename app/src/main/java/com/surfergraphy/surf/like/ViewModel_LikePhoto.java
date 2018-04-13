@@ -7,7 +7,6 @@ import android.arch.lifecycle.Transformations;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surf.like.data.LikePhoto;
 import com.surfergraphy.surf.like.data.repositories.LikePhotoRepository;
-import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.repositories.PhotoBuyHistoryRepository;
 import com.surfergraphy.surf.utils.LiveRealmData;
 
@@ -19,7 +18,6 @@ public class ViewModel_LikePhoto extends BaseViewModel {
 
     private LikePhotoRepository likePhotoRepository;
     private PhotoBuyHistoryRepository photoBuyHistoryRepository;
-    private LiveData<LoginMember> accessTokenLiveData;
     private LiveData<LikePhoto> likePhotoLiveData;
     private LiveData<RealmResults<LikePhoto>> likePhotoListLiveData;
 
@@ -51,5 +49,17 @@ public class ViewModel_LikePhoto extends BaseViewModel {
         LiveRealmData<LikePhoto> liveRealmData = likePhotoModel(realm).findLikePhotoLiveData(userId, photoId);
         likePhotoLiveData = Transformations.map(liveRealmData, data -> data.size() > 0 ? data.get(0) : null);
         return likePhotoLiveData;
+    }
+
+    public String getLikePhotoUrl(final int id) {
+        LikePhoto likePhoto = realm.where(LikePhoto.class).equalTo("id", id).findFirst();
+        if (likePhoto != null) {
+            return likePhoto.photo.url;
+        }
+        return null;
+    }
+
+    public void toggleSelectableLikePhoto(final String userId) {
+        likePhotoRepository.toggleSelectableLikePhoto(userId);
     }
 }
