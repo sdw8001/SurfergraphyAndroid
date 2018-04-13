@@ -157,13 +157,18 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 resolution.setText(photo.resolution + "ppi");
 
                 viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
-                viewModel_photoDetail.getPhotoBuyHistory(photo.id).observe(this, photoBuyHistory -> {
+                viewModel_photoDetail.getPhotoBuyHistory(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, photoBuyHistory -> {
                     if (photoBuyHistory == null) {
-                        button_Buy.setEnabled(true);
                         watermark.setVisibility(View.VISIBLE);
                     } else {
-                        button_Buy.setEnabled(false);
                         watermark.setVisibility(View.GONE);
+                    }
+                });
+                viewModel_photoDetail.getPhotoBuyHistories(photo.id).observe(this, photoBuyHistories -> {
+                    if (photoBuyHistories.size() < photo.totalCount) {
+                        button_Buy.setEnabled(true);
+                    } else {
+                        button_Buy.setEnabled(false);
                     }
                 });
             }

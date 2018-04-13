@@ -14,6 +14,8 @@ import com.surfergraphy.surf.photos.data.repositories.PhotoSaveHistoryRepository
 import com.surfergraphy.surf.photos.data.repositories.PhotographerRepository;
 import com.surfergraphy.surf.utils.LiveRealmData;
 
+import io.realm.RealmResults;
+
 import static com.surfergraphy.surf.utils.RealmUtils.photoBuyHistoryModel;
 import static com.surfergraphy.surf.utils.RealmUtils.photoModel;
 import static com.surfergraphy.surf.utils.RealmUtils.photoSaveHistoryModel;
@@ -27,6 +29,7 @@ public class ViewModel_PhotoDetail extends BaseViewModel {
     private LiveData<Photo> photoListLiveData;
     private LiveData<PhotoSaveHistory> photoSaveHistoryLiveData;
     private LiveData<PhotoBuyHistory> photoBuyHistoryLiveData;
+    private LiveData<RealmResults<PhotoBuyHistory>> photoBuyHistoriesLiveData;
     private LiveData<Photographer> photographerLiveData;
 
     public ViewModel_PhotoDetail(Application application) {
@@ -48,10 +51,15 @@ public class ViewModel_PhotoDetail extends BaseViewModel {
         return photoSaveHistoryLiveData;
     }
 
-    public LiveData<PhotoBuyHistory> getPhotoBuyHistory(final int photoId) {
-        LiveRealmData<PhotoBuyHistory> liveRealmData = photoBuyHistoryModel(realm).findPhotoBuyHistoryLiveData(photoId);
+    public LiveData<PhotoBuyHistory> getPhotoBuyHistory(final String userId, final int photoId) {
+        LiveRealmData<PhotoBuyHistory> liveRealmData = photoBuyHistoryModel(realm).findPhotoBuyHistoryLiveData(userId, photoId);
         photoBuyHistoryLiveData = Transformations.map(liveRealmData, data -> data.size() > 0 ? data.get(0) : null);
         return photoBuyHistoryLiveData;
+    }
+
+    public LiveData<RealmResults<PhotoBuyHistory>> getPhotoBuyHistories(final int photoId) {
+        photoBuyHistoriesLiveData = photoBuyHistoryModel(realm).findPhotoBuyHistoryLiveData(photoId);
+        return photoBuyHistoriesLiveData;
     }
 
     public void savePhoto(final int actionCode, final String userId, final int photoId) {

@@ -33,6 +33,8 @@ public class Photo implements RealmModel{
     public int dimensionHeight;
     @SerializedName("Resolution")
     public int resolution;
+    @SerializedName("TotalCount")
+    public int totalCount;
     @SerializedName("Date")
     public String createdDate;
     @SerializedName("ExpirationDate")
