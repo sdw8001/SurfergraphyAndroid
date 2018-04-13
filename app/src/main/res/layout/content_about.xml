@@ -15,6 +15,12 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/surfergraphy_app_icon_600" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -207,8 +213,8 @@
         <ImageView
             android:id="@+id/logo_bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside" />
+            android:layout_height="400dp"
+            android:scaleType="fitEnd" />
 
     </LinearLayout>
 </ScrollView>
