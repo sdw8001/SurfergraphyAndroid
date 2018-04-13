@@ -60,6 +60,8 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
     ImageView imageView_Photo;
     @BindView(R.id.watermark)
     ImageView watermark;
+    @BindView(R.id.quantity)
+    TextView textView_Quantity;
     @BindView(R.id.text_view_price)
     TextView textView_WavePrice;
     @BindView(R.id.swipe_refresh_layout)
@@ -136,7 +138,8 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                 this.photo = photo;
                 this.photoUrl = photo.url;
                 Glide.with(this).load(photo.url).into(imageView_Photo);
-                textView_WavePrice.setText(String.valueOf(photo.wave));
+                textView_Quantity.setText(String.valueOf(photo.totalCount));
+                textView_WavePrice.setText(String.valueOf(photo.wave) + " wave");
                 viewModel_likePhoto.syncDataLikePhotos();
                 viewModel_likePhoto.getLikePhoto(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, likePhoto1 -> {
                     this.likePhoto = likePhoto1;
