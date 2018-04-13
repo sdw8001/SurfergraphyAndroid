@@ -10,30 +10,47 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/cardview_light_background">
 
-        <TextView
-            android:id="@+id/text_view_wave_count"
+
+
+        <LinearLayout
+            android:id="@+id/layout_wave_count"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@color/cardview_light_background"
-            android:gravity="end|center_vertical"
-            android:textSize="32sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="3dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/text_view_wave"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_view_wave"
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:background="@color/cardview_light_background"
-            android:gravity="start|center_vertical"
-            android:textSize="20sp"
-            android:text=" Wave"
-            app:layout_constraintLeft_toRightOf="@+id/text_view_wave_count"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_view_wave_count" />
+            app:layout_constraintTop_toTopOf="parent">
+            
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/wave_icon"/>
+
+            <TextView
+                android:id="@+id/text_view_wave_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/text_view_wave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/cardview_light_background"
+                android:gravity="start|center_vertical"
+                android:text=" wave"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_view_wave_price"
@@ -42,18 +59,22 @@
             android:layout_marginBottom="16dp"
             android:background="@color/cardview_light_background"
             android:gravity="center"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_wave_count" />
+            app:layout_constraintTop_toBottomOf="@id/layout_wave_count" />
 
         <Button
             android:id="@+id/button_buy"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Buy"
-            android:textSize="20sp"
             android:drawableLeft="@drawable/ic_menu_cart"
+            android:text="Buy"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

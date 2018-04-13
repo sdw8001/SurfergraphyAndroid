@@ -1,6 +1,7 @@
 package com.surfergraphy.surf.wavepurchase;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,7 +66,7 @@ public class Adapter_WavePurchase extends RealmBasedRecyclerViewAdapter<WavePurc
     public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
         final WavePurchase wavePurchase = realmResults.get(position);
         viewHolder.textView_waveCount.setText(String.valueOf(wavePurchase.waveCount));
-        viewHolder.textView_wavePrice.setText(String.format("%,d원", wavePurchase.wavePrice));
+        viewHolder.textView_wavePrice.setText(context.getString(R.string.sign_money_ko) + String.format("%,d KRW", wavePurchase.wavePrice));
         viewHolder.button_buy.setOnClickListener(v -> onBuyEventListener.OnBuyClickEvent(wavePurchase));
     }
 }
