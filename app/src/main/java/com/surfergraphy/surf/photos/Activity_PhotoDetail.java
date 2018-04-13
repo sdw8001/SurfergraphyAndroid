@@ -168,6 +168,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
                     }
                 });
                 viewModel_photoDetail.getPhotoBuyHistories(photo.id).observe(this, photoBuyHistories -> {
+                    textView_Quantity.setText(String.valueOf(photo.totalCount - photoBuyHistories.size()));
                     if (photoBuyHistories.size() < photo.totalCount) {
                         button_Buy.setEnabled(true);
                     } else {
