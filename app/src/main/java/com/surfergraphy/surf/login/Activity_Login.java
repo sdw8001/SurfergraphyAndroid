@@ -16,6 +16,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -31,6 +32,7 @@ import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.login.data.RequestModel_MemberInfo;
 import com.surfergraphy.surf.photos.Activity_Photos;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
@@ -152,18 +154,11 @@ public class Activity_Login extends BaseActivity implements GoogleApiClient.OnCo
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 Log.v("result", object.toString());
-//                try {
-//                    Intent intent = new Intent(Activity_Login.this, SignInSnsActivity.class);
-//                    intent.putExtra(BaseIntentKey.SignInType, BaseType.SignIn.Facebook);
-//                    intent.putExtra(BaseIntentKey.Identity, object.getString("id"));
-//                    intent.putExtra(BaseIntentKey.Name, object.getString("name"));
-//                    intent.putExtra(BaseIntentKey.Email, object.getString("email"));
-//                    intent.putExtra(BaseIntentKey.ImageUrl, Profile.getCurrentProfile().getProfilePictureUri(160, 160).toString());
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    startActivity(intent);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    viewModelLogin.loginMember(ActionCode.ACTION_LOGIN_MEMBER, new RequestModel_MemberInfo(object.getString("id"), accessToken.getToken(), object.getString("email"), "F", object.getString("name"), Profile.getCurrentProfile().getProfilePictureUri(160, 160).toString()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

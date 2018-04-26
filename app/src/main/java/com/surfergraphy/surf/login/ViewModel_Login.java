@@ -1,7 +1,9 @@
 package com.surfergraphy.surf.login;
 
 import android.app.Application;
+import android.text.TextUtils;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surf.login.data.RequestModel_MemberInfo;
@@ -23,9 +25,14 @@ public class ViewModel_Login extends BaseViewModel {
         loginRepository.loginMember(actionCode, requestModel);
     }
 
-    public void logoutAccount() {
-        FirebaseAuth.getInstance().signOut();
-        loginMemberModel(realm).removeLoginMember();
+    public void logoutAccount(String loginType) {
+        if (TextUtils.equals(loginType, "G")) {
+            FirebaseAuth.getInstance().signOut();
+            loginMemberModel(realm).removeLoginMember();
+        } else if (TextUtils.equals(loginType, "F")) {
+            LoginManager.getInstance().logOut();
+            loginMemberModel(realm).removeLoginMember();
+        }
     }
 
 }

@@ -39,6 +39,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
     private int currentActivityCode;
     private ViewModel_Login viewModelLogin;
     private ViewModel_Photo viewModelPhoto;
+    private String loginType;
     HeaderViewHolder headerViewHolder;
 
     public AppNavigationView(Context context) {
@@ -60,6 +61,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         setItemIconTintList(null);
         viewModelLogin.getLoginMemberLiveData().observe((BaseActivity) context, loginMember -> {
             if (loginMember != null) {
+                loginType = loginMember.JoinType;
                 headerViewHolder.nickName.setText(loginMember.Name);
                 headerViewHolder.email.setText(loginMember.Email);
                 headerViewHolder.wave.setText(String.valueOf(loginMember.Wave));
@@ -107,7 +109,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         } else if (id == R.id.nav_other_countries) {
             selectMenuLocation(BaseType.LocationType.OtherCountries);
         } else if (id == R.id.nav_logout) {
-            viewModelLogin.logoutAccount();
+            viewModelLogin.logoutAccount(loginType);
             DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
         }
