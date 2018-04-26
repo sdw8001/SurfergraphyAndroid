@@ -48,4 +48,11 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_wave_purchase">Buy Wave</string>
     <string name="title_activity_about">About</string>
+    <string name="notice">Notice\n\n
+
+All photos are copyrighted by the photographers and Surfergraphy. Surf photographers are a hard-working bunch and they are paid peanuts. Hug one the next time you see one, and please click on an images to buy digital shot. Don’t worry, this App does offer you free images as well.\n\n
+
+Gallery-quality wall-hangings of these images are available. Please click on Surframe to continue to next step.\n\n
+
+Email us if you are interested in prints, high-resolution downloads and commercial licenses.</string>
 </resources>
