@@ -9,6 +9,9 @@ import android.text.TextUtils;
 public class BaseType {
 
     public enum LocationType {
+        Best_Photo("BP", "Best Photo"),
+        Event_Promotion("EP", "Event & Promotion"),
+        Lesson_Photos("LP", "Lesson Photos - First TakeOff"),
         Personal_Shoot("PS", "Personal Shoot"),
         Korea_EastCoast("KOEC", "Korea - East Coast"),
         Korea_SouthCoast("KOSC", "Korea - South Coast"),

@@ -80,7 +80,13 @@ public class AppNavigationView extends NavigationView implements NavigationView.
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_personal_shoot) {
+        if (id == R.id.nav_best_photo) {
+            selectMenuLocation(BaseType.LocationType.Best_Photo);
+        } else if (id == R.id.nav_event_promotion) {
+            selectMenuLocation(BaseType.LocationType.Event_Promotion);
+        } else if (id == R.id.nav_lesson_photos) {
+            selectMenuLocation(BaseType.LocationType.Lesson_Photos);
+        } else if (id == R.id.nav_personal_shoot) {
             selectMenuLocation(BaseType.LocationType.Personal_Shoot);
         } else if (id == R.id.nav_korea_east_coast) {
             selectMenuLocation(BaseType.LocationType.Korea_EastCoast);

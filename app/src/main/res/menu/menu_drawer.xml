@@ -5,6 +5,21 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_best_photo"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_best_photo" />
+
+        <item
+            android:id="@+id/nav_event_promotion"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_event_promotion" />
+
+        <item
+            android:id="@+id/nav_lesson_photos"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/location_lesson_photos" />
+
+        <item
             android:id="@+id/nav_personal_shoot"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/location_personal_shoot" />

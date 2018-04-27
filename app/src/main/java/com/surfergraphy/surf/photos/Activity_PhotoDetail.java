@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -74,10 +76,15 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
     TextView dimensions;
     @BindView(R.id.resolution)
     TextView resolution;
+    @BindView(R.id.layout_metadata)
+    LinearLayout layoutMetadata;
+    @BindView(R.id.notice)
+    TextView notice;
 
     private Photo photo;
     private LikePhoto likePhoto;
     private String photoUrl;
+    private boolean useWatermark = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +129,19 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
             if (photo != null) {
                 this.photo = photo;
                 this.photoUrl = photo.url;
+                this.setTitle(BaseType.LocationType.findLocationType(photo.place).getName());
+
+                if (TextUtils.equals(BaseType.LocationType.Best_Photo.getCode(), photo.place)) {
+                    // 베스트포토
+                    useWatermark = false;
+                } else if (TextUtils.equals(BaseType.LocationType.Event_Promotion.getCode(), photo.place)) {
+                    // 이벤트&프로모션
+                    useWatermark = true;
+                    button_BuyFrame.setVisibility(View.GONE);
+                    layoutMetadata.setVisibility(View.GONE);
+                    notice.setVisibility(View.GONE);
+                }
+
                 Glide.with(this).load(photo.url).into(imageView_Photo);
                 textView_Quantity.setText(String.valueOf(photo.totalCount));
                 textView_WavePrice.setText(String.valueOf(photo.wave) + " wave");
@@ -146,7 +166,7 @@ public class Activity_PhotoDetail extends BaseActivity implements SwipeRefreshLa
 
                 viewModel_photoDetail.getUserPhotoSaveHistory(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, photoSaveHistory -> button_Save.setEnabled(photoSaveHistory == null));
                 viewModel_photoDetail.getPhotoBuyHistory(viewModel_photoDetail.getLoginMember().Id, photo.id).observe(this, photoBuyHistory -> {
-                    if (photoBuyHistory == null) {
+                    if (photoBuyHistory == null && useWatermark) {
                         watermark.setVisibility(View.VISIBLE);
                     } else {
                         watermark.setVisibility(View.GONE);
