@@ -124,9 +124,10 @@ public class AppNavigationView extends NavigationView implements NavigationView.
             ((Activity) context).finish();
             return;
         }
-        viewModelPhoto.setPlace(locationType);
+        viewModelPhoto.deleteDatePhotos();
         viewModelPhoto.deletePhotos();
-        viewModelPhoto.dataSyncPlacePhotos(locationType);
+        viewModelPhoto.setPlace(locationType);
+        viewModelPhoto.dataSyncDatesFromPlace(locationType);
         DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }

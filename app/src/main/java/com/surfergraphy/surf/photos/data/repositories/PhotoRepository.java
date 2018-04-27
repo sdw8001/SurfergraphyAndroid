@@ -5,7 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.surfergraphy.surf.base.data.ActionResponse;
 import com.surfergraphy.surf.base.data.repositories.BaseRepository;
 import com.surfergraphy.surf.base.interfaces.ResponseAction_Default;
+import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.Photo;
+import com.surfergraphy.surf.photos.data.PhotoDate;
 import com.surfergraphy.surf.photos.data.api.PhotoService;
 import com.surfergraphy.surf.utils.DateDeserializer;
 import com.surfergraphy.surf.utils.ResponseAction;
@@ -21,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.surfergraphy.surf.utils.RealmUtils.photoDateModel;
 import static com.surfergraphy.surf.utils.RealmUtils.photoModel;
 
 public class PhotoRepository extends BaseRepository {
@@ -36,12 +39,218 @@ public class PhotoRepository extends BaseRepository {
         super(realm);
     }
 
-    public void getPhotos() {
+    public void syncPhotoFromUserPhotos() {
+        LoginMember currentLoginMember = realm.where(LoginMember.class).findFirst();
+        if (currentLoginMember != null) {
+            Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+            Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+            PhotoService photoService = retrofit.create(PhotoService.class);
+
+            final Call<List<Photo>> call = photoService.getPhotoFromUserPhoto(currentLoginMember.Id);
+            call.enqueue(new Callback<List<Photo>>() {
+                @Override
+                public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                    new ResponseAction<>(response, new ResponseAction_Default<List<Photo>>() {
+                        @Override
+                        public void error(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void badRequest(Response<List<Photo>> response, ActionResponse actionResponse) {
+
+                        }
+
+                        @Override
+                        public void notFound(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void ok(Response<List<Photo>> response) {
+                            createOrUpdatePhotos(response.body());
+                        }
+
+                        @Override
+                        public void okCreated(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void unAuthorized(Response<List<Photo>> response) {
+                            updateExpiredLoginMember(true);
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Photo>> call, Throwable t) {
+                    new Throwable("getPhoto Failed", t);
+                }
+            });
+        }
+    }
+
+    public void syncPhotoFromLikePhotos() {
+        LoginMember currentLoginMember = realm.where(LoginMember.class).findFirst();
+        if (currentLoginMember != null) {
+            Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+            Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+            PhotoService photoService = retrofit.create(PhotoService.class);
+
+            final Call<List<Photo>> call = photoService.getPhotoFromLikePhoto(currentLoginMember.Id);
+            call.enqueue(new Callback<List<Photo>>() {
+                @Override
+                public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                    new ResponseAction<>(response, new ResponseAction_Default<List<Photo>>() {
+                        @Override
+                        public void error(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void badRequest(Response<List<Photo>> response, ActionResponse actionResponse) {
+
+                        }
+
+                        @Override
+                        public void notFound(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void ok(Response<List<Photo>> response) {
+                            createOrUpdatePhotos(response.body());
+                        }
+
+                        @Override
+                        public void okCreated(Response<List<Photo>> response) {
+
+                        }
+
+                        @Override
+                        public void unAuthorized(Response<List<Photo>> response) {
+                            updateExpiredLoginMember(true);
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Photo>> call, Throwable t) {
+                    new Throwable("getPhoto Failed", t);
+                }
+            });
+        }
+    }
+
+    public void getDate() {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoService photoService = retrofit.create(PhotoService.class);
 
-        final Call<List<Photo>> call = photoService.getPhotos();
+        final Call<List<PhotoDate>> call = photoService.getDates();
+        call.enqueue(new Callback<List<PhotoDate>>() {
+            @Override
+            public void onResponse(Call<List<PhotoDate>> call, Response<List<PhotoDate>> response) {
+                new ResponseAction<>(response, new ResponseAction_Default<List<PhotoDate>>() {
+                    @Override
+                    public void error(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void badRequest(Response<List<PhotoDate>> response, ActionResponse actionResponse) {
+
+                    }
+
+                    @Override
+                    public void notFound(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void ok(Response<List<PhotoDate>> response) {
+                        createOrUpdatePhotoDate(response.body());
+                    }
+
+                    @Override
+                    public void okCreated(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void unAuthorized(Response<List<PhotoDate>> response) {
+                        updateExpiredLoginMember(true);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<PhotoDate>> call, Throwable t) {
+                new Throwable("getPhoto Failed", t);
+            }
+        });
+    }
+
+    public void getDateFromPlace(final String place) {
+        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+        PhotoService photoService = retrofit.create(PhotoService.class);
+
+        final Call<List<PhotoDate>> call = photoService.getDatesFromPlace(place);
+        call.enqueue(new Callback<List<PhotoDate>>() {
+            @Override
+            public void onResponse(Call<List<PhotoDate>> call, Response<List<PhotoDate>> response) {
+                new ResponseAction<>(response, new ResponseAction_Default<List<PhotoDate>>() {
+                    @Override
+                    public void error(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void badRequest(Response<List<PhotoDate>> response, ActionResponse actionResponse) {
+
+                    }
+
+                    @Override
+                    public void notFound(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void ok(Response<List<PhotoDate>> response) {
+                        createOrUpdatePhotoDate(response.body());
+                    }
+
+                    @Override
+                    public void okCreated(Response<List<PhotoDate>> response) {
+
+                    }
+
+                    @Override
+                    public void unAuthorized(Response<List<PhotoDate>> response) {
+                        updateExpiredLoginMember(true);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<PhotoDate>> call, Throwable t) {
+                new Throwable("getPhoto Failed", t);
+            }
+        });
+    }
+
+    public void getPhotos(final String date) {
+        Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
+        Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
+        PhotoService photoService = retrofit.create(PhotoService.class);
+
+        final Call<List<Photo>> call = photoService.getPhotos(date);
         call.enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
@@ -86,12 +295,12 @@ public class PhotoRepository extends BaseRepository {
         });
     }
 
-    public void getPlacePhotos(final String place) {
+    public void getPlacePhotos(final String place, final String date) {
         Gson gson = new GsonBuilder().setDateFormat("EEE',' dd MMM yyyy HH:mm:ss 'GMT'").registerTypeAdapter(LocalDateTime.class, new DateDeserializer()).create();
         Retrofit retrofit = RetrofitAdapter.getInstance(RetrofitAdapter.API_SERVER_URL, gson);
         PhotoService photoService = retrofit.create(PhotoService.class);
 
-        final Call<List<Photo>> call = photoService.getPlacePhotos(place);
+        final Call<List<Photo>> call = photoService.getPlacePhotos(place, date);
         call.enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
@@ -142,9 +351,26 @@ public class PhotoRepository extends BaseRepository {
         realm.commitTransaction();
     }
 
+    public void deleteDatePhotos() {
+        realm.beginTransaction();
+        photoDateModel(realm).deleteDatePhotos();
+        realm.commitTransaction();
+    }
+
     public void deletePlacePhotos(final String place) {
         realm.beginTransaction();
         photoModel(realm).deletePlacePhotos(place);
+        realm.commitTransaction();
+    }
+
+    private void createOrUpdatePhotoDate(final List<PhotoDate> photoDates) {
+        if (photoDates == null)
+            return;
+
+        realm.beginTransaction();
+        for (PhotoDate photoDate : photoDates) {
+            photoDateModel(realm).createOrUpdate(photoDate);
+        }
         realm.commitTransaction();
     }
 

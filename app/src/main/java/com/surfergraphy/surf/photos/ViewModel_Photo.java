@@ -8,6 +8,7 @@ import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surf.login.data.LoginMember;
 import com.surfergraphy.surf.photos.data.Photo;
+import com.surfergraphy.surf.photos.data.PhotoDate;
 import com.surfergraphy.surf.photos.data.ViewInfo_Photo;
 import com.surfergraphy.surf.photos.data.repositories.PhotoRepository;
 import com.surfergraphy.surf.utils.LiveRealmData;
@@ -16,11 +17,13 @@ import io.realm.RealmResults;
 
 import static com.surfergraphy.surf.utils.RealmUtils.loginMemberModel;
 import static com.surfergraphy.surf.utils.RealmUtils.asLiveData;
+import static com.surfergraphy.surf.utils.RealmUtils.photoDateModel;
 import static com.surfergraphy.surf.utils.RealmUtils.photoModel;
 
 public class ViewModel_Photo extends BaseViewModel {
 
     private PhotoRepository photoRepository;
+    private LiveData<RealmResults<PhotoDate>> photoDateListLiveData;
     private LiveData<RealmResults<Photo>> photoListLiveData;
     private LiveData<RealmResults<ViewInfo_Photo>> viewInfo_photoLiveData;
 
@@ -40,21 +43,38 @@ public class ViewModel_Photo extends BaseViewModel {
         }
     }
 
-    public void dataSyncPhotos() {
-        photoRepository.getPhotos();
+    public void dataSyncPhotos(final String date) {
+        photoRepository.getPhotos(date);
     }
 
-    public void dataSyncPlacePhotos(final BaseType.LocationType place) {
-        photoRepository.getPlacePhotos(place.getCode());
+    public void dataSyncPlacePhotos(final BaseType.LocationType place, final String date) {
+        photoRepository.getPlacePhotos(place.getCode(), date);
+    }
+
+    public void dataSyncDates() {
+        photoRepository.getDate();
+    }
+
+    public void dataSyncDatesFromPlace(final BaseType.LocationType place) {
+        photoRepository.getDateFromPlace(place.getCode());
     }
 
     public void deletePhotos() {
         photoRepository.deletePhotos();
     }
 
+    public void deleteDatePhotos() {
+        photoRepository.deleteDatePhotos();
+    }
+
     public LiveData<RealmResults<Photo>> getPhotos() {
         photoListLiveData = photoModel(realm).findPhotosLiveData();
         return photoListLiveData;
+    }
+
+    public LiveData<RealmResults<PhotoDate>> getDates() {
+        photoDateListLiveData = photoDateModel(realm).findPhotoDateLiveData();
+        return photoDateListLiveData;
     }
 
     public LiveData<RealmResults<ViewInfo_Photo>> getViewInfo_Photo() {

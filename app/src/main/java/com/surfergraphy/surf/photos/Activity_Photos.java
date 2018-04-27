@@ -8,6 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActivityCode;
@@ -16,6 +19,9 @@ import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.base.navigation.AppNavigationView;
 import com.surfergraphy.surf.login.Activity_Login;
+import com.surfergraphy.surf.photos.data.PhotoDate;
+
+import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,11 +34,16 @@ public class Activity_Photos extends BaseActivity {
     private BaseType.LocationType locationType;
     private BaseType.OpenType openType = BaseType.OpenType.Navigation;
 
+    private String currentDate;
+
     @BindView(R.id.nav_view)
     AppNavigationView appNavigationView;
 
     @BindView(R.id.rrv_recycler_view_photos)
     RealmRecyclerView realmRecyclerView_Photos;
+
+    @BindView(R.id.layout_dates)
+    LinearLayout layoutDates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +53,7 @@ public class Activity_Photos extends BaseActivity {
         appNavigationView.setCurrentActivityCode(ActivityCode.ACTIVITY_PHOTOS);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -72,11 +83,31 @@ public class Activity_Photos extends BaseActivity {
                 this.locationType = BaseType.LocationType.findLocationType(viewInfo_photos.get(0).place);
                 if (locationType == null) {
                     this.setTitle("Photos");
-                    viewModelPhoto.dataSyncPhotos();
+                    viewModelPhoto.dataSyncDates();
                 } else {
                     this.setTitle(locationType.getName());
-                    viewModelPhoto.dataSyncPlacePhotos(locationType);
+                    viewModelPhoto.dataSyncDatesFromPlace(locationType);
                 }
+            }
+        });
+        viewModelPhoto.getDates().observe(this, photoDates -> {
+            layoutDates.removeAllViews();
+            if (photoDates != null && photoDates.size() > 0) {
+                for (PhotoDate photoDate : photoDates) {
+                    TextView dateButton = (TextView) getLayoutInflater().inflate(R.layout.item_date, layoutDates, false);
+                    dateButton.setText(photoDate.date.substring(0, 4) + "." + photoDate.date.substring(4, 6) + "." + photoDate.date.substring(6, 8));
+                    dateButton.setOnClickListener(v -> {
+                        selectDate(((TextView) v).getText().toString().replace(".", ""));
+                        for (int i = 0; i < layoutDates.getChildCount(); i++) {
+                            TextView view = (TextView) layoutDates.getChildAt(i);
+                            view.setSelected(view == v);
+                        }
+                    });
+                    dateButton.setSelected(layoutDates.getChildCount() == 0);
+                    layoutDates.addView(dateButton);
+                }
+
+                selectDate(photoDates.get(0).date);
             }
         });
         viewModelPhoto.getPhotos().observe(this, photos -> {
@@ -103,6 +134,18 @@ public class Activity_Photos extends BaseActivity {
                     appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_jeju_island));
                     break;
             }
+        }
+    }
+
+    private void selectDate(final String date) {
+        this.currentDate = date;
+        viewModelPhoto.deletePhotos();
+        if (locationType == null) {
+            this.setTitle("Photos");
+            viewModelPhoto.dataSyncPhotos(currentDate);
+        } else {
+            this.setTitle(locationType.getName());
+            viewModelPhoto.dataSyncPlacePhotos(locationType, currentDate);
         }
     }
 

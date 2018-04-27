@@ -8,6 +8,7 @@ import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surf.like.data.LikePhoto;
 import com.surfergraphy.surf.like.data.repositories.LikePhotoRepository;
 import com.surfergraphy.surf.photos.data.repositories.PhotoBuyHistoryRepository;
+import com.surfergraphy.surf.photos.data.repositories.PhotoRepository;
 import com.surfergraphy.surf.utils.LiveRealmData;
 
 import io.realm.RealmResults;
@@ -16,6 +17,7 @@ import static com.surfergraphy.surf.utils.RealmUtils.likePhotoModel;
 
 public class ViewModel_LikePhoto extends BaseViewModel {
 
+    private PhotoRepository photoRepository;
     private LikePhotoRepository likePhotoRepository;
     private PhotoBuyHistoryRepository photoBuyHistoryRepository;
     private LiveData<LikePhoto> likePhotoLiveData;
@@ -23,11 +25,13 @@ public class ViewModel_LikePhoto extends BaseViewModel {
 
     public ViewModel_LikePhoto(Application application) {
         super(application);
+        photoRepository = PhotoRepository.getInstance(realm);
         likePhotoRepository = LikePhotoRepository.getInstance(realm);
         photoBuyHistoryRepository = PhotoBuyHistoryRepository.getInstance(realm);
     }
 
     public void syncDataLikePhotos() {
+        photoRepository.syncPhotoFromLikePhotos();
         photoBuyHistoryRepository.syncDataPhotoByHistories();
         likePhotoRepository.syncDataUserPhotos();
     }

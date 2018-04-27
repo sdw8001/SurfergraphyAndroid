@@ -7,6 +7,7 @@ import com.surfergraphy.surf.album.data.UserPhoto;
 import com.surfergraphy.surf.album.data.repositories.UserPhotoRepository;
 import com.surfergraphy.surf.base.viewmodel.BaseViewModel;
 import com.surfergraphy.surf.photos.data.repositories.PhotoBuyHistoryRepository;
+import com.surfergraphy.surf.photos.data.repositories.PhotoRepository;
 import com.surfergraphy.surf.photos.data.repositories.PhotoSaveHistoryRepository;
 
 import io.realm.RealmResults;
@@ -15,6 +16,7 @@ import static com.surfergraphy.surf.utils.RealmUtils.userPhotoModel;
 
 public class ViewModel_UserPhoto extends BaseViewModel {
 
+    private PhotoRepository photoRepository;
     private UserPhotoRepository userPhotoRepository;
     private PhotoSaveHistoryRepository photoSaveHistoryRepository;
     private PhotoBuyHistoryRepository photoBuyHistoryRepository;
@@ -22,12 +24,14 @@ public class ViewModel_UserPhoto extends BaseViewModel {
 
     public ViewModel_UserPhoto(Application application) {
         super(application);
+        photoRepository = PhotoRepository.getInstance(realm);
         userPhotoRepository = UserPhotoRepository.getInstance(realm);
         photoSaveHistoryRepository = PhotoSaveHistoryRepository.getInstance(realm);
         photoBuyHistoryRepository = PhotoBuyHistoryRepository.getInstance(realm);
     }
 
     public void syncDataUserPhotos() {
+        photoRepository.syncPhotoFromUserPhotos();
         photoSaveHistoryRepository.syncDataUserPhotos();
         photoBuyHistoryRepository.syncDataPhotoByHistories();
         userPhotoRepository.syncDataUserPhotos();

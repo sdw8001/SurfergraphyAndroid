@@ -13,6 +13,7 @@ import io.realm.RealmResults
 
 fun Realm.actionResponseModel(): ActionResponseDao = ActionResponseDao(this)
 fun Realm.loginMemberModel(): LoginMemberDao = LoginMemberDao(this)
+fun Realm.photoDateModel(): PhotoDateDao = PhotoDateDao(this)
 fun Realm.photoModel(): PhotoDao = PhotoDao(this)
 fun Realm.photographerModel(): PhotographerDao = PhotographerDao(this)
 fun Realm.userPhotoModel(): UserPhotoDao = UserPhotoDao(this)
