@@ -101,7 +101,7 @@ public class CommonTask {
                         Paint paint = new Paint();
                         paint.setAntiAlias(true);
                         paint.setDither(true);
-                        paint.setAlpha(160);
+                        paint.setAlpha((int)(255 * 0.4));
                         paint.setFilterBitmap(true);
 
                         Canvas canvas = new Canvas(bitmap);

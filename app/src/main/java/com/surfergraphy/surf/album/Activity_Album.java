@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.surfergraphy.surf.R;
+import com.surfergraphy.surf.album.data.UserPhoto;
 import com.surfergraphy.surf.base.ActivityCode;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.base.navigation.AppNavigationView;
@@ -106,8 +107,8 @@ public class Activity_Album extends BaseActivity {
         switch (i) {
             case DialogInterface.BUTTON_POSITIVE:
                 // Yes
-                for (Integer id : adapter_userPhotos.selectedPhotoIds) {
-                    CommonTask.savePicture(this, viewModel_userPhoto.getUserPhotoUrl(id), false);
+                for (UserPhoto userPhoto : adapter_userPhotos.selectedPhotoIds) {
+                    CommonTask.savePicture(this, viewModel_userPhoto.getUserPhotoUrl(userPhoto.id), userPhoto.photoBuyHistory == null);
                 }
                 // TODO 콜백처리 아직안됨
                 if (adapter_userPhotos.selectedPhotoIds.size() > 0) {

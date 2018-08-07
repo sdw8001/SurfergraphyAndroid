@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.album.data.UserPhoto;
 import com.surfergraphy.surf.photos.Activity_PhotoDetail;
@@ -22,7 +24,7 @@ import io.realm.RealmViewHolder;
 
 public class Adapter_UserPhotos extends RealmBasedRecyclerViewAdapter<UserPhoto, Adapter_UserPhotos.ViewHolder> {
 
-    public ArrayList<Integer> selectedPhotoIds;
+    public ArrayList<UserPhoto> selectedPhotoIds;
 
     public Adapter_UserPhotos(Context context, RealmResults<UserPhoto> realmResults, boolean automaticUpdate, boolean animateIdType) {
         super(context, realmResults, automaticUpdate, animateIdType);
@@ -57,7 +59,7 @@ public class Adapter_UserPhotos extends RealmBasedRecyclerViewAdapter<UserPhoto,
             selectedPhotoIds.clear();
 
         if (userPhoto.photo != null) {
-            Glide.with(getContext()).load(userPhoto.photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
+            Glide.with(getContext()).load(userPhoto.photo.url).apply(RequestOptions.skipMemoryCacheOf(false)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).thumbnail(0.1f).into(viewHolder.imageView_Photo);
             viewHolder.checkBox_Photo.setVisibility(userPhoto.selectable ? View.VISIBLE : View.GONE);
             viewHolder.imageView_Photo.setOnClickListener(v -> {
                 if (userPhoto.selectable) {
@@ -70,9 +72,9 @@ public class Adapter_UserPhotos extends RealmBasedRecyclerViewAdapter<UserPhoto,
             });
             viewHolder.checkBox_Photo.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked)
-                    selectedPhotoIds.add(Integer.valueOf(userPhoto.id));
+                    selectedPhotoIds.add(userPhoto);
                 else
-                    selectedPhotoIds.remove(Integer.valueOf(userPhoto.id));
+                    selectedPhotoIds.remove(userPhoto);
             });
         }
     }

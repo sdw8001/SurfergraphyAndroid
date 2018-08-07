@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.photos.data.Photo;
 
@@ -45,7 +47,7 @@ public class Adapter_Photos extends RealmBasedRecyclerViewAdapter<Photo, Adapter
     public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
         final Photo photo = realmResults.get(position);
 
-        Glide.with(getContext()).load(photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
+        Glide.with(getContext()).load(photo.url).apply(RequestOptions.skipMemoryCacheOf(false)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).thumbnail(0.1f).into(viewHolder.imageView_Photo);
         viewHolder.imageView_Photo.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), Activity_PhotoDetail.class);
             intent.putExtra("photo_id", photo.id);

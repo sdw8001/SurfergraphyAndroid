@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.like.data.LikePhoto;
 import com.surfergraphy.surf.photos.Activity_PhotoDetail;
@@ -57,7 +59,7 @@ public class Adapter_LikePhotos extends RealmBasedRecyclerViewAdapter<LikePhoto,
             selectedPhotoIds.clear();
 
         if (likePhoto.photo != null) {
-            Glide.with(getContext()).load(likePhoto.photo.url).thumbnail(0.1f).into(viewHolder.imageView_Photo);
+            Glide.with(getContext()).load(likePhoto.photo.url).apply(RequestOptions.skipMemoryCacheOf(false)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL)).thumbnail(0.1f).into(viewHolder.imageView_Photo);
             viewHolder.checkBox_Photo.setVisibility(likePhoto.selectable ? View.VISIBLE : View.GONE);
             viewHolder.imageView_Photo.setOnClickListener(v -> {
                 if (likePhoto.selectable) {
