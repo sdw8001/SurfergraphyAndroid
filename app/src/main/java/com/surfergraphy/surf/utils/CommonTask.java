@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.surfergraphy.surf.R;
 
@@ -68,18 +69,20 @@ public class CommonTask {
         return null;
     }
 
-    public static String getRandomString(int length)
-    {
+    public static String getRandomString(int length) {
         StringBuffer buffer = new StringBuffer();
         Random random = new Random();
 
         String chars[] = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(",");
 
-        for (int i=0 ; i<length ; i++)
-        {
+        for (int i = 0; i < length; i++) {
             buffer.append(chars[random.nextInt(chars.length)]);
         }
         return buffer.toString();
+    }
+
+    public static int getDPValue(Context context, final int value) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.getResources().getDisplayMetrics());
     }
 
     public static void savePicture(Context context, String photoUrl, boolean isIncludeWatermark) {
@@ -101,7 +104,7 @@ public class CommonTask {
                         Paint paint = new Paint();
                         paint.setAntiAlias(true);
                         paint.setDither(true);
-                        paint.setAlpha((int)(255 * 0.4));
+                        paint.setAlpha((int) (255 * 0.4));
                         paint.setFilterBitmap(true);
 
                         Canvas canvas = new Canvas(bitmap);

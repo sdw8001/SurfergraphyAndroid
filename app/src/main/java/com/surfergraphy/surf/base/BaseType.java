@@ -2,6 +2,8 @@ package com.surfergraphy.surf.base;
 
 import android.text.TextUtils;
 
+import com.surfergraphy.surf.R;
+
 /**
  * Created by ddfactory on 2018-02-21.
  */
@@ -9,30 +11,33 @@ import android.text.TextUtils;
 public class BaseType {
 
     public enum LocationType {
-        Best_Photo("BP", "Best Photo"),
-        Event_Promotion("EP", "Event & Promotion"),
-        Lesson_Photos("LP", "Lesson Photos - First TakeOff"),
-        Personal_Shoot("PS", "Personal Shoot"),
-        Korea_EastCoast("KOEC", "Korea - East Coast"),
-        Korea_SouthCoast("KOSC", "Korea - South Coast"),
-        Korea_WestCoast("KOWC", "Korea - West Coast"),
-        Korea_JejuIsland("KOJI", "Korea - Jeju Island"),
-        Japan("JP", "Japan"),
-        China("CN", "China"),
-        Indonesia("ID", "Indonesia"),
-        Philippines("PH", "Philippines"),
-        Taiwan("TW", "Taiwan"),
-        Usa("US", "Usa"),
-        Hawaii("USHW", "Hawaii"),
-        Australia("AU", "Australia"),
-        OtherCountries("ETC", "Other Countries");
+        Best_Photo("BP", "Best Photo", R.drawable.ic_menu_camera),
+        Event_Promotion("EP", "Event & Promotion", R.drawable.ic_menu_camera),
+        Lesson_Photos("LP", "Lesson Photos - First TakeOff", R.drawable.ic_menu_camera),
+        Personal_Shoot("PS", "Personal Shoot", R.drawable.ic_menu_camera),
+        Korea("KO", "Korea", R.drawable.ko),
+        Korea_EastCoast("KOEC", "East Coast", R.drawable.ko),
+        Korea_SouthCoast("KOSC", "South Coast", R.drawable.ko),
+        Korea_WestCoast("KOWC", "West Coast", R.drawable.ko),
+        Korea_JejuIsland("KOJI", "Jeju Island", R.drawable.ko),
+        Japan("JP", "Japan", R.drawable.jp),
+        China("CN", "China", R.drawable.cn),
+        Indonesia("ID", "Indonesia", R.drawable.id),
+        Philippines("PH", "Philippines", R.drawable.ph),
+        Taiwan("TW", "Taiwan", R.drawable.tw),
+        Usa("US", "Usa", R.drawable.us),
+        Hawaii("USHW", "Hawaii", R.drawable.us),
+        Australia("AU", "Australia", R.drawable.au),
+        OtherCountries("ETC", "Other Countries", R.drawable.ic_menu_camera);
 
         private String code;
         private String name;
+        private int drawableId;
 
-        LocationType(String code, String name) {
+        LocationType(String code, String name, int drawableId) {
             this.code = code;
             this.name = name;
+            this.drawableId = drawableId;
         }
 
         public String getCode() {
@@ -41,6 +46,10 @@ public class BaseType {
 
         public String getName() {
             return name;
+        }
+
+        public int getDrawableId() {
+            return drawableId;
         }
 
         public static LocationType findLocationType(String code) {

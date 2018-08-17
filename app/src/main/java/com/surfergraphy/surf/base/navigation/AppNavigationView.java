@@ -13,28 +13,39 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.about.Activity_About;
+import com.surfergraphy.surf.adapter.NavExpandableListAdapter;
 import com.surfergraphy.surf.album.Activity_Album;
 import com.surfergraphy.surf.base.ActivityCode;
 import com.surfergraphy.surf.base.BaseIntentKey;
 import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
+import com.surfergraphy.surf.base.data.Nation;
 import com.surfergraphy.surf.like.Activity_LikePhoto;
 import com.surfergraphy.surf.login.ViewModel_Login;
 import com.surfergraphy.surf.photos.Activity_Photos;
 import com.surfergraphy.surf.photos.ViewModel_Photo;
+import com.surfergraphy.surf.utils.CommonTask;
 import com.surfergraphy.surf.wavepurchase.Activity_WavePurchase;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AppNavigationView extends NavigationView implements NavigationView.OnNavigationItemSelectedListener {
+public class AppNavigationView extends NavigationView {
     private Context context;
     private int currentActivityCode;
     private ViewModel_Login viewModelLogin;
@@ -57,7 +68,27 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         viewModelLogin = ViewModelProviders.of((BaseActivity) context).get(ViewModel_Login.class);
         View header = getHeaderView(0);
         headerViewHolder = new HeaderViewHolder(context, header);
-        setNavigationItemSelectedListener(this);
+        headerViewHolder.logout.setOnClickListener(v -> {
+            viewModelLogin.logoutAccount(loginType);
+            DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        });
+        headerViewHolder.expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                selectMenuLocation(headerViewHolder.adapter.getChild(groupPosition, childPosition));
+                return true;
+            }
+        });
+        headerViewHolder.expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (headerViewHolder.adapter.getChildrenCount(groupPosition) == 0) {
+                    selectMenuLocation(headerViewHolder.adapter.getGroup(groupPosition).getNationLocationType());
+                }
+                return false;
+            }
+        });
         setItemIconTintList(null);
         viewModelLogin.getLoginMemberLiveData().observe((BaseActivity) context, loginMember -> {
             if (loginMember != null) {
@@ -70,59 +101,7 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         });
     }
 
-    @Override
-    public Menu getMenu() {
-        return super.getMenu();
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_best_photo) {
-            selectMenuLocation(BaseType.LocationType.Best_Photo);
-        } else if (id == R.id.nav_event_promotion) {
-            selectMenuLocation(BaseType.LocationType.Event_Promotion);
-        } else if (id == R.id.nav_lesson_photos) {
-            selectMenuLocation(BaseType.LocationType.Lesson_Photos);
-        } else if (id == R.id.nav_personal_shoot) {
-            selectMenuLocation(BaseType.LocationType.Personal_Shoot);
-        } else if (id == R.id.nav_korea_east_coast) {
-            selectMenuLocation(BaseType.LocationType.Korea_EastCoast);
-        } else if (id == R.id.nav_korea_south_coast) {
-            selectMenuLocation(BaseType.LocationType.Korea_SouthCoast);
-        } else if (id == R.id.nav_korea_west_coast) {
-            selectMenuLocation(BaseType.LocationType.Korea_WestCoast);
-        } else if (id == R.id.nav_korea_jeju_island) {
-            selectMenuLocation(BaseType.LocationType.Korea_JejuIsland);
-        } else if (id == R.id.nav_japan) {
-            selectMenuLocation(BaseType.LocationType.Japan);
-        } else if (id == R.id.nav_china) {
-            selectMenuLocation(BaseType.LocationType.China);
-        } else if (id == R.id.nav_indonesia) {
-            selectMenuLocation(BaseType.LocationType.Indonesia);
-        } else if (id == R.id.nav_philippines) {
-            selectMenuLocation(BaseType.LocationType.Philippines);
-        } else if (id == R.id.nav_taiwan) {
-            selectMenuLocation(BaseType.LocationType.Taiwan);
-        } else if (id == R.id.nav_usa) {
-            selectMenuLocation(BaseType.LocationType.Usa);
-        } else if (id == R.id.nav_hawaii) {
-            selectMenuLocation(BaseType.LocationType.Hawaii);
-        } else if (id == R.id.nav_australia) {
-            selectMenuLocation(BaseType.LocationType.Australia);
-        } else if (id == R.id.nav_other_countries) {
-            selectMenuLocation(BaseType.LocationType.OtherCountries);
-        } else if (id == R.id.nav_logout) {
-            viewModelLogin.logoutAccount(loginType);
-            DrawerLayout drawer = (DrawerLayout) ((BaseActivity) context).findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    private void selectMenuLocation(BaseType.LocationType locationType) {
+    public void selectMenuLocation(BaseType.LocationType locationType) {
         if (currentActivityCode != ActivityCode.ACTIVITY_PHOTOS) {
             Intent intent = new Intent(context, Activity_Photos.class);
             intent.putExtra("place", locationType);
@@ -165,8 +144,52 @@ public class AppNavigationView extends NavigationView implements NavigationView.
         @BindView(R.id.nav_menu_top_about)
         TextView about;
 
+        @BindView(R.id.expandable_list_view)
+        ExpandableListView expandableListView;
+        NavExpandableListAdapter adapter;
+
+        @BindView(R.id.logout)
+        FrameLayout logout;
+
         HeaderViewHolder(Context context, View view) {
             ButterKnife.bind(this, view);
+            ArrayList<Nation> surfingSpots = new ArrayList<>();
+            surfingSpots.add(new Nation(BaseType.LocationType.Best_Photo, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Event_Promotion, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Lesson_Photos, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Personal_Shoot, new ArrayList<>()));
+            ArrayList<BaseType.LocationType> childList = new ArrayList<>();
+            childList.add(BaseType.LocationType.Korea_EastCoast);
+            childList.add(BaseType.LocationType.Korea_WestCoast);
+            childList.add(BaseType.LocationType.Korea_SouthCoast);
+            childList.add(BaseType.LocationType.Korea_JejuIsland);
+            surfingSpots.add(new Nation(BaseType.LocationType.Korea, childList));
+            surfingSpots.add(new Nation(BaseType.LocationType.Japan, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.China, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Indonesia, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Philippines, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Taiwan, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Usa, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Hawaii, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.Australia, new ArrayList<>()));
+            surfingSpots.add(new Nation(BaseType.LocationType.OtherCountries, new ArrayList<>()));
+            adapter = new NavExpandableListAdapter(context, surfingSpots);
+            expandableListView.setAdapter(adapter);
+            expandableListView.getLayoutParams().height = CommonTask.getDPValue(context, 62) * adapter.getGroupCount() + CommonTask.getDPValue(context, 10);
+
+            int childGenericHeight = CommonTask.getDPValue(context, 52);
+            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                @Override
+                public void onGroupExpand(int groupPosition) {
+                    expandableListView.getLayoutParams().height += childGenericHeight * adapter.getChildrenCount(groupPosition);
+                }
+            });
+            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+                @Override
+                public void onGroupCollapse(int groupPosition) {
+                    expandableListView.getLayoutParams().height -= childGenericHeight * adapter.getChildrenCount(groupPosition);
+                }
+            });
 
             Glide.with(context).load(R.drawable.member_photo).thumbnail(0.1f).into(memberImage);
 

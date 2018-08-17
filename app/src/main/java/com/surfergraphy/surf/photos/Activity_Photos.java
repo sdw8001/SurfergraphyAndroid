@@ -122,16 +122,16 @@ public class Activity_Photos extends BaseActivity {
         if (locationType != null) {
             switch (locationType) {
                 case Korea_EastCoast:
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_east_coast));
+                    appNavigationView.selectMenuLocation(BaseType.LocationType.Korea_EastCoast);
                     break;
                 case Korea_SouthCoast:
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_south_coast));
+                    appNavigationView.selectMenuLocation(BaseType.LocationType.Korea_SouthCoast);
                     break;
                 case Korea_WestCoast:
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_west_coast));
+                    appNavigationView.selectMenuLocation(BaseType.LocationType.Korea_WestCoast);
                     break;
                 case Korea_JejuIsland:
-                    appNavigationView.onNavigationItemSelected(appNavigationView.getMenu().findItem(R.id.nav_korea_jeju_island));
+                    appNavigationView.selectMenuLocation(BaseType.LocationType.Korea_JejuIsland);
                     break;
             }
         }

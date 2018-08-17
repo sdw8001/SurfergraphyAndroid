@@ -28,6 +28,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.surfergraphy.surf.R;
 import com.surfergraphy.surf.base.ActionCode;
+import com.surfergraphy.surf.base.BaseIntentKey;
+import com.surfergraphy.surf.base.BaseType;
 import com.surfergraphy.surf.base.activities.BaseActivity;
 import com.surfergraphy.surf.login.data.RequestModel_MemberInfo;
 import com.surfergraphy.surf.photos.Activity_Photos;
@@ -69,6 +71,7 @@ public class Activity_Login extends BaseActivity implements GoogleApiClient.OnCo
             if (accessToken != null) {
                 if (!accessToken.Expired) {
                     Intent intent = new Intent(this, Activity_Photos.class);
+                    intent.putExtra(BaseIntentKey.OpenType, BaseType.OpenType.OpenNavigation);
                     startActivity(intent);
                     finish();
                 }
